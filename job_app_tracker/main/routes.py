@@ -1,8 +1,10 @@
-from flask import Blueprint, render_template, redirect, url_for, flash, request
+from flask import Blueprint, render_template, redirect, url_for, flash, request, jsonify, session
 from flask_login import login_required, current_user
 from job_app_tracker.config.mongodb import mongo
 from datetime import datetime, timedelta
 from bson import ObjectId
+from job_app_tracker.services.email_service import EmailService
+import os
 
 main = Blueprint('main', __name__)
 
@@ -156,10 +158,270 @@ def edit_application(application_id):
     application['_id'] = str(application['_id'])
     return render_template('application_form.html', application=application)
 
-@main.route('/settings')
+@main.route('/settings', methods=['GET', 'POST'])
 @login_required
 def settings():
+    if request.method == 'POST':
+        # Handle profile update
+        name = request.form.get('name')
+        if name:
+            mongo.db.users.update_one(
+                {'_id': ObjectId(current_user.id)},
+                {'$set': {'name': name}}
+            )
+            flash('Profile updated successfully!', 'success')
+        return redirect(url_for('main.settings'))
+    
     return render_template('settings.html')
+
+@main.route('/update_email_settings', methods=['POST'])
+@login_required
+def update_email_settings():
+    auto_scan = 'auto_scan' in request.form
+    require_approval = 'require_approval' in request.form
+    scan_attachments = 'scan_attachments' in request.form
+    
+    settings = {
+        'auto_scan': auto_scan,
+        'require_approval': require_approval,
+        'scan_attachments': scan_attachments,
+        'last_scan': current_user.email_settings.get('last_scan') if hasattr(current_user, 'email_settings') and current_user.email_settings else None
+    }
+    
+    # Update user settings
+    mongo.db.users.update_one(
+        {'_id': ObjectId(current_user.id)},
+        {'$set': {'email_settings': settings}}
+    )
+    
+    flash('Email settings updated successfully!', 'success')
+    return redirect(url_for('main.settings'))
+
+@main.route('/connect_gmail')
+@login_required
+def connect_gmail():
+    # Check if Google API credentials are configured
+    if not os.environ.get('GOOGLE_CLIENT_ID') or not os.environ.get('GOOGLE_CLIENT_SECRET'):
+        flash('Google API credentials are not configured. Please contact the administrator.', 'error')
+        return redirect(url_for('main.settings'))
+    
+    # Generate OAuth URL
+    auth_url = EmailService.get_gmail_auth_url(current_user.id)
+    return redirect(auth_url)
+
+@main.route('/gmail_callback')
+@login_required
+def gmail_callback():
+    code = request.args.get('code')
+    state = request.args.get('state')
+    
+    if not code or not state:
+        flash('Authentication failed. Please try again.', 'error')
+        return redirect(url_for('main.settings'))
+    
+    # Handle callback
+    success, user = EmailService.handle_gmail_callback(code, state)
+    
+    if success:
+        flash('Gmail connected successfully!', 'success')
+    else:
+        flash('Failed to connect Gmail. Please try again.', 'error')
+    
+    return redirect(url_for('main.settings'))
+
+@main.route('/connect_outlook')
+@login_required
+def connect_outlook():
+    flash('Outlook integration is coming soon!', 'info')
+    return redirect(url_for('main.settings'))
+
+@main.route('/connect_yahoo')
+@login_required
+def connect_yahoo():
+    # Check if Yahoo API credentials are configured
+    if not os.environ.get('YAHOO_CLIENT_ID') or not os.environ.get('YAHOO_CLIENT_SECRET'):
+        flash('Yahoo API credentials are not configured. Please contact the administrator.', 'error')
+        return redirect(url_for('main.settings'))
+    
+    # Generate OAuth URL
+    auth_url = EmailService.get_yahoo_auth_url(current_user.id)
+    return redirect(auth_url)
+
+@main.route('/yahoo_callback')
+@login_required
+def yahoo_callback():
+    code = request.args.get('code')
+    state = request.args.get('state')
+    
+    if not code or not state:
+        flash('Authentication failed. Please try again.', 'error')
+        return redirect(url_for('main.settings'))
+    
+    # Handle callback
+    success, user = EmailService.handle_yahoo_callback(code, state)
+    
+    if success:
+        flash('Yahoo Mail connected successfully!', 'success')
+    else:
+        flash('Failed to connect Yahoo Mail. Please try again.', 'error')
+    
+    return redirect(url_for('main.settings'))
+
+@main.route('/disconnect_email', methods=['POST'])
+@login_required
+def disconnect_email():
+    # Disconnect email
+    current_user.disconnect_email()
+    flash('Email disconnected successfully!', 'success')
+    return redirect(url_for('main.settings'))
+
+@main.route('/scan_emails')
+@login_required
+def scan_emails():
+    if not current_user.email_connected:
+        flash('Please connect your email first.', 'error')
+        return redirect(url_for('main.settings'))
+    
+    # Scan emails
+    success, message = EmailService.scan_emails(current_user)
+    
+    if success:
+        flash(message, 'success')
+        return redirect(url_for('main.email_suggestions'))
+    else:
+        flash(f'Failed to scan emails: {message}', 'error')
+        return redirect(url_for('main.settings'))
+
+@main.route('/email_suggestions')
+@login_required
+def email_suggestions():
+    # Get suggestions for current user
+    suggestions_doc = mongo.db.email_suggestions.find_one({
+        'user_id': str(current_user.id),
+        'processed': False
+    })
+    
+    if not suggestions_doc:
+        return render_template('email_suggestions.html', suggestions=None)
+    
+    # Process suggestions
+    status_updates = []
+    new_applications = []
+    
+    for suggestion in suggestions_doc['suggestions']:
+        suggestion['id'] = str(suggestions_doc['_id'])
+        if suggestion['type'] == 'update':
+            status_updates.append(suggestion)
+        elif suggestion['type'] == 'new':
+            new_applications.append(suggestion)
+    
+    return render_template(
+        'email_suggestions.html',
+        suggestions=suggestions_doc,
+        status_updates=status_updates,
+        new_applications=new_applications
+    )
+
+@main.route('/accept_suggestion/<suggestion_id>', methods=['POST'])
+@login_required
+def accept_suggestion(suggestion_id):
+    # Find suggestion
+    suggestions_doc = mongo.db.email_suggestions.find_one({
+        '_id': ObjectId(suggestion_id),
+        'user_id': str(current_user.id)
+    })
+    
+    if not suggestions_doc:
+        flash('Suggestion not found.', 'error')
+        return redirect(url_for('main.email_suggestions'))
+    
+    # Get suggestion index from form
+    index = int(request.form.get('index', 0))
+    
+    if index >= len(suggestions_doc['suggestions']):
+        flash('Invalid suggestion index.', 'error')
+        return redirect(url_for('main.email_suggestions'))
+    
+    suggestion = suggestions_doc['suggestions'][index]
+    
+    # Process suggestion
+    if suggestion['type'] == 'update':
+        # Update application status
+        mongo.db.applications.update_one(
+            {'_id': ObjectId(suggestion['application_id'])},
+            {'$set': {'status': suggestion['new_status']}}
+        )
+        flash(f"Updated status for {suggestion['company']} to {suggestion['new_status']}.", 'success')
+    elif suggestion['type'] == 'new':
+        # Add new application
+        new_app = {
+            'user_id': str(current_user.id),
+            'company': suggestion['company'],
+            'position': suggestion['position'] if suggestion['position'] != 'Unknown Position' else '',
+            'status': suggestion['status'],
+            'date_applied': suggestion['date'],
+            'notes': f"Automatically added from email: {suggestion['email_subject']}",
+            'created_at': datetime.utcnow()
+        }
+        mongo.db.applications.insert_one(new_app)
+        flash(f"Added new application for {suggestion['company']}.", 'success')
+    
+    # Mark suggestion as processed
+    suggestions_doc['suggestions'].pop(index)
+    
+    if not suggestions_doc['suggestions']:
+        # If no more suggestions, mark the whole document as processed
+        mongo.db.email_suggestions.update_one(
+            {'_id': ObjectId(suggestion_id)},
+            {'$set': {'processed': True}}
+        )
+    else:
+        # Otherwise, update the suggestions list
+        mongo.db.email_suggestions.update_one(
+            {'_id': ObjectId(suggestion_id)},
+            {'$set': {'suggestions': suggestions_doc['suggestions']}}
+        )
+    
+    return redirect(url_for('main.email_suggestions'))
+
+@main.route('/reject_suggestion/<suggestion_id>', methods=['POST'])
+@login_required
+def reject_suggestion(suggestion_id):
+    # Find suggestion
+    suggestions_doc = mongo.db.email_suggestions.find_one({
+        '_id': ObjectId(suggestion_id),
+        'user_id': str(current_user.id)
+    })
+    
+    if not suggestions_doc:
+        flash('Suggestion not found.', 'error')
+        return redirect(url_for('main.email_suggestions'))
+    
+    # Get suggestion index from form
+    index = int(request.form.get('index', 0))
+    
+    if index >= len(suggestions_doc['suggestions']):
+        flash('Invalid suggestion index.', 'error')
+        return redirect(url_for('main.email_suggestions'))
+    
+    # Remove suggestion
+    suggestion = suggestions_doc['suggestions'].pop(index)
+    
+    if not suggestions_doc['suggestions']:
+        # If no more suggestions, mark the whole document as processed
+        mongo.db.email_suggestions.update_one(
+            {'_id': ObjectId(suggestion_id)},
+            {'$set': {'processed': True}}
+        )
+    else:
+        # Otherwise, update the suggestions list
+        mongo.db.email_suggestions.update_one(
+            {'_id': ObjectId(suggestion_id)},
+            {'$set': {'suggestions': suggestions_doc['suggestions']}}
+        )
+    
+    flash(f"Ignored suggestion for {suggestion['company']}.", 'success')
+    return redirect(url_for('main.email_suggestions'))
 
 @main.route('/test_db')
 def test_db():

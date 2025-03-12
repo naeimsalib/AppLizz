@@ -104,6 +104,23 @@
               class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-100"
               >Dashboard</a
             >
+            {% if current_user.email_connected %}
+            <a
+              href="{{ url_for('main.email_suggestions') }}"
+              class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-100 relative"
+            >
+              Email Suggestions {% if current_user.has_suggestions %}
+              <span class="absolute top-1 right-1 flex h-2 w-2">
+                <span
+                  class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"
+                ></span>
+                <span
+                  class="relative inline-flex rounded-full h-2 w-2 bg-red-500"
+                ></span>
+              </span>
+              {% endif %}
+            </a>
+            {% endif %}
             <a
               href="{{ url_for('main.settings') }}"
               class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-100"

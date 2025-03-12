@@ -1,8 +1,14 @@
+import os
 from flask import Flask
 from flask_login import LoginManager
 from .config.mongodb import init_mongodb
 from .models.user import User
+from dotenv import load_dotenv
 
+# Load environment variables
+load_dotenv()
+
+# Initialize extensions
 login_manager = LoginManager()
 login_manager.login_view = 'auth.login'
 login_manager.login_message_category = 'info'
@@ -27,7 +33,10 @@ def create_app(config=None):
     # Register blueprints
     from .main.routes import main
     from .auth.routes import auth
+    from .routes.email_routes import email_bp
+    
     app.register_blueprint(main)
     app.register_blueprint(auth, url_prefix='/auth')
+    app.register_blueprint(email_bp, url_prefix='/email')
     
     return app 
