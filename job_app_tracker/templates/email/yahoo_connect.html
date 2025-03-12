@@ -1,0 +1,115 @@
+{% extends 'base.html' %} {% block title %}Connect Yahoo Mail{% endblock %} {%
+block content %}
+<div class="container mx-auto px-4 py-8">
+  <div class="max-w-3xl mx-auto bg-white rounded-lg shadow-md p-6">
+    <h1 class="text-2xl font-bold text-blue-600 mb-6">Connect Yahoo Mail</h1>
+
+    <div class="mb-8 bg-blue-50 p-4 rounded-lg">
+      <h2 class="text-lg font-semibold mb-2">
+        How to Generate a Yahoo App Password
+      </h2>
+      <p class="mb-4">
+        Yahoo Mail requires an app password for third-party applications. Follow
+        these steps to create one:
+      </p>
+
+      <ol class="list-decimal pl-6 space-y-2">
+        <li>Sign in to your Yahoo account</li>
+        <li>
+          Go to
+          <a
+            href="https://login.yahoo.com/account/security"
+            target="_blank"
+            class="text-blue-600 hover:underline"
+            >Account Security</a
+          >
+        </li>
+        <li>
+          Scroll down to "App passwords" and click "Generate app password"
+        </li>
+        <li>Select "Other app" from the dropdown and name it "JobJourney"</li>
+        <li>Click "Generate" to create your app password</li>
+        <li>
+          Copy the generated password (it will be a 16-character code without
+          spaces)
+        </li>
+        <li>Paste it in the form below</li>
+      </ol>
+
+      <div class="mt-4 bg-yellow-50 p-3 rounded border border-yellow-200">
+        <p class="text-sm text-yellow-800">
+          <strong>Note:</strong> App passwords are specific to each application
+          and device. They allow JobJourney to access your Yahoo Mail without
+          requiring your actual Yahoo password.
+        </p>
+      </div>
+    </div>
+
+    <form
+      method="POST"
+      action="{{ url_for('email.connect_yahoo_imap') }}"
+      class="space-y-4"
+    >
+      <div>
+        <label
+          for="yahoo_email"
+          class="block text-sm font-medium text-gray-700 mb-1"
+          >Yahoo Email Address</label
+        >
+        <input
+          type="email"
+          id="yahoo_email"
+          name="yahoo_email"
+          required
+          class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+          placeholder="your.email@yahoo.com"
+        />
+      </div>
+
+      <div>
+        <label
+          for="app_password"
+          class="block text-sm font-medium text-gray-700 mb-1"
+          >App Password</label
+        >
+        <input
+          type="password"
+          id="app_password"
+          name="app_password"
+          required
+          class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+          placeholder="16-character app password"
+        />
+        <p class="mt-1 text-sm text-gray-500">
+          This is the app password you generated, not your Yahoo account
+          password.
+        </p>
+      </div>
+
+      <div class="flex items-center justify-between pt-4">
+        <a
+          href="{{ url_for('main.dashboard') }}"
+          class="text-blue-600 hover:underline"
+          >Cancel</a
+        >
+        <button
+          type="submit"
+          class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+        >
+          Connect Yahoo Mail
+        </button>
+      </div>
+    </form>
+
+    <div class="mt-8 border-t pt-6">
+      <h3 class="text-lg font-semibold mb-2">Privacy Information</h3>
+      <p class="text-sm text-gray-600">
+        JobJourney uses IMAP to scan your Yahoo Mail for job application emails.
+        We only access email content to identify job-related messages and never
+        store the full content of your emails. Your app password is securely
+        stored and is only used to connect to your Yahoo Mail account.
+      </p>
+    </div>
+  </div>
+</div>
+{% endblock %}

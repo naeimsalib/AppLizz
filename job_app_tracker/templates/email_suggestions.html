@@ -1,0 +1,208 @@
+{% extends "base.html" %} {% block title %}Email Suggestions - JobJourney{%
+endblock %} {% block content %}
+<div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+  <div class="px-4 py-6 sm:px-0">
+    <div class="flex justify-between items-center mb-6">
+      <h1 class="text-2xl font-semibold text-gray-900">Email Suggestions</h1>
+      <div>
+        <a
+          href="{{ url_for('main.scan_emails') }}"
+          class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+        >
+          <i class="fas fa-sync-alt mr-2"></i> Scan Emails Now
+        </a>
+      </div>
+    </div>
+
+    {% if not suggestions %}
+    <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+      <div class="px-4 py-5 sm:p-6 text-center">
+        <i class="fas fa-inbox text-gray-400 text-5xl mb-4"></i>
+        <h3 class="text-lg font-medium text-gray-900 mb-2">
+          No suggestions yet
+        </h3>
+        <p class="text-gray-500 mb-4">
+          We haven't found any job application emails to suggest yet.
+        </p>
+        <a
+          href="{{ url_for('main.scan_emails') }}"
+          class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+        >
+          <i class="fas fa-sync-alt mr-2"></i> Scan Emails Now
+        </a>
+      </div>
+    </div>
+    {% else %}
+
+    <!-- Status Updates -->
+    {% if status_updates %}
+    <div class="bg-white shadow overflow-hidden sm:rounded-lg mb-8">
+      <div class="px-4 py-5 sm:px-6 bg-blue-50">
+        <h3 class="text-lg leading-6 font-medium text-gray-900">
+          <i class="fas fa-exchange-alt text-blue-500 mr-2"></i> Suggested
+          Status Updates
+        </h3>
+        <p class="mt-1 max-w-2xl text-sm text-gray-500">
+          We found emails that suggest updates to your existing applications
+        </p>
+      </div>
+      <div class="border-t border-gray-200">
+        <ul class="divide-y divide-gray-200">
+          {% for update in status_updates %}
+          <li class="px-4 py-4 sm:px-6">
+            <div class="flex items-center justify-between">
+              <div class="flex flex-col">
+                <div class="flex items-center">
+                  <div
+                    class="flex-shrink-0 h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center"
+                  >
+                    <span class="text-gray-500 font-medium"
+                      >{{ update.company[:2].upper() }}</span
+                    >
+                  </div>
+                  <div class="ml-4">
+                    <h4 class="text-lg font-medium text-gray-900">
+                      {{ update.company }}
+                    </h4>
+                    <p class="text-sm text-gray-500">{{ update.position }}</p>
+                  </div>
+                </div>
+                <div class="mt-2 ml-14">
+                  <div class="flex items-center">
+                    <span class="text-sm text-gray-700">Status change: </span>
+                    <span
+                      class="ml-2 px-2 inline-flex text-xs leading-5 font-semibold rounded-full {% if update.current_status == 'Applied' %}bg-gray-100 text-gray-800{% elif update.current_status == 'In Progress' %}bg-yellow-100 text-yellow-800{% elif update.current_status == 'Interview' %}bg-blue-100 text-blue-800{% elif update.current_status == 'Offer' %}bg-green-100 text-green-800{% elif update.current_status == 'Rejected' %}bg-red-100 text-red-800{% endif %}"
+                    >
+                      {{ update.current_status }}
+                    </span>
+                    <i class="fas fa-arrow-right mx-2 text-gray-400"></i>
+                    <span
+                      class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {% if update.new_status == 'Applied' %}bg-gray-100 text-gray-800{% elif update.new_status == 'In Progress' %}bg-yellow-100 text-yellow-800{% elif update.new_status == 'Interview' %}bg-blue-100 text-blue-800{% elif update.new_status == 'Offer' %}bg-green-100 text-green-800{% elif update.new_status == 'Rejected' %}bg-red-100 text-red-800{% endif %}"
+                    >
+                      {{ update.new_status }}
+                    </span>
+                  </div>
+                  <p class="mt-1 text-sm text-gray-500">
+                    Based on email: "{{ update.email_subject }}"
+                  </p>
+                  <p class="text-xs text-gray-400">
+                    {{ update.date.strftime('%Y-%m-%d %H:%M') }}
+                  </p>
+                </div>
+              </div>
+              <div class="flex space-x-2">
+                <form
+                  action="{{ url_for('main.accept_suggestion', suggestion_id=update.id) }}"
+                  method="POST"
+                >
+                  <button
+                    type="submit"
+                    class="inline-flex items-center px-3 py-1.5 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+                  >
+                    <i class="fas fa-check mr-1.5"></i> Accept
+                  </button>
+                </form>
+                <form
+                  action="{{ url_for('main.reject_suggestion', suggestion_id=update.id) }}"
+                  method="POST"
+                >
+                  <button
+                    type="submit"
+                    class="inline-flex items-center px-3 py-1.5 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                  >
+                    <i class="fas fa-times mr-1.5"></i> Ignore
+                  </button>
+                </form>
+              </div>
+            </div>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+    {% endif %}
+
+    <!-- New Applications -->
+    {% if new_applications %}
+    <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+      <div class="px-4 py-5 sm:px-6 bg-green-50">
+        <h3 class="text-lg leading-6 font-medium text-gray-900">
+          <i class="fas fa-plus-circle text-green-500 mr-2"></i> New
+          Applications Found
+        </h3>
+        <p class="mt-1 max-w-2xl text-sm text-gray-500">
+          We found emails that suggest new job applications
+        </p>
+      </div>
+      <div class="border-t border-gray-200">
+        <ul class="divide-y divide-gray-200">
+          {% for app in new_applications %}
+          <li class="px-4 py-4 sm:px-6">
+            <div class="flex items-center justify-between">
+              <div class="flex flex-col">
+                <div class="flex items-center">
+                  <div
+                    class="flex-shrink-0 h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center"
+                  >
+                    <span class="text-gray-500 font-medium"
+                      >{{ app.company[:2].upper() }}</span
+                    >
+                  </div>
+                  <div class="ml-4">
+                    <h4 class="text-lg font-medium text-gray-900">
+                      {{ app.company }}
+                    </h4>
+                    <p class="text-sm text-gray-500">{{ app.position }}</p>
+                  </div>
+                </div>
+                <div class="mt-2 ml-14">
+                  <div class="flex items-center">
+                    <span class="text-sm text-gray-700">Status: </span>
+                    <span
+                      class="ml-2 px-2 inline-flex text-xs leading-5 font-semibold rounded-full {% if app.status == 'Applied' %}bg-gray-100 text-gray-800{% elif app.status == 'In Progress' %}bg-yellow-100 text-yellow-800{% elif app.status == 'Interview' %}bg-blue-100 text-blue-800{% elif app.status == 'Offer' %}bg-green-100 text-green-800{% elif app.status == 'Rejected' %}bg-red-100 text-red-800{% endif %}"
+                    >
+                      {{ app.status }}
+                    </span>
+                  </div>
+                  <p class="mt-1 text-sm text-gray-500">
+                    Based on email: "{{ app.email_subject }}"
+                  </p>
+                  <p class="text-xs text-gray-400">
+                    {{ app.date.strftime('%Y-%m-%d %H:%M') }}
+                  </p>
+                </div>
+              </div>
+              <div class="flex space-x-2">
+                <form
+                  action="{{ url_for('main.accept_suggestion', suggestion_id=app.id) }}"
+                  method="POST"
+                >
+                  <button
+                    type="submit"
+                    class="inline-flex items-center px-3 py-1.5 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+                  >
+                    <i class="fas fa-check mr-1.5"></i> Accept
+                  </button>
+                </form>
+                <form
+                  action="{{ url_for('main.reject_suggestion', suggestion_id=app.id) }}"
+                  method="POST"
+                >
+                  <button
+                    type="submit"
+                    class="inline-flex items-center px-3 py-1.5 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                  >
+                    <i class="fas fa-times mr-1.5"></i> Ignore
+                  </button>
+                </form>
+              </div>
+            </div>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+    {% endif %} {% endif %}
+  </div>
+</div>
+{% endblock %}

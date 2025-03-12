@@ -1,0 +1,150 @@
+{% extends 'base.html' %} {% block title %}Email Suggestions{% endblock %} {%
+block content %}
+<div class="container mx-auto px-4 py-8">
+  <div class="max-w-4xl mx-auto bg-white rounded-lg shadow-md p-6">
+    <h1 class="text-2xl font-bold text-blue-600 mb-6">Email Suggestions</h1>
+
+    <div class="mb-6">
+      <p class="text-gray-600">
+        We found the following job application updates from your emails. Review
+        and select which changes you'd like to apply.
+      </p>
+    </div>
+
+    <form
+      method="POST"
+      action="{{ url_for('email.process_suggestions') }}"
+      class="space-y-6"
+    >
+      <input type="hidden" name="suggestion_id" value="{{ suggestions._id }}" />
+
+      <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200">
+          <thead class="bg-gray-50">
+            <tr>
+              <th
+                scope="col"
+                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              >
+                Apply
+              </th>
+              <th
+                scope="col"
+                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              >
+                Company
+              </th>
+              <th
+                scope="col"
+                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              >
+                Position
+              </th>
+              <th
+                scope="col"
+                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              >
+                Change
+              </th>
+              <th
+                scope="col"
+                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              >
+                Source
+              </th>
+            </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-gray-200">
+            {% for suggestion in suggestions.suggestions %}
+            <tr>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="flex items-center">
+                  <input
+                    type="checkbox"
+                    name="accept"
+                    value="{% if suggestion.type == 'update' %}{{ suggestion.application_id }}{% else %}new_{{ loop.index0 }}{% endif %}"
+                    class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                  />
+                </div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm font-medium text-gray-900">
+                  {{ suggestion.company }}
+                </div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm text-gray-500">
+                  {{ suggestion.position }}
+                </div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                {% if suggestion.type == 'update' %}
+                <div class="text-sm text-gray-500">
+                  Status:
+                  <span class="font-medium text-gray-900"
+                    >{{ suggestion.current_status }}</span
+                  >
+                  →
+                  <span class="font-medium text-blue-600"
+                    >{{ suggestion.new_status }}</span
+                  >
+                </div>
+                {% else %}
+                <div class="text-sm text-gray-500">
+                  <span
+                    class="px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded-full"
+                    >New Application</span
+                  >
+                  <span class="ml-2 text-gray-500"
+                    >Status: {{ suggestion.status }}</span
+                  >
+                </div>
+                {% endif %}
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                <div
+                  class="truncate max-w-xs"
+                  title="{{ suggestion.email_subject }}"
+                >
+                  <i class="fas fa-envelope mr-1"></i> {{
+                  suggestion.email_subject }}
+                </div>
+                <div class="text-xs text-gray-400 mt-1">
+                  {{ suggestion.date.strftime('%Y-%m-%d %H:%M') }}
+                </div>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <div class="flex items-center justify-between pt-4 border-t">
+        <a
+          href="{{ url_for('main.dashboard') }}"
+          class="text-blue-600 hover:underline"
+          >Back to Dashboard</a
+        >
+        <div class="space-x-4">
+          <button
+            type="submit"
+            class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+          >
+            Apply Selected Changes
+          </button>
+        </div>
+      </div>
+    </form>
+
+    <div class="mt-8 border-t pt-6">
+      <h3 class="text-lg font-semibold mb-2">How This Works</h3>
+      <p class="text-sm text-gray-600">
+        JobJourney scans your emails for job application-related content and
+        suggests updates to your application tracking. You have full control
+        over which suggestions to apply. We never store the full content of your
+        emails, only the metadata needed to identify job applications.
+      </p>
+    </div>
+  </div>
+</div>
+{% endblock %}
