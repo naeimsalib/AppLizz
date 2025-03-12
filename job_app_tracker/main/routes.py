@@ -14,6 +14,10 @@ def index():
         return redirect(url_for('main.dashboard'))
     return render_template('index.html')
 
+@main.route('/faq')
+def faq():
+    return render_template('faq.html')
+
 @main.route('/dashboard')
 @login_required
 def dashboard():
