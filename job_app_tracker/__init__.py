@@ -1,29 +1,33 @@
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
-import os
-from dotenv import load_dotenv
+from .config.mongodb import init_mongodb
+from .models.user import User
 
-db = SQLAlchemy()
 login_manager = LoginManager()
+login_manager.login_view = 'auth.login'
+login_manager.login_message_category = 'info'
 
-def create_app():
-    # Load env variables
-    load_dotenv()
+@login_manager.user_loader
+def load_user(user_id):
+    return User.get_by_id(user_id)
 
-    app = Flask(__name__, static_folder='static', template_folder='templates')
-    app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-    db.init_app(app)
+def create_app(config=None):
+    app = Flask(__name__)
+    app.config.from_object('job_app_tracker.config.default')
+    
+    if config:
+        app.config.update(config)
+    
+    # Initialize MongoDB
+    init_mongodb(app)
+    
+    # Initialize Flask-Login
     login_manager.init_app(app)
-
-    # Register Blueprints
-    from .routes import main_bp
-    app.register_blueprint(main_bp)
-
-    from .auth.routes import auth_bp
-    app.register_blueprint(auth_bp, url_prefix='/auth')
-
-    return app
+    
+    # Register blueprints
+    from .main.routes import main
+    from .auth.routes import auth
+    app.register_blueprint(main)
+    app.register_blueprint(auth, url_prefix='/auth')
+    
+    return app 

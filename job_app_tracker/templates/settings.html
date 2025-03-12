@@ -1,0 +1,114 @@
+{% extends "base.html" %} {% block title %}Settings - JobJourney{% endblock %}
+{% block content %}
+<div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+  <div class="px-4 py-6 sm:px-0">
+    <h1 class="text-2xl font-semibold text-gray-900">Settings</h1>
+
+    <!-- Profile Settings -->
+    <div class="mt-6 bg-white shadow px-4 py-5 sm:rounded-lg sm:p-6">
+      <div class="md:grid md:grid-cols-3 md:gap-6">
+        <div class="md:col-span-1">
+          <h3 class="text-lg font-medium leading-6 text-gray-900">Profile</h3>
+          <p class="mt-1 text-sm text-gray-500">
+            Update your profile information.
+          </p>
+        </div>
+        <div class="mt-5 md:mt-0 md:col-span-2">
+          <form action="#" method="POST">
+            <div class="grid grid-cols-6 gap-6">
+              <div class="col-span-6 sm:col-span-4">
+                <label
+                  for="email"
+                  class="block text-sm font-medium text-gray-700"
+                  >Email</label
+                >
+                <input
+                  type="email"
+                  name="email"
+                  id="email"
+                  value="{{ current_user.email }}"
+                  class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  readonly
+                />
+              </div>
+
+              <div class="col-span-6 sm:col-span-4">
+                <label
+                  for="name"
+                  class="block text-sm font-medium text-gray-700"
+                  >Name</label
+                >
+                <input
+                  type="text"
+                  name="name"
+                  id="name"
+                  value="{{ current_user.name }}"
+                  class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                />
+              </div>
+            </div>
+
+            <div class="mt-6">
+              <button
+                type="submit"
+                class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              >
+                Save Changes
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Notification Preferences -->
+    <div class="mt-10 bg-white shadow px-4 py-5 sm:rounded-lg sm:p-6">
+      <div class="md:grid md:grid-cols-3 md:gap-6">
+        <div class="md:col-span-1">
+          <h3 class="text-lg font-medium leading-6 text-gray-900">
+            Notifications
+          </h3>
+          <p class="mt-1 text-sm text-gray-500">
+            Manage your notification preferences.
+          </p>
+        </div>
+        <div class="mt-5 md:mt-0 md:col-span-2">
+          <form action="#" method="POST">
+            <div class="space-y-6">
+              <div class="flex items-start">
+                <div class="flex items-center h-5">
+                  <input
+                    id="email_notifications"
+                    name="email_notifications"
+                    type="checkbox"
+                    class="focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300 rounded"
+                  />
+                </div>
+                <div class="ml-3 text-sm">
+                  <label
+                    for="email_notifications"
+                    class="font-medium text-gray-700"
+                    >Email notifications</label
+                  >
+                  <p class="text-gray-500">
+                    Receive email notifications about your job applications.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-6">
+              <button
+                type="submit"
+                class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              >
+                Save Preferences
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

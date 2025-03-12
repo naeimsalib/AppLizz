@@ -1,0 +1,221 @@
+/* Main CSS file for Job Application Tracker */
+
+/* Page transitions */
+.page-enter {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Chart container styles */
+.chart-container {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Status badge colors */
+.status-applied {
+  background-color: #9CA3AF;
+  color: #1F2937;
+}
+
+.status-in-progress {
+  background-color: #FBBF24;
+  color: #92400E;
+}
+
+.status-interview {
+  background-color: #60A5FA;
+  color: #1E40AF;
+}
+
+.status-offer {
+  background-color: #34D399;
+  color: #065F46;
+}
+
+.status-rejected {
+  background-color: #F87171;
+  color: #991B1B;
+}
+
+/* Form focus styles */
+input:focus, select:focus, textarea:focus {
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+  outline: none;
+}
+
+/* Responsive table styles */
+@media (max-width: 640px) {
+  .responsive-table {
+    display: block;
+    overflow-x: auto;
+  }
+}
+
+/* Animations */
+@keyframes fadeOut {
+    from { opacity: 1; transform: translateY(0); }
+    to { opacity: 0; transform: translateY(-10px); }
+}
+
+/* Flash Messages */
+.flash-message {
+    animation: fadeIn 0.3s ease-out;
+}
+
+.flash-message.hiding {
+    animation: fadeOut 0.3s ease-out forwards;
+}
+
+/* Card Hover Effects */
+.card-hover {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card-hover:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+/* Status Badge Animations */
+.status-badge {
+    transition: all 0.2s ease;
+}
+
+.status-badge:hover {
+    transform: scale(1.05);
+}
+
+/* Form Input Focus Effects */
+.form-input:focus {
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+}
+
+/* Loading Spinner */
+.spinner {
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #3498db;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Button Loading State */
+.btn-loading {
+    position: relative;
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+.btn-loading .spinner {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* Custom Tooltip */
+.tooltip {
+    position: relative;
+}
+
+.tooltip:hover::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 4px 8px;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    border-radius: 4px;
+    font-size: 12px;
+    white-space: nowrap;
+    z-index: 10;
+}
+
+/* Grid Layout for Dashboard */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+/* Responsive Table */
+@media (max-width: 640px) {
+    .responsive-table {
+        display: block;
+    }
+
+    .responsive-table thead {
+        display: none;
+    }
+
+    .responsive-table tbody tr {
+        display: block;
+        margin-bottom: 1rem;
+        border: 1px solid #e5e7eb;
+        border-radius: 0.5rem;
+        padding: 1rem;
+    }
+
+    .responsive-table tbody td {
+        display: block;
+        text-align: right;
+        padding: 0.5rem 0;
+    }
+
+    .responsive-table tbody td::before {
+        content: attr(data-label);
+        float: left;
+        font-weight: bold;
+    }
+}
+
+/* Print Styles */
+@media print {
+    .no-print {
+        display: none !important;
+    }
+
+    .print-break-inside {
+        break-inside: avoid;
+    }
+} 

@@ -1,0 +1,12 @@
+{
+  "name": "job-app-tracker",
+  "version": "1.0.0",
+  "description": "Job Application Tracker",
+  "scripts": {
+    "start": "python run.py",
+    "dev": "nodemon --exec python run.py"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  }
+} 

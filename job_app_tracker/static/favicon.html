@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Generate Route Icon Favicon</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f0f0f0;
+    }
+    .icon-container {
+      width: 64px;
+      height: 64px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: white;
+      border-radius: 8px;
+    }
+    .route-icon {
+      font-size: 48px;
+      color: #3B82F6; /* Blue-600 from Tailwind */
+    }
+    .buttons {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+    }
+    button {
+      padding: 8px 16px;
+      background-color: #3B82F6;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="buttons">
+    <button id="capture">Capture Icon</button>
+  </div>
+  
+  <div class="icon-container" id="icon">
+    <i class="fas fa-route route-icon"></i>
+  </div>
+
+  <script>
+    document.getElementById('capture').addEventListener('click', function() {
+      html2canvas(document.getElementById('icon')).then(function(canvas) {
+        // Create a link to download the canvas as an image
+        const link = document.createElement('a');
+        link.download = 'favicon.png';
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+        
+        alert('Favicon image downloaded. Convert this PNG to ICO format using an online converter.');
+      });
+    });
+  </script>
+</body>
+</html> 

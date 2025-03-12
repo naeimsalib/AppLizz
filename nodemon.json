@@ -1,0 +1,5 @@
+{
+    "watch": ["job_app_tracker/", "run.py"],
+    "ignore": ["__pycache__", "*.pyc", "venv/", "node_modules/"],
+    "ext": "py,html,css,js"
+} 
