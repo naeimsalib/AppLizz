@@ -8,8 +8,9 @@
     <!-- Favicon -->
     <link
       rel="icon"
-      href="{{ url_for('static', filename='favicon.svg') }}"
+      href="{{ url_for('static', filename='img/favicon.svg') }}"
       type="image/svg+xml"
+      sizes="any"
     />
     <link
       rel="alternate icon"
@@ -18,9 +19,36 @@
     />
     <link
       rel="shortcut icon"
-      href="{{ url_for('static', filename='favicon.svg') }}"
+      href="{{ url_for('static', filename='img/favicon.svg') }}"
       type="image/svg+xml"
+      sizes="32x32 48x48 64x64"
     />
+
+    <!-- Mobile Icons -->
+    <link
+      rel="apple-touch-icon"
+      href="{{ url_for('static', filename='img/app-icon.svg') }}"
+    />
+    <meta name="theme-color" content="#3B82F6" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="JobJourney" />
+    <link
+      rel="manifest"
+      href="{{ url_for('static', filename='manifest.json') }}"
+    />
+
+    <!-- Open Graph / Social Media -->
+    <meta property="og:title" content="JobJourney - Track Your Career Path" />
+    <meta
+      property="og:description"
+      content="Stay organized with automatic job application tracking. Never miss an update on your career journey."
+    />
+    <meta
+      property="og:image"
+      content="{{ url_for('static', filename='img/logo-full.svg', _external=True) }}"
+    />
+    <meta property="og:type" content="website" />
 
     <!-- Tailwind CSS via CDN - Note: For production, install as PostCSS plugin or use Tailwind CLI -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -51,9 +79,20 @@
             <div class="flex-shrink-0 flex items-center">
               <a
                 href="{{ url_for('main.index') }}"
-                class="text-xl font-bold text-gray-800"
+                class="text-xl font-bold text-gray-800 flex items-center"
               >
-                <i class="fas fa-route mr-2"></i>JobJourney
+                <svg
+                  class="h-9 w-9 text-blue-600 mr-2"
+                  viewBox="0 0 512 512"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill="currentColor"
+                    d="M256 0c-17.7 0-32 14.3-32 32V66.7C149.6 73.3 96 135 96 208v18.8c0 47-17.3 92.4-48.5 127.6l-7.4 8.3c-8.4 9.4-10.4 22.9-5.1 34.4S51.2 416 64 416H192c0 53 43 96 96 96s96-43 96-96H448c12.8 0 24.6-7.2 30.5-18.7s3.3-25-5.1-34.4l-7.4-8.3C434.7 319.2 416 273.9 416 226.8V208c0-73-53.6-134.7-128-141.3V32c0-17.7-14.3-32-32-32zm0 96h0c61.9 0 112 50.1 112 112v18.8c0 52.3 19.2 103 54.3 142.2H89.7c35-39.2 54.3-89.9 54.3-142.2V208c0-61.9 50.1-112 112-112zm64 352c0 35.3-28.7 64-64 64s-64-28.7-64-64H320z"
+                  />
+                </svg>
+                <span class="text-xl">JobJourney</span>
               </a>
             </div>
           </div>
@@ -155,7 +194,18 @@
     <footer class="bg-white shadow-inner mt-auto">
       <div class="max-w-7xl mx-auto py-4 px-4">
         <div class="flex justify-between items-center">
-          <div class="text-gray-500 text-sm">
+          <div class="text-gray-500 text-sm flex items-center">
+            <svg
+              class="h-5 w-5 text-blue-600 mr-1"
+              viewBox="0 0 512 512"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill="currentColor"
+                d="M256 0c-17.7 0-32 14.3-32 32V66.7C149.6 73.3 96 135 96 208v18.8c0 47-17.3 92.4-48.5 127.6l-7.4 8.3c-8.4 9.4-10.4 22.9-5.1 34.4S51.2 416 64 416H192c0 53 43 96 96 96s96-43 96-96H448c12.8 0 24.6-7.2 30.5-18.7s3.3-25-5.1-34.4l-7.4-8.3C434.7 319.2 416 273.9 416 226.8V208c0-73-53.6-134.7-128-141.3V32c0-17.7-14.3-32-32-32zm0 96h0c61.9 0 112 50.1 112 112v18.8c0 52.3 19.2 103 54.3 142.2H89.7c35-39.2 54.3-89.9 54.3-142.2V208c0-61.9 50.1-112 112-112zm64 352c0 35.3-28.7 64-64 64s-64-28.7-64-64H320z"
+              />
+            </svg>
             © 2025 JobJourney - Track Your Career Path
           </div>
           <div class="flex space-x-4">

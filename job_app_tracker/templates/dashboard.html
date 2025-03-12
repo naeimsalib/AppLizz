@@ -1,6 +1,28 @@
 {% extends "base.html" %} {% block title %}Dashboard - JobJourney{% endblock %}
 {% block head %} {{ super() }}
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+  /* Animation styles */
+  .max-h-0 {
+    max-height: 0 !important;
+  }
+
+  .opacity-0 {
+    opacity: 0;
+  }
+
+  .transition-all {
+    transition-property: all;
+  }
+
+  .duration-500 {
+    transition-duration: 500ms;
+  }
+
+  .ease-in-out {
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+</style>
 {% endblock %} {% block content %}
 <div class="page-enter">
   <!-- Page Header -->
@@ -329,130 +351,204 @@
     </div>
   </div>
 
-  <!-- Applications List -->
-  <div class="flex flex-col">
-    <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-      <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-        <div
-          class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg"
+  <!-- Applications Section -->
+  <div class="mt-8">
+    <div class="flex justify-between items-center mb-4">
+      <h2 class="text-xl font-semibold text-gray-800 flex items-center">
+        <span>Your Applications</span>
+        <button
+          id="toggleApplications"
+          class="ml-2 text-sm text-blue-600 hover:text-blue-800 focus:outline-none"
         >
-          <table
-            class="min-w-full divide-y divide-gray-200"
-            id="applications-table"
+          <span id="toggleText">Hide</span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-4 w-4 inline transition-transform duration-300 ease-in-out"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
           >
-            <thead class="bg-gray-50">
-              <tr>
-                <th
-                  scope="col"
-                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
-                  data-sort="company"
-                >
-                  Company
-                  <i class="fas fa-sort ml-1"></i>
-                </th>
-                <th
-                  scope="col"
-                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
-                  data-sort="position"
-                >
-                  Position
-                  <i class="fas fa-sort ml-1"></i>
-                </th>
-                <th
-                  scope="col"
-                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
-                  data-sort="status"
-                >
-                  Status
-                  <i class="fas fa-sort ml-1"></i>
-                </th>
-                <th
-                  scope="col"
-                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
-                  data-sort="date"
-                >
-                  Date Applied
-                  <i class="fas fa-sort ml-1"></i>
-                </th>
-                <th scope="col" class="relative px-6 py-3">
-                  <span class="sr-only">Actions</span>
-                </th>
-              </tr>
-            </thead>
-            <tbody class="bg-white divide-y divide-gray-200">
-              {% for application in applications %}
-              <tr class="application-row hover:bg-gray-50">
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <div class="flex items-center">
-                    {% if application.company_logo %}
-                    <div class="flex-shrink-0 h-10 w-10">
-                      <img
-                        class="h-10 w-10 rounded-full"
-                        src="{{ application.company_logo }}"
-                        alt="{{ application.company }}"
-                      />
-                    </div>
-                    {% else %}
-                    <div
-                      class="flex-shrink-0 h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center"
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M19 9l-7 7-7-7"
+            />
+          </svg>
+        </button>
+      </h2>
+      <a
+        href="{{ url_for('main.add_application') }}"
+        class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium"
+      >
+        Add New
+      </a>
+    </div>
+
+    <div
+      id="applicationsContainer"
+      class="transition-all duration-500 ease-in-out overflow-hidden max-h-[2000px]"
+    >
+      <!-- Applications List -->
+      <div class="flex flex-col">
+        <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+          <div
+            class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8"
+          >
+            <div
+              class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg"
+            >
+              <table
+                class="min-w-full divide-y divide-gray-200"
+                id="applications-table"
+              >
+                <thead class="bg-gray-50">
+                  <tr>
+                    <th
+                      scope="col"
+                      class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
+                      data-sort="company"
                     >
-                      <span class="text-gray-500 font-medium"
-                        >{{ application.company[:2].upper() }}</span
-                      >
-                    </div>
-                    {% endif %}
-                    <div class="ml-4">
-                      <div class="text-sm font-medium text-gray-900">
-                        {{ application.company }}
-                      </div>
-                      <div class="text-sm text-gray-500">
-                        {{ application.location }}
-                      </div>
-                    </div>
-                  </div>
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <div class="text-sm text-gray-900">
-                    {{ application.position }}
-                  </div>
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <span
-                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {% if application.status == 'Applied' %}bg-gray-100 text-gray-800{% elif application.status == 'In Progress' %}bg-yellow-100 text-yellow-800{% elif application.status == 'Interview' %}bg-blue-100 text-blue-800{% elif application.status == 'Offer' %}bg-green-100 text-green-800{% elif application.status == 'Rejected' %}bg-red-100 text-red-800{% endif %}"
-                  >
-                    {{ application.status }}
-                  </span>
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  {{ application.date_applied.strftime('%Y-%m-%d') if
-                  application.date_applied else 'N/A' }}
-                </td>
-                <td
-                  class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
+                      Company
+                      <i class="fas fa-sort ml-1"></i>
+                    </th>
+                    <th
+                      scope="col"
+                      class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
+                      data-sort="position"
+                    >
+                      Position
+                      <i class="fas fa-sort ml-1"></i>
+                    </th>
+                    <th
+                      scope="col"
+                      class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
+                      data-sort="status"
+                    >
+                      Status
+                      <i class="fas fa-sort ml-1"></i>
+                    </th>
+                    <th
+                      scope="col"
+                      class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
+                      data-sort="date"
+                    >
+                      Date Applied
+                      <i class="fas fa-sort ml-1"></i>
+                    </th>
+                    <th scope="col" class="relative px-6 py-3">
+                      <span class="sr-only">Actions</span>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody
+                  class="bg-white divide-y divide-gray-200"
+                  id="applications-tbody"
                 >
-                  <a
-                    href="{{ url_for('main.edit_application', application_id=application._id) }}"
-                    class="text-blue-600 hover:text-blue-900 mr-3"
-                  >
-                    <i class="fas fa-edit"></i> Edit
-                  </a>
-                  <a
-                    href="#"
-                    class="text-red-600 hover:text-red-900 delete-app"
-                    data-id="{{ application._id }}"
-                    data-company="{{ application.company }}"
-                  >
-                    <i class="fas fa-trash"></i> Delete
-                  </a>
-                </td>
-              </tr>
-              {% endfor %}
-            </tbody>
-          </table>
+                  {% for application in applications %}
+                  <tr class="application-row hover:bg-gray-50" data-page="1">
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <div class="flex items-center">
+                        {% if application.company_logo %}
+                        <div class="flex-shrink-0 h-10 w-10">
+                          <img
+                            class="h-10 w-10 rounded-full"
+                            src="{{ application.company_logo }}"
+                            alt="{{ application.company }}"
+                          />
+                        </div>
+                        {% else %}
+                        <div
+                          class="flex-shrink-0 h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center"
+                        >
+                          <span class="text-gray-500 font-medium"
+                            >{{ application.company[:2].upper() }}</span
+                          >
+                        </div>
+                        {% endif %}
+                        <div class="ml-4">
+                          <div class="text-sm font-medium text-gray-900">
+                            {{ application.company }}
+                          </div>
+                          <div class="text-sm text-gray-500">
+                            {{ application.location }}
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <div class="text-sm text-gray-900">
+                        {{ application.position }}
+                      </div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <span
+                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {% if application.status == 'Applied' %}bg-gray-100 text-gray-800{% elif application.status == 'In Progress' %}bg-yellow-100 text-yellow-800{% elif application.status == 'Interview' %}bg-blue-100 text-blue-800{% elif application.status == 'Offer' %}bg-green-100 text-green-800{% elif application.status == 'Rejected' %}bg-red-100 text-red-800{% endif %}"
+                      >
+                        {{ application.status }}
+                      </span>
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      {{ application.date_applied.strftime('%Y-%m-%d') if
+                      application.date_applied else 'N/A' }}
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
+                    >
+                      <a
+                        href="{{ url_for('main.edit_application', application_id=application._id) }}"
+                        class="text-blue-600 hover:text-blue-900 mr-3"
+                      >
+                        <i class="fas fa-edit"></i> Edit
+                      </a>
+                      <a
+                        href="#"
+                        class="text-red-600 hover:text-red-900 delete-app"
+                        data-id="{{ application._id }}"
+                        data-company="{{ application.company }}"
+                      >
+                        <i class="fas fa-trash"></i> Delete
+                      </a>
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pagination Controls -->
+      <div class="mt-4 flex justify-between items-center">
+        <div class="text-sm text-gray-700">
+          Showing <span id="showing-start">1</span> to
+          <span id="showing-end">3</span> of
+          <span id="total-items">{{ applications|length }}</span> applications
+        </div>
+        <div class="flex space-x-2">
+          <button
+            id="prev-page"
+            class="px-3 py-1 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <i class="fas fa-chevron-left mr-1"></i> Previous
+          </button>
+          <div id="page-numbers" class="flex space-x-1">
+            <!-- Page numbers will be inserted here by JavaScript -->
+          </div>
+          <button
+            id="next-page"
+            class="px-3 py-1 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            Next <i class="fas fa-chevron-right ml-1"></i>
+          </button>
         </div>
       </div>
     </div>
   </div>
+
   {% if not applications %}
   <div class="text-center py-12">
     <i class="fas fa-inbox text-gray-400 text-5xl mb-4"></i>
@@ -540,17 +636,151 @@
       });
     }
 
+    // Pagination variables
+    const itemsPerPage = 3;
+    let currentPage = 1;
+    const applicationRows = document.querySelectorAll(".application-row");
+    const totalItems = applicationRows.length;
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+    // Pagination elements
+    const prevPageBtn = document.getElementById("prev-page");
+    const nextPageBtn = document.getElementById("next-page");
+    const pageNumbers = document.getElementById("page-numbers");
+    const showingStart = document.getElementById("showing-start");
+    const showingEnd = document.getElementById("showing-end");
+    const totalItemsSpan = document.getElementById("total-items");
+
+    // Toggle applications section
+    const toggleBtn = document.getElementById("toggleApplications");
+    const toggleText = document.getElementById("toggleText");
+    const applicationsContainer = document.getElementById("applicationsContainer");
+
+    if (toggleBtn && applicationsContainer) {
+      toggleBtn.addEventListener("click", function () {
+        const isVisible = !applicationsContainer.classList.contains("max-h-0");
+
+        if (isVisible) {
+          // Hide the container
+          applicationsContainer.style.maxHeight = applicationsContainer.scrollHeight + "px";
+          // Force a reflow
+          applicationsContainer.offsetHeight;
+          applicationsContainer.classList.add("max-h-0");
+          applicationsContainer.classList.add("opacity-0");
+          toggleText.textContent = "Show";
+          toggleBtn.querySelector("svg").style.transform = "rotate(180deg)";
+        } else {
+          // Show the container
+          applicationsContainer.classList.remove("max-h-0");
+          applicationsContainer.classList.remove("opacity-0");
+          applicationsContainer.style.maxHeight = "2000px"; // Set to a large value
+          toggleText.textContent = "Hide";
+          toggleBtn.querySelector("svg").style.transform = "rotate(0deg)";
+        }
+      });
+    }
+
+    // Initialize pagination
+    function initPagination() {
+      if (totalItems === 0) return;
+
+      // Create page number buttons
+      pageNumbers.innerHTML = "";
+      for (let i = 1; i <= totalPages; i++) {
+        const pageBtn = document.createElement("button");
+        pageBtn.textContent = i;
+        pageBtn.classList.add("px-3", "py-1", "border", "border-gray-300", "rounded-md", "text-sm", "font-medium");
+        pageBtn.classList.add(i === currentPage ? "bg-blue-50" : "bg-white");
+        pageBtn.classList.add(i === currentPage ? "text-blue-600" : "text-gray-700");
+        pageBtn.classList.add("hover:bg-gray-50");
+        pageBtn.addEventListener("click", () => goToPage(i));
+        pageNumbers.appendChild(pageBtn);
+      }
+
+      // Update buttons state
+      updatePaginationControls();
+
+      // Show first page
+      showPage(currentPage);
+    }
+
+    // Go to specific page
+    function goToPage(page) {
+      currentPage = page;
+      showPage(currentPage);
+      updatePaginationControls();
+    }
+
+    // Show specific page
+    function showPage(page) {
+      const start = (page - 1) * itemsPerPage;
+      const end = Math.min(start + itemsPerPage, totalItems);
+
+      // Hide all rows
+      applicationRows.forEach(row => {
+        row.classList.add("hidden");
+      });
+
+      // Show rows for current page
+      for (let i = start; i < end; i++) {
+        if (applicationRows[i]) {
+          applicationRows[i].classList.remove("hidden");
+        }
+      }
+
+      // Update showing text
+      showingStart.textContent = totalItems === 0 ? 0 : start + 1;
+      showingEnd.textContent = end;
+      totalItemsSpan.textContent = totalItems;
+    }
+
+    // Update pagination controls
+    function updatePaginationControls() {
+      prevPageBtn.disabled = currentPage === 1;
+      nextPageBtn.disabled = currentPage === totalPages || totalPages === 0;
+
+      // Update active page button
+      const pageButtons = pageNumbers.querySelectorAll("button");
+      pageButtons.forEach((btn, index) => {
+        btn.classList.toggle("bg-blue-50", index + 1 === currentPage);
+        btn.classList.toggle("text-blue-600", index + 1 === currentPage);
+        btn.classList.toggle("bg-white", index + 1 !== currentPage);
+        btn.classList.toggle("text-gray-700", index + 1 !== currentPage);
+      });
+    }
+
+    // Add event listeners for pagination buttons
+    if (prevPageBtn) {
+      prevPageBtn.addEventListener("click", function() {
+        if (currentPage > 1) {
+          goToPage(currentPage - 1);
+        }
+      });
+    }
+
+    if (nextPageBtn) {
+      nextPageBtn.addEventListener("click", function() {
+        if (currentPage < totalPages) {
+          goToPage(currentPage + 1);
+        }
+      });
+    }
+
+    // Initialize pagination
+    initPagination();
+
     // Filter and sort functionality
     const statusFilter = document.getElementById("status-filter");
     const dateFilter = document.getElementById("date-filter");
     const sortBy = document.getElementById("sort-by");
     const searchInput = document.getElementById("search");
-    const applicationRows = document.querySelectorAll(".application-row");
 
     function applyFilters() {
       const statusValue = statusFilter.value;
       const searchValue = searchInput.value.toLowerCase();
 
+      // Reset visibility for all rows
+      let visibleRows = [];
       applicationRows.forEach((row) => {
         const company = row
           .querySelector("td:nth-child(1)")
@@ -565,13 +795,105 @@
           company.includes(searchValue) || position.includes(searchValue);
 
         if (statusMatch && searchMatch) {
-          row.classList.remove("hidden");
+          row.classList.remove("filtered-out");
+          visibleRows.push(row);
         } else {
+          row.classList.add("filtered-out");
           row.classList.add("hidden");
         }
       });
+
+      // Update pagination variables based on filtered rows
+      const filteredTotalItems = visibleRows.length;
+      const filteredTotalPages = Math.ceil(filteredTotalItems / itemsPerPage);
+
+      // Reset to page 1 when filters change
+      currentPage = 1;
+
+      // Update pagination display
+      totalItemsSpan.textContent = filteredTotalItems;
+
+      // Recreate page number buttons
+      pageNumbers.innerHTML = "";
+      for (let i = 1; i <= filteredTotalPages; i++) {
+        const pageBtn = document.createElement("button");
+        pageBtn.textContent = i;
+        pageBtn.classList.add("px-3", "py-1", "border", "border-gray-300", "rounded-md", "text-sm", "font-medium");
+        pageBtn.classList.add(i === currentPage ? "bg-blue-50" : "bg-white");
+        pageBtn.classList.add(i === currentPage ? "text-blue-600" : "text-gray-700");
+        pageBtn.classList.add("hover:bg-gray-50");
+        pageBtn.addEventListener("click", () => {
+          currentPage = i;
+          showFilteredPage(i, visibleRows);
+          updatePaginationControls(i, filteredTotalPages);
+        });
+        pageNumbers.appendChild(pageBtn);
+      }
+
+      // Show first page of filtered results
+      showFilteredPage(1, visibleRows);
+      updatePaginationControls(1, filteredTotalPages);
+
+      // Update pagination buttons
+      prevPageBtn.disabled = true; // On first page after filtering
+      nextPageBtn.disabled = filteredTotalPages <= 1;
+
+      // Update event listeners for pagination buttons
+      prevPageBtn.onclick = function() {
+        if (currentPage > 1) {
+          currentPage--;
+          showFilteredPage(currentPage, visibleRows);
+          updatePaginationControls(currentPage, filteredTotalPages);
+        }
+      };
+
+      nextPageBtn.onclick = function() {
+        if (currentPage < filteredTotalPages) {
+          currentPage++;
+          showFilteredPage(currentPage, visibleRows);
+          updatePaginationControls(currentPage, filteredTotalPages);
+        }
+      };
     }
 
+    // Show specific page of filtered results
+    function showFilteredPage(page, visibleRows) {
+      const start = (page - 1) * itemsPerPage;
+      const end = Math.min(start + itemsPerPage, visibleRows.length);
+
+      // Hide all rows first
+      applicationRows.forEach(row => {
+        row.classList.add("hidden");
+      });
+
+      // Show only the rows for current page
+      for (let i = start; i < end; i++) {
+        if (visibleRows[i]) {
+          visibleRows[i].classList.remove("hidden");
+        }
+      }
+
+      // Update showing text
+      showingStart.textContent = visibleRows.length === 0 ? 0 : start + 1;
+      showingEnd.textContent = end;
+    }
+
+    // Update pagination controls for filtered results
+    function updatePaginationControls(page, totalPages) {
+      prevPageBtn.disabled = page === 1;
+      nextPageBtn.disabled = page === totalPages || totalPages === 0;
+
+      // Update active page button
+      const pageButtons = pageNumbers.querySelectorAll("button");
+      pageButtons.forEach((btn, index) => {
+        btn.classList.toggle("bg-blue-50", index + 1 === page);
+        btn.classList.toggle("text-blue-600", index + 1 === page);
+        btn.classList.toggle("bg-white", index + 1 !== page);
+        btn.classList.toggle("text-gray-700", index + 1 !== page);
+      });
+    }
+
+    // Add event listeners for filters
     if (statusFilter) statusFilter.addEventListener("change", applyFilters);
     if (searchInput) searchInput.addEventListener("input", applyFilters);
 
