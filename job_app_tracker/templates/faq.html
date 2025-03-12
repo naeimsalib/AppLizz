@@ -1,0 +1,260 @@
+{% extends "base.html" %}
+
+{% block title %}FAQ - Applizz{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto p-4">
+    <h1 class="text-3xl font-bold text-gray-800 mb-8 text-center">Frequently Asked Questions</h1>
+    
+    <div class="space-y-6">
+        <!-- FAQ Item 1 -->
+        <div class="bg-white rounded-lg shadow-md overflow-hidden">
+            <div class="px-6 py-4 bg-white cursor-pointer flex justify-between items-center faq-toggle" onclick="toggleFaq(this)">
+                <h3 class="font-medium text-gray-800">What is Applizz?</h3>
+                <svg class="w-5 h-5 text-gray-500 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+            </div>
+            <div class="px-6 py-4 bg-gray-50 faq-content" style="display: none;">
+                <p class="text-gray-700">
+                    Applizz is a comprehensive job application tracking tool designed to help job seekers organize and monitor their job search process. It allows you to track applications, interview stages, and receive notifications about status changes. The app can also scan your emails to automatically detect job applications and updates.
+                </p>
+            </div>
+        </div>
+
+        <!-- FAQ Item 2 -->
+        <div class="bg-white rounded-lg shadow-md overflow-hidden">
+            <div class="px-6 py-4 bg-white cursor-pointer flex justify-between items-center faq-toggle" onclick="toggleFaq(this)">
+                <h3 class="font-medium text-gray-800">How do I add a new job application?</h3>
+                <svg class="w-5 h-5 text-gray-500 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+            </div>
+            <div class="px-6 py-4 bg-gray-50 faq-content" style="display: none;">
+                <p class="text-gray-700">
+                    To add a new job application manually:
+                    <ol class="list-decimal ml-5 mt-2 space-y-1">
+                        <li>Navigate to your Dashboard</li>
+                        <li>Click the "Add Application" button</li>
+                        <li>Fill out the application form with details like company name, position, application date, etc.</li>
+                        <li>Click "Save" to add the application to your tracker</li>
+                    </ol>
+                    Alternatively, you can connect your email account and Applizz will automatically detect job applications from your emails.
+                </p>
+            </div>
+        </div>
+
+        <!-- FAQ Item 3 -->
+        <div class="bg-white rounded-lg shadow-md overflow-hidden">
+            <div class="px-6 py-4 bg-white cursor-pointer flex justify-between items-center faq-toggle" onclick="toggleFaq(this)">
+                <h3 class="font-medium text-gray-800">How does the email integration work?</h3>
+                <svg class="w-5 h-5 text-gray-500 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+            </div>
+            <div class="px-6 py-4 bg-gray-50 faq-content" style="display: none;">
+                <p class="text-gray-700">
+                    Applizz can connect to your email account (Gmail, Outlook, or Yahoo) to automatically scan for job-related emails. When it finds emails related to job applications or status updates, it creates suggestions that you can review and approve. Here's how it works:
+                    <ol class="list-decimal ml-5 mt-2 space-y-1">
+                        <li>Go to Settings and connect your email account</li>
+                        <li>Click "Scan Emails" to search for job-related emails</li>
+                        <li>Review suggestions in the "Email Suggestions" section</li>
+                        <li>Approve or reject each suggestion</li>
+                    </ol>
+                    You can configure whether Applizz requires your approval before making changes based on emails.
+                </p>
+            </div>
+        </div>
+
+        <!-- FAQ Item 4 -->
+        <div class="bg-white rounded-lg shadow-md overflow-hidden">
+            <div class="px-6 py-4 bg-white cursor-pointer flex justify-between items-center faq-toggle" onclick="toggleFaq(this)">
+                <h3 class="font-medium text-gray-800">Is my email data secure?</h3>
+                <svg class="w-5 h-5 text-gray-500 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+            </div>
+            <div class="px-6 py-4 bg-gray-50 faq-content" style="display: none;">
+                <p class="text-gray-700">
+                    Yes, Applizz takes your privacy and security seriously:
+                    <ul class="list-disc ml-5 mt-2 space-y-1">
+                        <li>We use OAuth for Gmail and Outlook, which means we never store your actual password</li>
+                        <li>For Yahoo Mail, we use app passwords which are specific to our application and can be revoked at any time</li>
+                        <li>We only scan emails for job-related content and don't store the full content of your emails</li>
+                        <li>You can disconnect your email account at any time from the Settings page</li>
+                        <li>All data is stored securely in our database with proper encryption</li>
+                    </ul>
+                </p>
+            </div>
+        </div>
+
+        <!-- FAQ Item 5 -->
+        <div class="bg-white rounded-lg shadow-md overflow-hidden">
+            <div class="px-6 py-4 bg-white cursor-pointer flex justify-between items-center faq-toggle" onclick="toggleFaq(this)">
+                <h3 class="font-medium text-gray-800">How do I update the status of an application?</h3>
+                <svg class="w-5 h-5 text-gray-500 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+            </div>
+            <div class="px-6 py-4 bg-gray-50 faq-content" style="display: none;">
+                <p class="text-gray-700">
+                    To update the status of an application:
+                    <ol class="list-decimal ml-5 mt-2 space-y-1">
+                        <li>Go to your Dashboard</li>
+                        <li>Find the application you want to update</li>
+                        <li>Click the "Edit" button (pencil icon)</li>
+                        <li>Change the status in the dropdown menu</li>
+                        <li>Click "Save" to update the application</li>
+                    </ol>
+                    Alternatively, if you've connected your email, Applizz may automatically detect status changes from emails and suggest updates.
+                </p>
+            </div>
+        </div>
+
+        <!-- FAQ Item 6 -->
+        <div class="bg-white rounded-lg shadow-md overflow-hidden">
+            <div class="px-6 py-4 bg-white cursor-pointer flex justify-between items-center faq-toggle" onclick="toggleFaq(this)">
+                <h3 class="font-medium text-gray-800">How do I connect my Yahoo Mail account?</h3>
+                <svg class="w-5 h-5 text-gray-500 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+            </div>
+            <div class="px-6 py-4 bg-gray-50 faq-content" style="display: none;">
+                <p class="text-gray-700">
+                    To connect your Yahoo Mail account:
+                    <ol class="list-decimal ml-5 mt-2 space-y-1">
+                        <li>Go to Settings</li>
+                        <li>Click "Connect Yahoo Mail"</li>
+                        <li>You'll need to generate an app password from your Yahoo account:
+                            <ul class="list-disc ml-5 mt-1 space-y-1">
+                                <li>Log in to your Yahoo account</li>
+                                <li>Go to Account Security settings</li>
+                                <li>Scroll to "App passwords"</li>
+                                <li>Generate a new app password for "Applizz"</li>
+                            </ul>
+                        </li>
+                        <li>Enter the 16-character app password in Applizz</li>
+                        <li>Click "Connect" to complete the process</li>
+                    </ol>
+                    If you encounter authentication issues, try generating a new app password and ensure you're copying it exactly as shown.
+                </p>
+            </div>
+        </div>
+
+        <!-- FAQ Item 7 -->
+        <div class="bg-white rounded-lg shadow-md overflow-hidden">
+            <div class="px-6 py-4 bg-white cursor-pointer flex justify-between items-center faq-toggle" onclick="toggleFaq(this)">
+                <h3 class="font-medium text-gray-800">Can I export my application data?</h3>
+                <svg class="w-5 h-5 text-gray-500 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+            </div>
+            <div class="px-6 py-4 bg-gray-50 faq-content" style="display: none;">
+                <p class="text-gray-700">
+                    Currently, Applizz doesn't have a built-in export feature. However, we're working on adding the ability to export your application data to CSV or PDF formats in a future update. This will allow you to keep backups of your job application history or share it with career coaches.
+                </p>
+            </div>
+        </div>
+
+        <!-- FAQ Item 8 -->
+        <div class="bg-white rounded-lg shadow-md overflow-hidden">
+            <div class="px-6 py-4 bg-white cursor-pointer flex justify-between items-center faq-toggle" onclick="toggleFaq(this)">
+                <h3 class="font-medium text-gray-800">What should I do if email scanning isn't working?</h3>
+                <svg class="w-5 h-5 text-gray-500 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+            </div>
+            <div class="px-6 py-4 bg-gray-50 faq-content" style="display: none;">
+                <p class="text-gray-700">
+                    If you're having trouble with email scanning:
+                    <ol class="list-decimal ml-5 mt-2 space-y-1">
+                        <li>Check that your email account is properly connected in Settings</li>
+                        <li>For Yahoo Mail, try generating a new app password</li>
+                        <li>Make sure you have job-related emails in your inbox</li>
+                        <li>Try disconnecting and reconnecting your email account</li>
+                        <li>Check if your email provider has any security settings that might be blocking access</li>
+                    </ol>
+                    If you continue to experience issues, you can still manually add and update applications through the dashboard.
+                </p>
+            </div>
+        </div>
+
+        <!-- FAQ Item 9 -->
+        <div class="bg-white rounded-lg shadow-md overflow-hidden">
+            <div class="px-6 py-4 bg-white cursor-pointer flex justify-between items-center faq-toggle" onclick="toggleFaq(this)">
+                <h3 class="font-medium text-gray-800">How do I delete my account?</h3>
+                <svg class="w-5 h-5 text-gray-500 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+            </div>
+            <div class="px-6 py-4 bg-gray-50 faq-content" style="display: none;">
+                <p class="text-gray-700">
+                    To delete your Applizz account:
+                    <ol class="list-decimal ml-5 mt-2 space-y-1">
+                        <li>Go to Settings</li>
+                        <li>Scroll to the bottom of the page</li>
+                        <li>Click the "Delete Account" button</li>
+                        <li>Confirm your decision when prompted</li>
+                    </ol>
+                    Please note that account deletion is permanent and will remove all your data, including job applications, settings, and email connections.
+                </p>
+            </div>
+        </div>
+
+        <!-- FAQ Item 10 -->
+        <div class="bg-white rounded-lg shadow-md overflow-hidden">
+            <div class="px-6 py-4 bg-white cursor-pointer flex justify-between items-center faq-toggle" onclick="toggleFaq(this)">
+                <h3 class="font-medium text-gray-800">Is Applizz free to use?</h3>
+                <svg class="w-5 h-5 text-gray-500 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+            </div>
+            <div class="px-6 py-4 bg-gray-50 faq-content" style="display: none;">
+                <p class="text-gray-700">
+                    Yes, Applizz is currently free to use with all features included. We may introduce premium features in the future, but our core functionality will always remain free to help job seekers manage their application process effectively.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Function to toggle FAQ items
+    function toggleFaq(element) {
+        // Get the content element (next sibling)
+        var content = element.nextElementSibling;
+        
+        // Get the arrow icon
+        var arrow = element.querySelector('svg');
+        
+        // Check if this content is already open
+        var isOpen = content.style.display === 'block';
+        
+        // Close all FAQ items first
+        var allContents = document.querySelectorAll('.faq-content');
+        var allArrows = document.querySelectorAll('.faq-toggle svg');
+        
+        allContents.forEach(function(item) {
+            item.style.display = 'none';
+        });
+        
+        allArrows.forEach(function(item) {
+            item.style.transform = 'rotate(0deg)';
+        });
+        
+        // If this item wasn't already open, open it
+        if (!isOpen) {
+            content.style.display = 'block';
+            arrow.style.transform = 'rotate(180deg)';
+        }
+    }
+    
+    // Open the first FAQ item by default when the page loads
+    document.addEventListener('DOMContentLoaded', function() {
+        var firstToggle = document.querySelector('.faq-toggle');
+        if (firstToggle) {
+            toggleFaq(firstToggle);
+        }
+    });
+</script>
+{% endblock %} 
