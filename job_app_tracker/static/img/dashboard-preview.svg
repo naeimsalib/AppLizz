@@ -1,0 +1,104 @@
+<svg width="800" height="500" viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="800" height="500" fill="#f5f5f5" rx="10" ry="10"/>
+  
+  <!-- Main Dashboard Card -->
+  <rect x="50" y="50" width="700" height="400" fill="#ffffff" rx="8" ry="8" stroke="#e5e7eb" stroke-width="1"/>
+  
+  <!-- Header -->
+  <text x="70" y="90" font-family="Arial" font-size="24" font-weight="bold" fill="#1f2937">Welcome back, Alex!</text>
+  <text x="600" y="90" font-family="Arial" font-size="14" fill="#6b7280">Last updated: Today at 9:45 AM</text>
+  
+  <!-- Stats Cards -->
+  <g>
+    <!-- Applications Card -->
+    <rect x="70" y="110" width="150" height="80" fill="#eff6ff" rx="6" ry="6" stroke="#dbeafe" stroke-width="1"/>
+    <text x="85" y="135" font-family="Arial" font-size="12" fill="#6b7280">Total Applications</text>
+    <text x="85" y="165" font-family="Arial" font-size="24" font-weight="bold" fill="#1f2937">42</text>
+    <circle cx="180" cy="145" r="20" fill="#dbeafe"/>
+    <text x="173" y="152" font-family="Arial" font-size="18" fill="#3b82f6">📄</text>
+    
+    <!-- Interviews Card -->
+    <rect x="240" y="110" width="150" height="80" fill="#ecfdf5" rx="6" ry="6" stroke="#d1fae5" stroke-width="1"/>
+    <text x="255" y="135" font-family="Arial" font-size="12" fill="#6b7280">Interviews</text>
+    <text x="255" y="165" font-family="Arial" font-size="24" font-weight="bold" fill="#1f2937">8</text>
+    <circle cx="350" cy="145" r="20" fill="#d1fae5"/>
+    <text x="343" y="152" font-family="Arial" font-size="18" fill="#10b981">👤</text>
+    
+    <!-- Offers Card -->
+    <rect x="410" y="110" width="150" height="80" fill="#fffbeb" rx="6" ry="6" stroke="#fef3c7" stroke-width="1"/>
+    <text x="425" y="135" font-family="Arial" font-size="12" fill="#6b7280">Offers</text>
+    <text x="425" y="165" font-family="Arial" font-size="24" font-weight="bold" fill="#1f2937">2</text>
+    <circle cx="520" cy="145" r="20" fill="#fef3c7"/>
+    <text x="513" y="152" font-family="Arial" font-size="18" fill="#f59e0b">🏆</text>
+    
+    <!-- Response Rate Card -->
+    <rect x="580" y="110" width="150" height="80" fill="#f5f3ff" rx="6" ry="6" stroke="#ede9fe" stroke-width="1"/>
+    <text x="595" y="135" font-family="Arial" font-size="12" fill="#6b7280">Response Rate</text>
+    <text x="595" y="165" font-family="Arial" font-size="24" font-weight="bold" fill="#1f2937">24%</text>
+    <circle cx="690" cy="145" r="20" fill="#ede9fe"/>
+    <text x="683" y="152" font-family="Arial" font-size="18" fill="#8b5cf6">📈</text>
+  </g>
+  
+  <!-- Application Status Section -->
+  <rect x="70" y="210" width="430" height="220" fill="#ffffff" rx="6" ry="6" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="90" y="240" font-family="Arial" font-size="18" font-weight="bold" fill="#1f2937">Application Status</text>
+  
+  <!-- Status Bars -->
+  <g>
+    <!-- Applied -->
+    <text x="90" y="270" font-family="Arial" font-size="12" fill="#2563eb">Applied</text>
+    <text x="400" y="270" font-family="Arial" font-size="12" fill="#2563eb">42%</text>
+    <rect x="90" y="280" width="320" height="10" fill="#dbeafe" rx="5" ry="5"/>
+    <rect x="90" y="280" width="134" height="10" fill="#3b82f6" rx="5" ry="5"/>
+    
+    <!-- Interview -->
+    <text x="90" y="310" font-family="Arial" font-size="12" fill="#d97706">Interview</text>
+    <text x="400" y="310" font-family="Arial" font-size="12" fill="#d97706">28%</text>
+    <rect x="90" y="320" width="320" height="10" fill="#fef3c7" rx="5" ry="5"/>
+    <rect x="90" y="320" width="90" height="10" fill="#f59e0b" rx="5" ry="5"/>
+    
+    <!-- Offer -->
+    <text x="90" y="350" font-family="Arial" font-size="12" fill="#059669">Offer</text>
+    <text x="400" y="350" font-family="Arial" font-size="12" fill="#059669">15%</text>
+    <rect x="90" y="360" width="320" height="10" fill="#d1fae5" rx="5" ry="5"/>
+    <rect x="90" y="360" width="48" height="10" fill="#10b981" rx="5" ry="5"/>
+    
+    <!-- Rejected -->
+    <text x="90" y="390" font-family="Arial" font-size="12" fill="#dc2626">Rejected</text>
+    <text x="400" y="390" font-family="Arial" font-size="12" fill="#dc2626">15%</text>
+    <rect x="90" y="400" width="320" height="10" fill="#fee2e2" rx="5" ry="5"/>
+    <rect x="90" y="400" width="48" height="10" fill="#ef4444" rx="5" ry="5"/>
+  </g>
+  
+  <!-- Upcoming Interviews Section -->
+  <rect x="520" y="210" width="210" height="220" fill="#ffffff" rx="6" ry="6" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="540" y="240" font-family="Arial" font-size="18" font-weight="bold" fill="#1f2937">Upcoming Interviews</text>
+  
+  <!-- Interview Cards -->
+  <g>
+    <!-- Google -->
+    <rect x="540" y="260" width="170" height="50" fill="#eff6ff" rx="6" ry="6"/>
+    <text x="550" y="280" font-family="Arial" font-size="14" font-weight="bold" fill="#1f2937">Google</text>
+    <text x="550" y="300" font-family="Arial" font-size="12" fill="#6b7280">Software Engineer</text>
+    <rect x="660" y="270" width="40" height="20" fill="#dbeafe" rx="4" ry="4"/>
+    <text x="667" y="284" font-family="Arial" font-size="10" fill="#1e40af">Today</text>
+    
+    <!-- Microsoft -->
+    <rect x="540" y="320" width="170" height="50" fill="#eff6ff" rx="6" ry="6"/>
+    <text x="550" y="340" font-family="Arial" font-size="14" font-weight="bold" fill="#1f2937">Microsoft</text>
+    <text x="550" y="360" font-family="Arial" font-size="12" fill="#6b7280">Frontend Developer</text>
+    <rect x="650" y="330" width="50" height="20" fill="#dbeafe" rx="4" ry="4"/>
+    <text x="653" y="344" font-family="Arial" font-size="10" fill="#1e40af">Tomorrow</text>
+    
+    <!-- Amazon -->
+    <rect x="540" y="380" width="170" height="50" fill="#eff6ff" rx="6" ry="6"/>
+    <text x="550" y="400" font-family="Arial" font-size="14" font-weight="bold" fill="#1f2937">Amazon</text>
+    <text x="550" y="420" font-family="Arial" font-size="12" fill="#6b7280">Full Stack Developer</text>
+    <rect x="660" y="390" width="40" height="20" fill="#dbeafe" rx="4" ry="4"/>
+    <text x="663" y="404" font-family="Arial" font-size="10" fill="#1e40af">Mar 15</text>
+  </g>
+  
+  <!-- Applizz Logo Watermark -->
+  <text x="400" y="480" font-family="Arial" font-size="16" font-weight="bold" fill="#3b82f6" text-anchor="middle">Applizz Dashboard</text>
+</svg> 

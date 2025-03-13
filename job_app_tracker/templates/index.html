@@ -1,134 +1,684 @@
 {% extends "base.html" %} {% block title %}Welcome to JobJourney{% endblock %}
-{% block content %}
-<div class="page-enter">
-  <!-- Hero Section -->
-  <div class="text-center py-12 px-4 sm:px-6 lg:px-8">
-    <h1
-      class="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl"
-    >
-      <span class="block">Track Your Job Search</span>
-      <span class="block text-blue-600">With JobJourney</span>
-    </h1>
-    <p
-      class="mt-3 max-w-md mx-auto text-base text-gray-500 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl"
-    >
-      Stay organized with automatic job application tracking. Never miss an
-      update on your career journey.
-    </p>
-    <div class="mt-5 max-w-md mx-auto sm:flex sm:justify-center md:mt-8">
-      {% if not current_user.is_authenticated %}
-      <div class="rounded-md shadow">
-        <a
-          href="{{ url_for('auth.register') }}"
-          class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 md:py-4 md:text-lg md:px-10"
-        >
-          Get Started
-        </a>
-      </div>
-      <div class="mt-3 rounded-md shadow sm:mt-0 sm:ml-3">
-        <a
-          href="{{ url_for('auth.login') }}"
-          class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-blue-600 bg-white hover:bg-gray-50 md:py-4 md:text-lg md:px-10"
-        >
-          Sign In
-        </a>
-      </div>
-      {% else %}
-      <div class="rounded-md shadow">
-        <a
-          href="{{ url_for('main.dashboard') }}"
-          class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 md:py-4 md:text-lg md:px-10"
-        >
-          Go to Dashboard
-        </a>
-      </div>
-      {% endif %}
-    </div>
-  </div>
+{% block head %}
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css"
+/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+  .hero-gradient {
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  }
 
-  <!-- Feature Section -->
-  <div class="py-12 bg-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="lg:text-center">
-        <h2
-          class="text-base text-blue-600 font-semibold tracking-wide uppercase"
+  .feature-card {
+    transition: all 0.3s ease;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  }
+
+  .stat-card {
+    border-radius: 8px;
+    transition: all 0.3s ease;
+  }
+
+  .stat-card:hover {
+    transform: translateY(-5px);
+  }
+
+  .testimonial-card {
+    transition: all 0.3s ease;
+  }
+
+  .testimonial-card:hover {
+    transform: scale(1.03);
+  }
+
+  .cta-gradient {
+    background: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%);
+  }
+
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-20px);
+    }
+    100% {
+      transform: translateY(0px);
+    }
+  }
+
+  .chart-container {
+    position: relative;
+    height: 300px;
+    width: 100%;
+  }
+</style>
+{% endblock %} {% block content %}
+<!-- Hero Section with Animation -->
+<div class="hero-gradient text-white py-20 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-7xl mx-auto">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+      <div data-aos="fade-right" data-aos-duration="1000">
+        <h1
+          class="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight"
         >
-          Features
-        </h2>
-        <p
-          class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl"
-        >
-          Everything you need to track your applications
+          <span class="block">Simplify Your</span>
+          <span class="block text-yellow-300">Job Search Journey</span>
+        </h1>
+        <p class="mt-6 text-xl text-gray-100 max-w-3xl">
+          Applizz helps you track, organize, and optimize your job applications
+          with powerful automation and insightful analytics.
         </p>
+        <div class="mt-10 flex flex-col sm:flex-row gap-4">
+          {% if not current_user.is_authenticated %}
+          <a
+            href="{{ url_for('auth.register') }}"
+            class="px-8 py-3 rounded-md bg-white text-blue-600 font-medium text-lg shadow-lg hover:bg-gray-100 transition-all"
+          >
+            Get Started Free
+          </a>
+          <a
+            href="{{ url_for('auth.login') }}"
+            class="px-8 py-3 rounded-md border-2 border-white text-white font-medium text-lg hover:bg-white hover:text-blue-600 transition-all"
+          >
+            Sign In
+          </a>
+          {% else %}
+          <a
+            href="{{ url_for('main.dashboard') }}"
+            class="px-8 py-3 rounded-md bg-white text-blue-600 font-medium text-lg shadow-lg hover:bg-gray-100 transition-all"
+          >
+            Go to Dashboard
+          </a>
+          {% endif %}
+        </div>
       </div>
-
-      <div class="mt-10">
-        <div
-          class="space-y-10 md:space-y-0 md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-10"
-        >
-          <!-- Email Integration -->
-          <div class="relative">
-            <div
-              class="absolute flex items-center justify-center h-12 w-12 rounded-md bg-blue-500 text-white"
-            >
-              <i class="fas fa-envelope text-xl"></i>
-            </div>
-            <p class="ml-16 text-lg leading-6 font-medium text-gray-900">
-              Email Integration
-            </p>
-            <p class="mt-2 ml-16 text-base text-gray-500">
-              Automatically detect and track job applications from your email
-              inbox.
-            </p>
-          </div>
-
-          <!-- Status Tracking -->
-          <div class="relative">
-            <div
-              class="absolute flex items-center justify-center h-12 w-12 rounded-md bg-blue-500 text-white"
-            >
-              <i class="fas fa-tasks text-xl"></i>
-            </div>
-            <p class="ml-16 text-lg leading-6 font-medium text-gray-900">
-              Status Tracking
-            </p>
-            <p class="mt-2 ml-16 text-base text-gray-500">
-              Keep track of application statuses and updates in one place.
-            </p>
-          </div>
-
-          <!-- Dashboard -->
-          <div class="relative">
-            <div
-              class="absolute flex items-center justify-center h-12 w-12 rounded-md bg-blue-500 text-white"
-            >
-              <i class="fas fa-chart-bar text-xl"></i>
-            </div>
-            <p class="ml-16 text-lg leading-6 font-medium text-gray-900">
-              Visual Dashboard
-            </p>
-            <p class="mt-2 ml-16 text-base text-gray-500">
-              Get insights into your job search with an intuitive dashboard.
-            </p>
-          </div>
-
-          <!-- Manual Entry -->
-          <div class="relative">
-            <div
-              class="absolute flex items-center justify-center h-12 w-12 rounded-md bg-blue-500 text-white"
-            >
-              <i class="fas fa-edit text-xl"></i>
-            </div>
-            <p class="ml-16 text-lg leading-6 font-medium text-gray-900">
-              Manual Updates
-            </p>
-            <p class="mt-2 ml-16 text-base text-gray-500">
-              Easily add and update applications manually when needed.
-            </p>
+      <div
+        class="hidden md:block"
+        data-aos="fade-left"
+        data-aos-duration="1000"
+      >
+        <div class="relative">
+          <div
+            style="
+              position: relative;
+              width: 100%;
+              max-width: 500px;
+              margin: 0 auto;
+            "
+          >
+            <img
+              src="{{ url_for('static', filename='img/dashboard-preview.svg') }}"
+              alt="Dashboard Preview"
+              class="rounded-lg shadow-2xl max-w-full mx-auto"
+              onerror="this.src='https://placehold.co/600x400/3b82f6/FFFFFF?text=Applizz+Dashboard+Preview'"
+            />
           </div>
         </div>
       </div>
     </div>
   </div>
 </div>
+
+<!-- Stats Section -->
+<div class="py-16 bg-gray-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-12" data-aos="fade-up">
+      <h2 class="text-3xl font-extrabold text-gray-900">
+        Trusted by Job Seekers
+      </h2>
+      <p class="mt-4 text-xl text-gray-600">
+        Join thousands who have streamlined their job search process
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div
+        class="stat-card bg-white p-8 shadow-lg text-center"
+        data-aos="fade-up"
+        data-aos-delay="100"
+      >
+        <div class="text-4xl font-bold text-blue-600">87%</div>
+        <div class="mt-2 text-lg text-gray-600">Increase in interview rate</div>
+      </div>
+
+      <div
+        class="stat-card bg-white p-8 shadow-lg text-center"
+        data-aos="fade-up"
+        data-aos-delay="200"
+      >
+        <div class="text-4xl font-bold text-blue-600">10,000+</div>
+        <div class="mt-2 text-lg text-gray-600">Applications tracked</div>
+      </div>
+
+      <div
+        class="stat-card bg-white p-8 shadow-lg text-center"
+        data-aos="fade-up"
+        data-aos-delay="300"
+      >
+        <div class="text-4xl font-bold text-blue-600">5.2x</div>
+        <div class="mt-2 text-lg text-gray-600">Faster job search process</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- How It Works Section -->
+<div class="py-16 bg-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16" data-aos="fade-up">
+      <h2 class="text-base text-blue-600 font-semibold tracking-wide uppercase">
+        How It Works
+      </h2>
+      <p
+        class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl"
+      >
+        Simplify Your Job Search in 3 Steps
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+      <div class="text-center" data-aos="fade-up" data-aos-delay="100">
+        <div class="flex justify-center">
+          <div class="rounded-full bg-blue-100 p-4 text-blue-600">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-12 w-12"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+              />
+            </svg>
+          </div>
+        </div>
+        <h3 class="mt-6 text-xl font-medium text-gray-900">
+          Connect Your Email
+        </h3>
+        <p class="mt-2 text-base text-gray-600">
+          Link your email account to automatically detect job applications and
+          responses.
+        </p>
+      </div>
+
+      <div class="text-center" data-aos="fade-up" data-aos-delay="200">
+        <div class="flex justify-center">
+          <div class="rounded-full bg-blue-100 p-4 text-blue-600">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-12 w-12"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
+              />
+            </svg>
+          </div>
+        </div>
+        <h3 class="mt-6 text-xl font-medium text-gray-900">
+          Track Applications
+        </h3>
+        <p class="mt-2 text-base text-gray-600">
+          Monitor status changes, interview schedules, and follow-ups in one
+          place.
+        </p>
+      </div>
+
+      <div class="text-center" data-aos="fade-up" data-aos-delay="300">
+        <div class="flex justify-center">
+          <div class="rounded-full bg-blue-100 p-4 text-blue-600">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-12 w-12"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+              />
+            </svg>
+          </div>
+        </div>
+        <h3 class="mt-6 text-xl font-medium text-gray-900">
+          Analyze & Improve
+        </h3>
+        <p class="mt-2 text-base text-gray-600">
+          Get insights and analytics to optimize your job search strategy.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Features Section with Cards -->
+<div class="py-16 bg-gray-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16" data-aos="fade-up">
+      <h2 class="text-base text-blue-600 font-semibold tracking-wide uppercase">
+        Features
+      </h2>
+      <p
+        class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl"
+      >
+        Everything You Need to Land Your Dream Job
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <!-- Email Integration -->
+      <div
+        class="feature-card bg-white rounded-lg p-6 shadow-md"
+        data-aos="fade-up"
+        data-aos-delay="100"
+      >
+        <div
+          class="w-12 h-12 rounded-md bg-blue-100 flex items-center justify-center mb-4"
+        >
+          <i class="fas fa-envelope text-blue-600 text-xl"></i>
+        </div>
+        <h3 class="text-xl font-medium text-gray-900">
+          Smart Email Integration
+        </h3>
+        <p class="mt-2 text-gray-600">
+          Automatically detect job applications, interview invitations, and
+          rejections from your inbox. Never miss an important update again.
+        </p>
+      </div>
+
+      <!-- Application Dashboard -->
+      <div
+        class="feature-card bg-white rounded-lg p-6 shadow-md"
+        data-aos="fade-up"
+        data-aos-delay="150"
+      >
+        <div
+          class="w-12 h-12 rounded-md bg-blue-100 flex items-center justify-center mb-4"
+        >
+          <i class="fas fa-chart-bar text-blue-600 text-xl"></i>
+        </div>
+        <h3 class="text-xl font-medium text-gray-900">Visual Dashboard</h3>
+        <p class="mt-2 text-gray-600">
+          Get a comprehensive overview of your job search with intuitive charts
+          and metrics. Track application status, response rates, and more.
+        </p>
+      </div>
+
+      <!-- Status Tracking -->
+      <div
+        class="feature-card bg-white rounded-lg p-6 shadow-md"
+        data-aos="fade-up"
+        data-aos-delay="200"
+      >
+        <div
+          class="w-12 h-12 rounded-md bg-blue-100 flex items-center justify-center mb-4"
+        >
+          <i class="fas fa-tasks text-blue-600 text-xl"></i>
+        </div>
+        <h3 class="text-xl font-medium text-gray-900">
+          Advanced Status Tracking
+        </h3>
+        <p class="mt-2 text-gray-600">
+          Track every stage of your applications from applied to offer. Set
+          custom statuses and get notified when it's time to follow up.
+        </p>
+      </div>
+
+      <!-- Document Management -->
+      <div
+        class="feature-card bg-white rounded-lg p-6 shadow-md"
+        data-aos="fade-up"
+        data-aos-delay="250"
+      >
+        <div
+          class="w-12 h-12 rounded-md bg-blue-100 flex items-center justify-center mb-4"
+        >
+          <i class="fas fa-file-alt text-blue-600 text-xl"></i>
+        </div>
+        <h3 class="text-xl font-medium text-gray-900">Document Management</h3>
+        <p class="mt-2 text-gray-600">
+          Store resumes, cover letters, and other documents for each
+          application. Keep everything organized in one secure place.
+        </p>
+      </div>
+
+      <!-- Interview Scheduler -->
+      <div
+        class="feature-card bg-white rounded-lg p-6 shadow-md"
+        data-aos="fade-up"
+        data-aos-delay="300"
+      >
+        <div
+          class="w-12 h-12 rounded-md bg-blue-100 flex items-center justify-center mb-4"
+        >
+          <i class="fas fa-calendar-alt text-blue-600 text-xl"></i>
+        </div>
+        <h3 class="text-xl font-medium text-gray-900">Interview Scheduler</h3>
+        <p class="mt-2 text-gray-600">
+          Keep track of upcoming interviews, prepare with built-in reminders,
+          and record feedback after each session.
+        </p>
+      </div>
+
+      <!-- Analytics -->
+      <div
+        class="feature-card bg-white rounded-lg p-6 shadow-md"
+        data-aos="fade-up"
+        data-aos-delay="350"
+      >
+        <div
+          class="w-12 h-12 rounded-md bg-blue-100 flex items-center justify-center mb-4"
+        >
+          <i class="fas fa-chart-line text-blue-600 text-xl"></i>
+        </div>
+        <h3 class="text-xl font-medium text-gray-900">Powerful Analytics</h3>
+        <p class="mt-2 text-gray-600">
+          Gain insights into your job search with detailed analytics. Identify
+          which job sources, resume versions, and strategies work best.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Analytics Section with Charts -->
+<div class="py-16 bg-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16" data-aos="fade-up">
+      <h2 class="text-base text-blue-600 font-semibold tracking-wide uppercase">
+        Analytics
+      </h2>
+      <p
+        class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl"
+      >
+        Data-Driven Job Search
+      </p>
+      <p class="mt-4 max-w-2xl text-xl text-gray-500 mx-auto">
+        Visualize your progress and optimize your strategy with powerful
+        analytics
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+      <div data-aos="fade-right">
+        <h3 class="text-2xl font-bold text-gray-900 mb-6">
+          Application Status Breakdown
+        </h3>
+        <div class="chart-container bg-white p-4 rounded-lg shadow-lg">
+          <canvas id="statusChart"></canvas>
+        </div>
+      </div>
+
+      <div data-aos="fade-left">
+        <h3 class="text-2xl font-bold text-gray-900 mb-6">
+          Application Timeline
+        </h3>
+        <div class="chart-container bg-white p-4 rounded-lg shadow-lg">
+          <canvas id="timelineChart"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Testimonials -->
+<div class="py-16 bg-gray-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16" data-aos="fade-up">
+      <h2 class="text-base text-blue-600 font-semibold tracking-wide uppercase">
+        Testimonials
+      </h2>
+      <p
+        class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl"
+      >
+        What Our Users Say
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div
+        class="testimonial-card bg-white p-6 rounded-lg shadow-md"
+        data-aos="fade-up"
+        data-aos-delay="100"
+      >
+        <div class="flex items-center mb-4">
+          <div
+            class="h-12 w-12 rounded-full bg-blue-100 flex items-center justify-center"
+          >
+            <span class="text-blue-600 font-bold">MG</span>
+          </div>
+          <div class="ml-4">
+            <h4 class="text-lg font-medium text-gray-900">Monica G.</h4>
+            <p class="text-gray-600">UX Designer @ Spotify</p>
+          </div>
+        </div>
+        <p class="text-gray-600">
+          "After three months of disorganized job hunting, I found Applizz and
+          it changed everything. I was juggling 42 applications across different
+          sites and losing track. The email integration saved me hours of data
+          entry, and the status tracking helped me prioritize follow-ups. Landed
+          my dream job at Spotify within 6 weeks!"
+        </p>
+        <div class="mt-4 flex text-yellow-400">
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+        </div>
+      </div>
+
+      <div
+        class="testimonial-card bg-white p-6 rounded-lg shadow-md"
+        data-aos="fade-up"
+        data-aos-delay="200"
+      >
+        <div class="flex items-center mb-4">
+          <div
+            class="h-12 w-12 rounded-full bg-blue-100 flex items-center justify-center"
+          >
+            <span class="text-blue-600 font-bold">RK</span>
+          </div>
+          <div class="ml-4">
+            <h4 class="text-lg font-medium text-gray-900">Ryan K.</h4>
+            <p class="text-gray-600">Software Engineer @ Stripe</p>
+          </div>
+        </div>
+        <p class="text-gray-600">
+          "I was applying to 5-10 jobs daily and my inbox was a mess. Applizz
+          automatically detected interview invites I almost missed! The
+          analytics showed me which job boards were actually working for my
+          skills. The document feature let me store different versions of my
+          resume for different roles. Worth every penny."
+        </p>
+        <div class="mt-4 flex text-yellow-400">
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+        </div>
+      </div>
+
+      <div
+        class="testimonial-card bg-white p-6 rounded-lg shadow-md"
+        data-aos="fade-up"
+        data-aos-delay="300"
+      >
+        <div class="flex items-center mb-4">
+          <div
+            class="h-12 w-12 rounded-full bg-blue-100 flex items-center justify-center"
+          >
+            <span class="text-blue-600 font-bold">AJ</span>
+          </div>
+          <div class="ml-4">
+            <h4 class="text-lg font-medium text-gray-900">Aisha J.</h4>
+            <p class="text-gray-600">Data Scientist @ Airbnb</p>
+          </div>
+        </div>
+        <p class="text-gray-600">
+          "During my career transition, I applied to 127 positions over 4
+          months. Applizz was my lifeline! The interview scheduler synced with
+          my Google Calendar and sent me prep reminders. I could add notes after
+          each interview while details were fresh. The status breakdown chart
+          helped me explain my job search progress to my career coach. Couldn't
+          have stayed sane without it!"
+        </p>
+        <div class="mt-4 flex text-yellow-400">
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CTA Section -->
+<div class="cta-gradient py-16 text-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <h2
+      class="text-3xl font-extrabold tracking-tight sm:text-4xl"
+      data-aos="fade-up"
+    >
+      Ready to Transform Your Job Search?
+    </h2>
+    <p class="mt-4 text-xl" data-aos="fade-up" data-aos-delay="100">
+      Join thousands of job seekers who have streamlined their application
+      process with Applizz.
+    </p>
+    <div class="mt-8" data-aos="fade-up" data-aos-delay="200">
+      {% if not current_user.is_authenticated %}
+      <a
+        href="{{ url_for('auth.register') }}"
+        class="inline-block px-8 py-3 rounded-md bg-white text-blue-600 font-medium text-lg shadow-lg hover:bg-gray-100 transition-all"
+      >
+        Get Started Free
+      </a>
+      {% else %}
+      <a
+        href="{{ url_for('main.dashboard') }}"
+        class="inline-block px-8 py-3 rounded-md bg-white text-blue-600 font-medium text-lg shadow-lg hover:bg-gray-100 transition-all"
+      >
+        Go to Dashboard
+      </a>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+<!-- Initialize AOS and Charts -->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Initialize AOS
+    AOS.init({
+      once: true,
+      duration: 800,
+    });
+
+    // Status Chart
+    const statusCtx = document.getElementById("statusChart").getContext("2d");
+    const statusChart = new Chart(statusCtx, {
+      type: "doughnut",
+      data: {
+        labels: ["Applied", "Interview", "Offer", "Rejected", "No Response"],
+        datasets: [
+          {
+            data: [45, 20, 5, 15, 15],
+            backgroundColor: [
+              "#3b82f6", // blue
+              "#f59e0b", // amber
+              "#10b981", // green
+              "#ef4444", // red
+              "#9ca3af", // gray
+            ],
+            borderWidth: 0,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: "bottom",
+          },
+        },
+      },
+    });
+
+    // Timeline Chart
+    const timelineCtx = document
+      .getElementById("timelineChart")
+      .getContext("2d");
+    const timelineChart = new Chart(timelineCtx, {
+      type: "line",
+      data: {
+        labels: [
+          "Week 1",
+          "Week 2",
+          "Week 3",
+          "Week 4",
+          "Week 5",
+          "Week 6",
+          "Week 7",
+          "Week 8",
+        ],
+        datasets: [
+          {
+            label: "Applications",
+            data: [5, 12, 18, 25, 20, 15, 10, 8],
+            borderColor: "#3b82f6",
+            backgroundColor: "rgba(59, 130, 246, 0.1)",
+            fill: true,
+            tension: 0.4,
+          },
+          {
+            label: "Interviews",
+            data: [0, 2, 5, 8, 10, 7, 6, 4],
+            borderColor: "#f59e0b",
+            backgroundColor: "rgba(245, 158, 11, 0.1)",
+            fill: true,
+            tension: 0.4,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          y: {
+            beginAtZero: true,
+          },
+        },
+      },
+    });
+  });
+</script>
 {% endblock %}

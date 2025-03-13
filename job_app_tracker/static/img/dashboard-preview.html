@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Applizz Dashboard Preview</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            background-color: #f5f5f5;
+        }
+        .dashboard-card {
+            transition: all 0.3s ease;
+        }
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="max-w-6xl mx-auto p-4">
+        <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+            <div class="flex items-center justify-between mb-6">
+                <h1 class="text-2xl font-bold text-gray-800">Welcome back, Alex!</h1>
+                <div class="text-sm text-gray-500">Last updated: Today at 9:45 AM</div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+                <div class="bg-blue-50 rounded-lg p-4 shadow">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm text-gray-500">Total Applications</p>
+                            <p class="text-2xl font-bold text-gray-800">42</p>
+                        </div>
+                        <div class="bg-blue-100 p-3 rounded-full">
+                            <i class="fas fa-file-alt text-blue-500"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-green-50 rounded-lg p-4 shadow">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm text-gray-500">Interviews</p>
+                            <p class="text-2xl font-bold text-gray-800">8</p>
+                        </div>
+                        <div class="bg-green-100 p-3 rounded-full">
+                            <i class="fas fa-user-tie text-green-500"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-yellow-50 rounded-lg p-4 shadow">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm text-gray-500">Offers</p>
+                            <p class="text-2xl font-bold text-gray-800">2</p>
+                        </div>
+                        <div class="bg-yellow-100 p-3 rounded-full">
+                            <i class="fas fa-trophy text-yellow-500"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-purple-50 rounded-lg p-4 shadow">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm text-gray-500">Response Rate</p>
+                            <p class="text-2xl font-bold text-gray-800">24%</p>
+                        </div>
+                        <div class="bg-purple-100 p-3 rounded-full">
+                            <i class="fas fa-chart-line text-purple-500"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="col-span-2">
+                    <div class="bg-white border border-gray-200 rounded-lg shadow-sm p-4">
+                        <h2 class="text-lg font-semibold text-gray-800 mb-4">Application Status</h2>
+                        <div class="h-64 flex items-center justify-center">
+                            <div class="w-full max-w-md">
+                                <div class="relative pt-1">
+                                    <div class="flex mb-2 items-center justify-between">
+                                        <div>
+                                            <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-blue-600 bg-blue-200">
+                                                Applied
+                                            </span>
+                                        </div>
+                                        <div class="text-right">
+                                            <span class="text-xs font-semibold inline-block text-blue-600">
+                                                42%
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-blue-200">
+                                        <div style="width: 42%" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-blue-500"></div>
+                                    </div>
+                                </div>
+                                
+                                <div class="relative pt-1">
+                                    <div class="flex mb-2 items-center justify-between">
+                                        <div>
+                                            <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-yellow-600 bg-yellow-200">
+                                                Interview
+                                            </span>
+                                        </div>
+                                        <div class="text-right">
+                                            <span class="text-xs font-semibold inline-block text-yellow-600">
+                                                28%
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-yellow-200">
+                                        <div style="width: 28%" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-yellow-500"></div>
+                                    </div>
+                                </div>
+                                
+                                <div class="relative pt-1">
+                                    <div class="flex mb-2 items-center justify-between">
+                                        <div>
+                                            <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-green-600 bg-green-200">
+                                                Offer
+                                            </span>
+                                        </div>
+                                        <div class="text-right">
+                                            <span class="text-xs font-semibold inline-block text-green-600">
+                                                15%
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-green-200">
+                                        <div style="width: 15%" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-green-500"></div>
+                                    </div>
+                                </div>
+                                
+                                <div class="relative pt-1">
+                                    <div class="flex mb-2 items-center justify-between">
+                                        <div>
+                                            <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-red-600 bg-red-200">
+                                                Rejected
+                                            </span>
+                                        </div>
+                                        <div class="text-right">
+                                            <span class="text-xs font-semibold inline-block text-red-600">
+                                                15%
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-red-200">
+                                        <div style="width: 15%" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-red-500"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div>
+                    <div class="bg-white border border-gray-200 rounded-lg shadow-sm p-4">
+                        <h2 class="text-lg font-semibold text-gray-800 mb-4">Upcoming Interviews</h2>
+                        <div class="space-y-3">
+                            <div class="p-3 bg-blue-50 rounded-lg">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <h3 class="font-medium text-gray-800">Google</h3>
+                                        <p class="text-sm text-gray-600">Software Engineer</p>
+                                    </div>
+                                    <span class="text-xs font-medium bg-blue-100 text-blue-800 px-2 py-1 rounded">Today</span>
+                                </div>
+                                <p class="text-xs text-gray-500 mt-1">2:00 PM - Technical Interview</p>
+                            </div>
+                            
+                            <div class="p-3 bg-blue-50 rounded-lg">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <h3 class="font-medium text-gray-800">Microsoft</h3>
+                                        <p class="text-sm text-gray-600">Frontend Developer</p>
+                                    </div>
+                                    <span class="text-xs font-medium bg-blue-100 text-blue-800 px-2 py-1 rounded">Tomorrow</span>
+                                </div>
+                                <p class="text-xs text-gray-500 mt-1">11:00 AM - First Round</p>
+                            </div>
+                            
+                            <div class="p-3 bg-blue-50 rounded-lg">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <h3 class="font-medium text-gray-800">Amazon</h3>
+                                        <p class="text-sm text-gray-600">Full Stack Developer</p>
+                                    </div>
+                                    <span class="text-xs font-medium bg-blue-100 text-blue-800 px-2 py-1 rounded">Mar 15</span>
+                                </div>
+                                <p class="text-xs text-gray-500 mt-1">3:30 PM - System Design</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 
