@@ -2,8 +2,18 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
     <title>{% block title %}Applizz{% endblock %}</title>
+
+    <!-- Prevent flash of wrong theme -->
+    <style>
+      body {
+        visibility: hidden;
+      }
+    </style>
 
     <!-- Favicon -->
     <link
@@ -67,13 +77,17 @@
       rel="stylesheet"
       href="{{ url_for('static', filename='css/main.css') }}"
     />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/dark-mode.css') }}"
+    />
 
     {% block head %}{% endblock %} {% block extra_css %}{% endblock %}
   </head>
   <body class="bg-gray-50 min-h-screen flex flex-col">
     <!-- Navigation -->
     <nav class="bg-white shadow-lg">
-      <div class="max-w-7xl mx-auto px-4">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
           <div class="flex">
             <div class="flex-shrink-0 flex items-center">
@@ -82,7 +96,7 @@
                 class="text-xl font-bold text-gray-800 flex items-center"
               >
                 <svg
-                  class="h-9 w-9 text-blue-600 mr-2"
+                  class="h-8 w-8 sm:h-9 sm:w-9 text-blue-600 mr-2"
                   viewBox="0 0 512 512"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
@@ -98,7 +112,7 @@
           </div>
 
           {% if current_user.is_authenticated %}
-          <div class="flex items-center">
+          <div class="hidden sm:flex items-center">
             <a
               href="{{ url_for('main.dashboard') }}"
               class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-100"
@@ -140,6 +154,41 @@
                 Sign out
               </a>
             </div>
+            <!-- Theme Toggle Switch -->
+            <div class="theme-switch-wrapper ml-4">
+              <label class="theme-switch" for="theme-toggle">
+                <input type="checkbox" id="theme-toggle" class="theme-toggle" />
+                <span class="theme-slider"></span>
+              </label>
+              <span class="dark-mode-icon ml-2">
+                <i class="fas fa-moon"></i>
+              </span>
+            </div>
+          </div>
+
+          <!-- Mobile menu button -->
+          <div class="flex items-center sm:hidden">
+            <!-- Theme Toggle Switch (Mobile) -->
+            <div class="theme-switch-wrapper mr-3">
+              <label class="theme-switch" for="theme-toggle-mobile">
+                <input
+                  type="checkbox"
+                  id="theme-toggle-mobile"
+                  class="theme-toggle"
+                />
+                <span class="theme-slider"></span>
+              </label>
+            </div>
+
+            <button
+              type="button"
+              class="mobile-menu-button inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500"
+              aria-controls="mobile-menu"
+              aria-expanded="false"
+            >
+              <span class="sr-only">Open main menu</span>
+              <i class="fas fa-bars"></i>
+            </button>
           </div>
           {% else %}
           <div class="flex items-center">
@@ -158,10 +207,66 @@
               class="ml-4 px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-100"
               >FAQ</a
             >
+            <!-- Theme Toggle Switch -->
+            <div class="theme-switch-wrapper ml-4">
+              <label class="theme-switch" for="theme-toggle">
+                <input type="checkbox" id="theme-toggle" class="theme-toggle" />
+                <span class="theme-slider"></span>
+              </label>
+              <span class="dark-mode-icon ml-2">
+                <i class="fas fa-moon"></i>
+              </span>
+            </div>
           </div>
           {% endif %}
         </div>
       </div>
+
+      <!-- Mobile menu, show/hide based on menu state -->
+      {% if current_user.is_authenticated %}
+      <div class="sm:hidden hidden" id="mobile-menu">
+        <div class="px-2 pt-2 pb-3 space-y-1">
+          <a
+            href="{{ url_for('main.dashboard') }}"
+            class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-100"
+            >Dashboard</a
+          >
+          {% if current_user.email_connected %}
+          <a
+            href="{{ url_for('main.email_suggestions') }}"
+            class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-100 relative"
+          >
+            Email Suggestions {% if current_user.has_suggestions %}
+            <span class="inline-flex ml-2 h-2 w-2">
+              <span
+                class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"
+              ></span>
+              <span
+                class="relative inline-flex rounded-full h-2 w-2 bg-red-500"
+              ></span>
+            </span>
+            {% endif %}
+          </a>
+          {% endif %}
+          <a
+            href="{{ url_for('main.settings') }}"
+            class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-100"
+            >Settings</a
+          >
+          <a
+            href="{{ url_for('main.faq') }}"
+            class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-100"
+            >FAQ</a
+          >
+          <a
+            href="{{ url_for('auth.logout') }}"
+            class="block px-3 py-2 rounded-md text-base font-medium text-red-600 hover:text-red-800 hover:bg-red-50"
+          >
+            <i class="fas fa-sign-out-alt mr-2"></i> Sign out
+          </a>
+        </div>
+      </div>
+      {% endif %}
     </nav>
 
     <!-- Flash Messages -->
@@ -204,9 +309,9 @@
 
     <!-- Footer -->
     <footer class="bg-white shadow-inner mt-auto">
-      <div class="max-w-7xl mx-auto py-4 px-4">
-        <div class="flex justify-between items-center">
-          <div class="text-gray-500 text-sm flex items-center">
+      <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col sm:flex-row justify-between items-center">
+          <div class="text-gray-500 text-sm flex items-center mb-4 sm:mb-0">
             <svg
               class="h-5 w-5 text-blue-600 mr-1"
               viewBox="0 0 512 512"
@@ -245,6 +350,8 @@
     </footer>
 
     <!-- JavaScript -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/theme-switcher.js') }}"></script>
     <script>
       // Close flash messages
       document.querySelectorAll(".close-flash").forEach((button) => {
@@ -252,6 +359,34 @@
           this.closest(".rounded-md").remove();
         });
       });
+
+      // Mobile menu toggle
+      const mobileMenuButton = document.querySelector(".mobile-menu-button");
+      const mobileMenu = document.getElementById("mobile-menu");
+
+      if (mobileMenuButton && mobileMenu) {
+        mobileMenuButton.addEventListener("click", function () {
+          mobileMenu.classList.toggle("hidden");
+          const expanded = mobileMenu.classList.contains("hidden")
+            ? "false"
+            : "true";
+          mobileMenuButton.setAttribute("aria-expanded", expanded);
+        });
+      }
+
+      // Sync mobile and desktop theme toggles
+      const desktopToggle = document.getElementById("theme-toggle");
+      const mobileToggle = document.getElementById("theme-toggle-mobile");
+
+      if (desktopToggle && mobileToggle) {
+        desktopToggle.addEventListener("change", function () {
+          mobileToggle.checked = this.checked;
+        });
+
+        mobileToggle.addEventListener("change", function () {
+          desktopToggle.checked = this.checked;
+        });
+      }
     </script>
     {% block extra_js %}{% endblock %}
   </body>
