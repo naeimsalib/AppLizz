@@ -211,10 +211,10 @@
                     </div>
                   </div>
                   <a
-                    href="{{ url_for('main.edit_application', application_id=app._id) }}"
+                    href="{{ url_for('main.application_interviews', application_id=app._id) }}"
                     class="text-blue-600 hover:text-blue-900"
                   >
-                    <i class="fas fa-edit"></i> Edit
+                    <i class="fas fa-calendar-alt"></i> View Interviews
                   </a>
                 </div>
               </li>
@@ -497,20 +497,47 @@
                     <td
                       class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
                     >
-                      <a
-                        href="{{ url_for('main.edit_application', application_id=application._id) }}"
-                        class="text-blue-600 hover:text-blue-900 mr-3"
-                      >
-                        <i class="fas fa-edit"></i> Edit
-                      </a>
-                      <a
-                        href="#"
-                        class="text-red-600 hover:text-red-900 delete-app"
-                        data-id="{{ application._id }}"
-                        data-company="{{ application.company }}"
-                      >
-                        <i class="fas fa-trash"></i> Delete
-                      </a>
+                      <div class="flex flex-col space-y-2 items-end">
+                        <div>
+                          <a
+                            href="{{ url_for('main.edit_application', application_id=application._id) }}"
+                            class="text-blue-600 hover:text-blue-900 mr-3"
+                          >
+                            <i class="fas fa-edit"></i> Edit
+                          </a>
+                          <a
+                            href="#"
+                            class="text-red-600 hover:text-red-900 delete-app"
+                            data-id="{{ application._id }}"
+                            data-company="{{ application.company }}"
+                          >
+                            <i class="fas fa-trash"></i> Delete
+                          </a>
+                        </div>
+                        <div class="flex space-x-2">
+                          <a
+                            href="{{ url_for('main.application_notes', application_id=application._id) }}"
+                            class="text-gray-600 hover:text-gray-900 text-xs"
+                            title="Notes"
+                          >
+                            <i class="fas fa-sticky-note"></i>
+                          </a>
+                          <a
+                            href="{{ url_for('main.application_documents', application_id=application._id) }}"
+                            class="text-gray-600 hover:text-gray-900 text-xs"
+                            title="Documents"
+                          >
+                            <i class="fas fa-file"></i>
+                          </a>
+                          <a
+                            href="{{ url_for('main.application_interviews', application_id=application._id) }}"
+                            class="text-gray-600 hover:text-gray-900 text-xs"
+                            title="Interviews"
+                          >
+                            <i class="fas fa-calendar-alt"></i>
+                          </a>
+                        </div>
+                      </div>
                     </td>
                   </tr>
                   {% endfor %}
