@@ -1,0 +1,583 @@
+{% extends "base.html" %} {% block title %}Documents for {{ application.company
+}} - Applizz{% endblock %} {% block head %}
+<style>
+  .document-card {
+    transition: all 0.2s ease-in-out;
+  }
+
+  .document-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+      0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  }
+
+  .document-actions {
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+  }
+
+  .document-card:hover .document-actions {
+    opacity: 1;
+  }
+
+  .file-upload-area {
+    border: 2px dashed #e5e7eb;
+    border-radius: 0.5rem;
+    padding: 2rem;
+    text-align: center;
+    transition: all 0.2s ease-in-out;
+  }
+
+  .file-upload-area:hover {
+    border-color: #93c5fd;
+    background-color: #f0f9ff;
+  }
+
+  .file-upload-area.dragover {
+    border-color: #3b82f6;
+    background-color: #eff6ff;
+  }
+</style>
+{% endblock %} {% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <div
+    class="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between"
+  >
+    <div>
+      <h1 class="text-2xl font-bold text-gray-900">
+        Documents for {{ application.company }}
+      </h1>
+      <p class="mt-1 text-sm text-gray-500">{{ application.position }}</p>
+    </div>
+    <div class="mt-4 sm:mt-0">
+      <a
+        href="{{ url_for('main.dashboard') }}"
+        class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+      >
+        <i class="fas fa-arrow-left mr-2"></i>
+        Back to Dashboard
+      </a>
+    </div>
+  </div>
+
+  <!-- Application Details Card -->
+  <div class="bg-white shadow overflow-hidden sm:rounded-lg mb-6">
+    <div class="px-4 py-5 sm:px-6 flex justify-between items-center">
+      <div>
+        <h3 class="text-lg leading-6 font-medium text-gray-900">
+          Application Details
+        </h3>
+        <p class="mt-1 max-w-2xl text-sm text-gray-500">
+          Basic information about your application
+        </p>
+      </div>
+      <div class="flex space-x-2">
+        <a
+          href="{{ url_for('main.edit_application', application_id=application.id) }}"
+          class="inline-flex items-center px-3 py-1.5 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+        >
+          <i class="fas fa-edit mr-1"></i>
+          Edit
+        </a>
+        <a
+          href="{{ url_for('main.application_notes', application_id=application.id) }}"
+          class="inline-flex items-center px-3 py-1.5 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+        >
+          <i class="fas fa-sticky-note mr-1"></i>
+          Notes
+        </a>
+        <a
+          href="{{ url_for('main.application_interviews', application_id=application.id) }}"
+          class="inline-flex items-center px-3 py-1.5 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+        >
+          <i class="fas fa-calendar-alt mr-1"></i>
+          Interviews
+        </a>
+      </div>
+    </div>
+    <div class="border-t border-gray-200">
+      <dl>
+        <div
+          class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
+        >
+          <dt class="text-sm font-medium text-gray-500">Company</dt>
+          <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+            {{ application.company }}
+          </dd>
+        </div>
+        <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+          <dt class="text-sm font-medium text-gray-500">Position</dt>
+          <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+            {{ application.position }}
+          </dd>
+        </div>
+        <div
+          class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
+        >
+          <dt class="text-sm font-medium text-gray-500">Status</dt>
+          <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+            <span
+              class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {% if application.status == 'Applied' %} bg-blue-100 text-blue-800 {% elif application.status == 'Interview' %} bg-yellow-100 text-yellow-800 {% elif application.status == 'Offer' %} bg-green-100 text-green-800 {% elif application.status == 'Rejected' %} bg-red-100 text-red-800 {% else %} bg-gray-100 text-gray-800 {% endif %}"
+            >
+              {{ application.status }}
+            </span>
+          </dd>
+        </div>
+      </dl>
+    </div>
+  </div>
+
+  <!-- Upload Document Form -->
+  <div class="bg-white shadow sm:rounded-lg mb-6">
+    <div class="px-4 py-5 sm:p-6">
+      <h3 class="text-lg leading-6 font-medium text-gray-900">
+        Upload Document
+      </h3>
+      <div class="mt-2 max-w-xl text-sm text-gray-500">
+        <p>
+          Upload resumes, cover letters, or any other documents related to this
+          application.
+        </p>
+      </div>
+      <form
+        action="{{ url_for('main.application_documents', application_id=application.id) }}"
+        method="POST"
+        enctype="multipart/form-data"
+        class="mt-5"
+        id="upload-form"
+      >
+        <div class="file-upload-area" id="drop-area">
+          <input type="file" id="document" name="document" class="hidden" />
+          <div class="text-center">
+            <svg
+              class="mx-auto h-12 w-12 text-gray-400"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+              />
+            </svg>
+            <p class="mt-1 text-sm text-gray-500">
+              <button
+                type="button"
+                id="select-file-btn"
+                class="font-medium text-blue-600 hover:text-blue-500"
+              >
+                Click to upload
+              </button>
+              or drag and drop
+            </p>
+            <p class="text-xs text-gray-500">
+              PDF, DOCX, TXT, PNG, JPG up to 10MB
+            </p>
+          </div>
+          <div id="file-info" class="mt-4 hidden">
+            <div class="flex items-center justify-center">
+              <div class="flex items-center">
+                <i class="fas fa-file-alt text-blue-500 mr-2"></i>
+                <span id="file-name" class="text-sm text-gray-700"></span>
+              </div>
+              <button
+                type="button"
+                id="remove-file-btn"
+                class="ml-2 text-sm text-red-500 hover:text-red-700"
+              >
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="mt-3">
+          <button
+            type="submit"
+            id="upload-btn"
+            class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+            disabled
+          >
+            <i class="fas fa-upload mr-2"></i>
+            Upload Document
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Documents List -->
+  <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+    <div class="px-4 py-5 sm:px-6">
+      <h3 class="text-lg leading-6 font-medium text-gray-900">Documents</h3>
+      <p class="mt-1 max-w-2xl text-sm text-gray-500">
+        All documents related to this application
+      </p>
+    </div>
+
+    <div class="border-t border-gray-200 px-4 py-5 sm:p-6">
+      {% if application.documents %}
+      <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {% for document in application.documents %}
+        <div
+          class="document-card bg-white border rounded-lg shadow-sm overflow-hidden"
+        >
+          <div class="p-4">
+            <div class="flex justify-between items-start">
+              <div class="flex items-center">
+                {% if document.file_type and 'pdf' in document.file_type %}
+                <i class="fas fa-file-pdf text-red-500 text-2xl mr-3"></i>
+                {% elif document.file_type and 'word' in document.file_type %}
+                <i class="fas fa-file-word text-blue-500 text-2xl mr-3"></i>
+                {% elif document.file_type and 'image' in document.file_type %}
+                <i class="fas fa-file-image text-green-500 text-2xl mr-3"></i>
+                {% else %}
+                <i class="fas fa-file-alt text-gray-500 text-2xl mr-3"></i>
+                {% endif %}
+                <div>
+                  <h4
+                    class="text-sm font-medium text-gray-900 truncate"
+                    title="{{ document.name }}"
+                  >
+                    {{ document.name }}
+                  </h4>
+                  <p class="text-xs text-gray-500">
+                    {{ (document.size / 1024)|round(1) }} KB
+                    <span class="mx-1">•</span>
+                    {{ document.uploaded_at.strftime('%b %d, %Y') if
+                    document.uploaded_at else '' }}
+                  </p>
+                </div>
+              </div>
+              <div class="document-actions">
+                <button
+                  type="button"
+                  onclick="deleteDocument('{{ document.id }}')"
+                  class="text-gray-400 hover:text-red-500 focus:outline-none"
+                >
+                  <i class="fas fa-trash-alt"></i>
+                </button>
+              </div>
+            </div>
+            <div class="mt-4 flex justify-center">
+              <a
+                href="{{ document.file_path }}"
+                target="_blank"
+                class="inline-flex items-center px-3 py-1.5 border border-gray-300 rounded-md shadow-sm text-xs font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              >
+                <i class="fas fa-external-link-alt mr-1"></i>
+                View Document
+              </a>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      {% else %}
+      <div class="text-center py-8">
+        <svg
+          class="mx-auto h-12 w-12 text-gray-400"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+          />
+        </svg>
+        <h3 class="mt-2 text-sm font-medium text-gray-900">No documents</h3>
+        <p class="mt-1 text-sm text-gray-500">
+          Get started by uploading a document above.
+        </p>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div
+  id="delete-modal"
+  class="fixed z-10 inset-0 overflow-y-auto hidden"
+  aria-labelledby="modal-title"
+  role="dialog"
+  aria-modal="true"
+>
+  <div
+    class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"
+  >
+    <div
+      class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
+      aria-hidden="true"
+    ></div>
+    <span
+      class="hidden sm:inline-block sm:align-middle sm:h-screen"
+      aria-hidden="true"
+      >&#8203;</span
+    >
+    <div
+      class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
+    >
+      <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+        <div class="sm:flex sm:items-start">
+          <div
+            class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10"
+          >
+            <svg
+              class="h-6 w-6 text-red-600"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+              />
+            </svg>
+          </div>
+          <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+            <h3
+              class="text-lg leading-6 font-medium text-gray-900"
+              id="modal-title"
+            >
+              Delete Document
+            </h3>
+            <div class="mt-2">
+              <p class="text-sm text-gray-500">
+                Are you sure you want to delete this document? This action
+                cannot be undone.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+        <button
+          type="button"
+          id="confirm-delete"
+          class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
+        >
+          Delete
+        </button>
+        <button
+          type="button"
+          onclick="closeDeleteModal()"
+          class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+        >
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% block extra_js %}
+<script>
+  let currentDocumentId = null;
+
+  // File upload handling
+  const dropArea = document.getElementById("drop-area");
+  const fileInput = document.getElementById("document");
+  const selectFileBtn = document.getElementById("select-file-btn");
+  const removeFileBtn = document.getElementById("remove-file-btn");
+  const fileInfo = document.getElementById("file-info");
+  const fileName = document.getElementById("file-name");
+  const uploadBtn = document.getElementById("upload-btn");
+  const uploadForm = document.getElementById("upload-form");
+
+  // Open file dialog when clicking the select button
+  selectFileBtn.addEventListener("click", () => {
+    fileInput.click();
+  });
+
+  // Handle file selection
+  fileInput.addEventListener("change", () => {
+    if (fileInput.files.length > 0) {
+      showFileInfo(fileInput.files[0]);
+    }
+  });
+
+  // Remove selected file
+  removeFileBtn.addEventListener("click", () => {
+    fileInput.value = "";
+    fileInfo.classList.add("hidden");
+    uploadBtn.disabled = true;
+  });
+
+  // Show file info
+  function showFileInfo(file) {
+    fileName.textContent = file.name;
+    fileInfo.classList.remove("hidden");
+    uploadBtn.disabled = false;
+  }
+
+  // Drag and drop handling
+  ["dragenter", "dragover", "dragleave", "drop"].forEach((eventName) => {
+    dropArea.addEventListener(eventName, preventDefaults, false);
+  });
+
+  function preventDefaults(e) {
+    e.preventDefault();
+    e.stopPropagation();
+  }
+
+  ["dragenter", "dragover"].forEach((eventName) => {
+    dropArea.addEventListener(eventName, highlight, false);
+  });
+
+  ["dragleave", "drop"].forEach((eventName) => {
+    dropArea.addEventListener(eventName, unhighlight, false);
+  });
+
+  function highlight() {
+    dropArea.classList.add("dragover");
+  }
+
+  function unhighlight() {
+    dropArea.classList.remove("dragover");
+  }
+
+  dropArea.addEventListener("drop", handleDrop, false);
+
+  function handleDrop(e) {
+    const dt = e.dataTransfer;
+    const files = dt.files;
+
+    if (files.length > 0) {
+      fileInput.files = files;
+      showFileInfo(files[0]);
+    }
+  }
+
+  // Form submission
+  uploadForm.addEventListener("submit", function (e) {
+    if (fileInput.files.length === 0) {
+      e.preventDefault();
+      NotificationManager.showNotification(
+        "Please select a file to upload",
+        "error"
+      );
+      return;
+    }
+
+    // Show loading state
+    LoadingManager.setButtonLoading(uploadBtn, true);
+  });
+
+  // Delete document
+  function deleteDocument(documentId) {
+    currentDocumentId = documentId;
+    document.getElementById("delete-modal").classList.remove("hidden");
+  }
+
+  // Close delete modal
+  function closeDeleteModal() {
+    document.getElementById("delete-modal").classList.add("hidden");
+    currentDocumentId = null;
+  }
+
+  // Confirm delete
+  document
+    .getElementById("confirm-delete")
+    .addEventListener("click", function () {
+      if (!currentDocumentId) return;
+
+      // Show loading state
+      LoadingManager.setButtonLoading(this, true);
+
+      // Send AJAX request
+      fetch(
+        `{{ url_for('main.delete_document', application_id=application.id, document_id='') }}${currentDocumentId}`,
+        {
+          method: "POST",
+        }
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          LoadingManager.setButtonLoading(
+            document.getElementById("confirm-delete"),
+            false
+          );
+          closeDeleteModal();
+
+          if (data.success) {
+            // Remove document card from DOM
+            const documentCard = document
+              .querySelector(
+                `.document-card button[onclick="deleteDocument('${currentDocumentId}')"]`
+              )
+              .closest(".document-card");
+            documentCard.classList.add("fade-out");
+            setTimeout(() => {
+              documentCard.remove();
+
+              // Show empty state if no documents left
+              const documentCards = document.querySelectorAll(".document-card");
+              if (documentCards.length === 0) {
+                const emptyState = `
+              <div class="text-center py-8">
+                <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                <h3 class="mt-2 text-sm font-medium text-gray-900">No documents</h3>
+                <p class="mt-1 text-sm text-gray-500">Get started by uploading a document above.</p>
+              </div>
+            `;
+                document.querySelector(".grid").innerHTML = emptyState;
+              }
+            }, 300);
+
+            // Show success notification
+            NotificationManager.showNotification(
+              "Document deleted successfully",
+              "success"
+            );
+          } else {
+            NotificationManager.showNotification(
+              data.message || "Failed to delete document",
+              "error"
+            );
+          }
+        })
+        .catch((error) => {
+          LoadingManager.setButtonLoading(
+            document.getElementById("confirm-delete"),
+            false
+          );
+          closeDeleteModal();
+          NotificationManager.showNotification(
+            "An error occurred while deleting the document",
+            "error"
+          );
+          console.error("Error:", error);
+        });
+    });
+
+  // Close modal when clicking outside
+  document
+    .getElementById("delete-modal")
+    .addEventListener("click", function (event) {
+      if (event.target === this) {
+        closeDeleteModal();
+      }
+    });
+
+  // Close modal with Escape key
+  document.addEventListener("keydown", function (event) {
+    if (
+      event.key === "Escape" &&
+      !document.getElementById("delete-modal").classList.contains("hidden")
+    ) {
+      closeDeleteModal();
+    }
+  });
+</script>
+{% endblock %} {% endblock %}
