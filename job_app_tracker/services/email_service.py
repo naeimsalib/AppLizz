@@ -20,22 +20,8 @@ from job_app_tracker.config.mongodb import mongo
 from bson.objectid import ObjectId
 from werkzeug.security import generate_password_hash, check_password_hash
 
-# Download NLTK resources if not already downloaded
-try:
-    nltk.data.find('tokenizers/punkt')
-except LookupError:
-    try:
-        nltk.download('punkt', quiet=True)
-    except:
-        print("Warning: Could not download NLTK punkt. Email content analysis may be limited.")
-    
-try:
-    nltk.data.find('corpora/stopwords')
-except LookupError:
-    try:
-        nltk.download('stopwords', quiet=True)
-    except:
-        print("Warning: Could not download NLTK stopwords. Email content analysis may be limited.")
+# NLTK resources will be downloaded on-demand when needed
+nltk_resources_downloaded = False
 
 # Constants
 GMAIL_SCOPES = ['https://www.googleapis.com/auth/gmail.readonly']
@@ -59,6 +45,29 @@ STATUS_KEYWORDS = {
 }
 
 class EmailService:
+    @staticmethod
+    def _ensure_nltk_resources():
+        """Ensure NLTK resources are downloaded when needed"""
+        global nltk_resources_downloaded
+        if not nltk_resources_downloaded:
+            try:
+                nltk.data.find('tokenizers/punkt')
+            except LookupError:
+                try:
+                    nltk.download('punkt', quiet=True)
+                except:
+                    print("Warning: Could not download NLTK punkt. Email content analysis may be limited.")
+                
+            try:
+                nltk.data.find('corpora/stopwords')
+            except LookupError:
+                try:
+                    nltk.download('stopwords', quiet=True)
+                except:
+                    print("Warning: Could not download NLTK stopwords. Email content analysis may be limited.")
+            
+            nltk_resources_downloaded = True
+
     @staticmethod
     def get_gmail_auth_url(user_id):
         """Generate Gmail OAuth URL"""
@@ -420,7 +429,8 @@ class EmailService:
     
     @staticmethod
     def _is_job_related(subject, body):
-        """Check if email is job-related"""
+        """Check if an email is job-related based on its subject and body"""
+        EmailService._ensure_nltk_resources()
         combined_text = (subject + " " + body).lower()
         
         # Check for job-related keywords
@@ -432,6 +442,7 @@ class EmailService:
     @staticmethod
     def _extract_company(from_email, subject, body):
         """Extract company name from email"""
+        EmailService._ensure_nltk_resources()
         # Try to extract from email domain
         domain_match = re.search(r'@([^.]+)', from_email)
         if domain_match:
@@ -461,7 +472,8 @@ class EmailService:
     
     @staticmethod
     def _extract_position(subject, body):
-        """Extract position from email"""
+        """Extract job position from email"""
+        EmailService._ensure_nltk_resources()
         # Common patterns for job positions
         position_patterns = [
             r'(?:position|role|job|opportunity)(?:\s+for)?\s+(?:of\s+)?([A-Za-z0-9\s]+(?:Developer|Engineer|Manager|Designer|Analyst|Specialist|Director|Coordinator|Assistant|Administrator|Consultant))',
@@ -486,6 +498,7 @@ class EmailService:
     @staticmethod
     def _determine_status(subject, body):
         """Determine application status from email content"""
+        EmailService._ensure_nltk_resources()
         combined_text = (subject + " " + body).lower()
         
         # Check for each status type
