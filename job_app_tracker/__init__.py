@@ -39,4 +39,10 @@ def create_app(config=None):
     app.register_blueprint(auth, url_prefix='/auth')
     app.register_blueprint(email_bp, url_prefix='/email')
     
+    # Start scheduled tasks
+    with app.app_context():
+        # Schedule cache cleanup
+        from .services.email_service import EmailService
+        EmailService.schedule_cache_cleanup()
+    
     return app 

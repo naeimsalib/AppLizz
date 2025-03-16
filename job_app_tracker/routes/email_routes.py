@@ -3,6 +3,7 @@ from flask_login import login_required, current_user
 import os
 import json
 from job_app_tracker.services.email_service import EmailService
+from job_app_tracker.services.yahoo_mail_service import YahooMailService
 from job_app_tracker.models.user import User
 from job_app_tracker.config.mongodb import mongo
 from bson.objectid import ObjectId
@@ -16,6 +17,36 @@ def connect_gmail():
     """Connect Gmail account"""
     auth_url = EmailService.get_gmail_auth_url(str(current_user.id))
     return redirect(auth_url)
+
+@email_bp.route('/connect/yahoo')
+@login_required
+def connect_yahoo():
+    """Connect Yahoo Mail account using OAuth"""
+    try:
+        auth_url = YahooMailService.get_auth_url(str(current_user.id))
+        return redirect(auth_url)
+    except Exception as e:
+        flash(f'Failed to initiate Yahoo Mail connection: {str(e)}', 'danger')
+        return redirect(url_for('main.dashboard'))
+
+@email_bp.route('/callback/yahoo')
+def yahoo_callback():
+    """Handle Yahoo OAuth callback"""
+    code = request.args.get('code')
+    state = request.args.get('state')
+    
+    if not code or not state:
+        flash('Authentication failed', 'danger')
+        return redirect(url_for('main.dashboard'))
+    
+    success, result = YahooMailService.handle_callback(code, state)
+    
+    if success:
+        flash('Yahoo Mail connected successfully!', 'success')
+    else:
+        flash(f'Failed to connect Yahoo Mail: {result}', 'danger')
+    
+    return redirect(url_for('main.dashboard'))
 
 @email_bp.route('/connect/yahoo-imap', methods=['GET', 'POST'])
 @login_required
@@ -59,22 +90,23 @@ def gmail_callback():
     
     return redirect(url_for('main.dashboard'))
 
-@email_bp.route('/scan')
+@email_bp.route('/scan_emails', methods=['GET', 'POST'])
 @login_required
 def scan_emails():
-    """Scan emails for job applications"""
     if not current_user.email_connected:
-        flash('Please connect your email first', 'warning')
-        return redirect(url_for('main.dashboard'))
+        flash('Please connect your email first.', 'error')
+        return redirect(url_for('main.settings'))
     
-    success, message = EmailService.scan_emails(current_user)
+    # Scan emails
+    success, message, redirect_endpoint = EmailService.scan_emails(current_user)
     
     if success:
         flash(message, 'success')
     else:
-        flash(f'Failed to scan emails: {message}', 'danger')
+        flash(f'Failed to scan emails: {message}', 'error')
     
-    return redirect(url_for('main.dashboard'))
+    # Use the redirect endpoint directly
+    return redirect(url_for(redirect_endpoint))
 
 @email_bp.route('/suggestions')
 @login_required
@@ -146,7 +178,7 @@ def process_suggestions():
     flash('Suggestions processed successfully', 'success')
     return redirect(url_for('main.dashboard'))
 
-@email_bp.route('/disconnect')
+@email_bp.route('/disconnect_email', methods=['POST'])
 @login_required
 def disconnect_email():
     """Disconnect email account"""
@@ -157,7 +189,7 @@ def disconnect_email():
     else:
         flash('Failed to disconnect email', 'danger')
     
-    return redirect(url_for('main.dashboard'))
+    return redirect(url_for('main.settings'))
 
 @email_bp.route('/settings', methods=['GET', 'POST'])
 @login_required

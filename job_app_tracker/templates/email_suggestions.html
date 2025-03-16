@@ -4,7 +4,14 @@ endblock %} {% block content %}
   <div class="px-4 py-6 sm:px-0">
     <div class="flex justify-between items-center mb-6">
       <h1 class="text-2xl font-semibold text-gray-900">Email Suggestions</h1>
-      <div>
+      <div class="flex space-x-2">
+        <a
+          href="{{ url_for('main.clear_all_user_data') }}"
+          class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+          onclick="return confirm('This will delete ALL your applications and suggestions. Are you sure?');"
+        >
+          <i class="fas fa-trash-alt mr-2"></i> Clear All Data
+        </a>
         <a
           href="{{ url_for('main.scan_emails') }}"
           class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
@@ -37,87 +44,113 @@ endblock %} {% block content %}
     <!-- Status Updates -->
     {% if status_updates %}
     <div class="bg-white shadow overflow-hidden sm:rounded-lg mb-8">
-      <div class="px-4 py-5 sm:px-6 bg-blue-50">
+      <div class="px-4 py-5 sm:px-6">
         <h3 class="text-lg leading-6 font-medium text-gray-900">
-          <i class="fas fa-exchange-alt text-blue-500 mr-2"></i> Suggested
           Status Updates
         </h3>
         <p class="mt-1 max-w-2xl text-sm text-gray-500">
-          We found emails that suggest updates to your existing applications
+          We found updates to your existing applications.
         </p>
       </div>
       <div class="border-t border-gray-200">
-        <ul class="divide-y divide-gray-200">
-          {% for update in status_updates %}
-          <li class="px-4 py-4 sm:px-6">
-            <div class="flex items-center justify-between">
-              <div class="flex flex-col">
-                <div class="flex items-center">
-                  <div
-                    class="flex-shrink-0 h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center"
-                  >
-                    <span class="text-gray-500 font-medium"
-                      >{{ update.company[:2].upper() }}</span
-                    >
-                  </div>
-                  <div class="ml-4">
-                    <h4 class="text-lg font-medium text-gray-900">
-                      {{ update.company }}
-                    </h4>
-                    <p class="text-sm text-gray-500">{{ update.position }}</p>
-                  </div>
+        <form
+          action="{{ url_for('main.accept_suggestion', suggestion_id=suggestions._id) }}"
+          method="POST"
+          id="status-updates-form"
+        >
+          <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
+            <button
+              type="button"
+              id="select-all-updates"
+              class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md text-blue-700 bg-blue-100 hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            >
+              <i class="fas fa-check-square mr-1"></i> Select All
+            </button>
+          </div>
+          <ul class="divide-y divide-gray-200">
+            {% for suggestion in status_updates %}
+            <li class="px-4 py-4 sm:px-6">
+              <div class="flex items-start">
+                <div class="flex-shrink-0 mt-1">
+                  <input
+                    type="checkbox"
+                    name="accept"
+                    value="{{ suggestion.application_id }}"
+                    id="update-{{ suggestion.index }}"
+                    class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded update-checkbox"
+                  />
                 </div>
-                <div class="mt-2 ml-14">
-                  <div class="flex items-center">
-                    <span class="text-sm text-gray-700">Status change: </span>
-                    <span
-                      class="ml-2 px-2 inline-flex text-xs leading-5 font-semibold rounded-full {% if update.current_status == 'Applied' %}bg-gray-100 text-gray-800{% elif update.current_status == 'In Progress' %}bg-yellow-100 text-yellow-800{% elif update.current_status == 'Interview' %}bg-blue-100 text-blue-800{% elif update.current_status == 'Offer' %}bg-green-100 text-green-800{% elif update.current_status == 'Rejected' %}bg-red-100 text-red-800{% endif %}"
-                    >
-                      {{ update.current_status }}
-                    </span>
-                    <i class="fas fa-arrow-right mx-2 text-gray-400"></i>
-                    <span
-                      class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {% if update.new_status == 'Applied' %}bg-gray-100 text-gray-800{% elif update.new_status == 'In Progress' %}bg-yellow-100 text-yellow-800{% elif update.new_status == 'Interview' %}bg-blue-100 text-blue-800{% elif update.new_status == 'Offer' %}bg-green-100 text-green-800{% elif update.new_status == 'Rejected' %}bg-red-100 text-red-800{% endif %}"
-                    >
-                      {{ update.new_status }}
-                    </span>
+                <label
+                  for="update-{{ suggestion.index }}"
+                  class="ml-3 flex-1 cursor-pointer"
+                >
+                  <div class="flex justify-between">
+                    <div>
+                      <p class="text-sm font-medium text-gray-900">
+                        {{ suggestion.company }}
+                      </p>
+                      <p class="text-sm text-gray-500">
+                        {{ suggestion.position }}
+                      </p>
+                    </div>
+                    <div class="text-right">
+                      <span
+                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800"
+                      >
+                        Update
+                      </span>
+                    </div>
                   </div>
-                  <p class="mt-1 text-sm text-gray-500">
-                    Based on email: "{{ update.email_subject }}"
-                  </p>
-                  <p class="text-xs text-gray-400">
-                    {{ update.date.strftime('%Y-%m-%d %H:%M') }}
-                  </p>
-                </div>
+                  <div class="mt-2">
+                    <p class="text-sm text-gray-600">
+                      Status:
+                      <span class="line-through"
+                        >{{ suggestion.current_status }}</span
+                      >
+                      →
+                      <span class="font-medium text-blue-600"
+                        >{{ suggestion.new_status }}</span
+                      >
+                    </p>
+                    {% if suggestion.reasoning %}
+                    <p class="mt-1 text-xs text-gray-500">
+                      <span class="font-medium">AI Analysis:</span> {{
+                      suggestion.reasoning }}
+                    </p>
+                    {% endif %}
+                    <p class="mt-1 text-xs text-gray-500">
+                      <span class="font-medium">Source:</span> {{
+                      suggestion.email_subject }}
+                      <span class="ml-2 text-gray-400"
+                        >{{ suggestion.date.strftime('%Y-%m-%d') }}</span
+                      >
+                    </p>
+                    {% if suggestion.notes %}
+                    <p class="mt-1 text-xs text-gray-500">
+                      <span class="font-medium">Notes:</span> {{
+                      suggestion.notes }}
+                    </p>
+                    {% endif %} {% if suggestion.application_platform %}
+                    <p class="mt-1 text-xs text-gray-500">
+                      <span class="font-medium">Platform:</span> {{
+                      suggestion.application_platform }}
+                    </p>
+                    {% endif %}
+                  </div>
+                </label>
               </div>
-              <div class="flex space-x-2">
-                <form
-                  action="{{ url_for('main.accept_suggestion', suggestion_id=update.id) }}"
-                  method="POST"
-                >
-                  <button
-                    type="submit"
-                    class="inline-flex items-center px-3 py-1.5 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
-                  >
-                    <i class="fas fa-check mr-1.5"></i> Accept
-                  </button>
-                </form>
-                <form
-                  action="{{ url_for('main.reject_suggestion', suggestion_id=update.id) }}"
-                  method="POST"
-                >
-                  <button
-                    type="submit"
-                    class="inline-flex items-center px-3 py-1.5 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                  >
-                    <i class="fas fa-times mr-1.5"></i> Ignore
-                  </button>
-                </form>
-              </div>
-            </div>
-          </li>
-          {% endfor %}
-        </ul>
+            </li>
+            {% endfor %}
+          </ul>
+          <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
+            <button
+              type="submit"
+              class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            >
+              Apply Selected Updates
+            </button>
+          </div>
+        </form>
       </div>
     </div>
     {% endif %}
@@ -125,84 +158,302 @@ endblock %} {% block content %}
     <!-- New Applications -->
     {% if new_applications %}
     <div class="bg-white shadow overflow-hidden sm:rounded-lg">
-      <div class="px-4 py-5 sm:px-6 bg-green-50">
+      <div class="px-4 py-5 sm:px-6">
         <h3 class="text-lg leading-6 font-medium text-gray-900">
-          <i class="fas fa-plus-circle text-green-500 mr-2"></i> New
-          Applications Found
+          New Applications
         </h3>
         <p class="mt-1 max-w-2xl text-sm text-gray-500">
-          We found emails that suggest new job applications
+          We found new job applications in your emails.
         </p>
       </div>
       <div class="border-t border-gray-200">
-        <ul class="divide-y divide-gray-200">
-          {% for app in new_applications %}
-          <li class="px-4 py-4 sm:px-6">
-            <div class="flex items-center justify-between">
-              <div class="flex flex-col">
-                <div class="flex items-center">
-                  <div
-                    class="flex-shrink-0 h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center"
-                  >
-                    <span class="text-gray-500 font-medium"
-                      >{{ app.company[:2].upper() }}</span
-                    >
-                  </div>
-                  <div class="ml-4">
-                    <h4 class="text-lg font-medium text-gray-900">
-                      {{ app.company }}
-                    </h4>
-                    <p class="text-sm text-gray-500">{{ app.position }}</p>
-                  </div>
+        <form
+          action="{{ url_for('main.accept_suggestion', suggestion_id=suggestions._id) }}"
+          method="POST"
+          id="new-applications-form"
+        >
+          <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
+            <button
+              type="button"
+              id="select-all-new"
+              class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md text-blue-700 bg-blue-100 hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            >
+              <i class="fas fa-check-square mr-1"></i> Select All
+            </button>
+          </div>
+          <ul class="divide-y divide-gray-200">
+            {% for suggestion in new_applications %}
+            <li class="px-4 py-4 sm:px-6">
+              <div class="flex items-start">
+                <div class="flex-shrink-0 mt-1">
+                  <input
+                    type="checkbox"
+                    name="accept"
+                    value="new_{{ suggestion.index }}"
+                    id="new-{{ suggestion.index }}"
+                    class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded new-checkbox"
+                  />
                 </div>
-                <div class="mt-2 ml-14">
-                  <div class="flex items-center">
-                    <span class="text-sm text-gray-700">Status: </span>
-                    <span
-                      class="ml-2 px-2 inline-flex text-xs leading-5 font-semibold rounded-full {% if app.status == 'Applied' %}bg-gray-100 text-gray-800{% elif app.status == 'In Progress' %}bg-yellow-100 text-yellow-800{% elif app.status == 'Interview' %}bg-blue-100 text-blue-800{% elif app.status == 'Offer' %}bg-green-100 text-green-800{% elif app.status == 'Rejected' %}bg-red-100 text-red-800{% endif %}"
-                    >
-                      {{ app.status }}
-                    </span>
+                <label
+                  for="new-{{ suggestion.index }}"
+                  class="ml-3 flex-1 cursor-pointer"
+                >
+                  <div class="flex justify-between">
+                    <div>
+                      <p class="text-sm font-medium text-gray-900">
+                        {{ suggestion.company }}
+                      </p>
+                      <p class="text-sm text-gray-500">
+                        {{ suggestion.position }}
+                      </p>
+                    </div>
+                    <div class="text-right">
+                      <span
+                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800"
+                      >
+                        New
+                      </span>
+                    </div>
                   </div>
-                  <p class="mt-1 text-sm text-gray-500">
-                    Based on email: "{{ app.email_subject }}"
-                  </p>
-                  <p class="text-xs text-gray-400">
-                    {{ app.date.strftime('%Y-%m-%d %H:%M') }}
-                  </p>
-                </div>
+                  <div class="mt-2">
+                    <p class="text-sm text-gray-600">
+                      Status:
+                      <span class="font-medium text-blue-600"
+                        >{{ suggestion.status }}</span
+                      >
+                    </p>
+                    {% if suggestion.reasoning %}
+                    <p class="mt-1 text-xs text-gray-500">
+                      <span class="font-medium">AI Analysis:</span> {{
+                      suggestion.reasoning }}
+                    </p>
+                    {% endif %}
+                    <p class="mt-1 text-xs text-gray-500">
+                      <span class="font-medium">Source:</span> {{
+                      suggestion.email_subject }}
+                      <span class="ml-2 text-gray-400"
+                        >{{ suggestion.date.strftime('%Y-%m-%d') }}</span
+                      >
+                    </p>
+                    {% if suggestion.notes %}
+                    <p class="mt-1 text-xs text-gray-500">
+                      <span class="font-medium">Notes:</span> {{
+                      suggestion.notes }}
+                    </p>
+                    {% endif %} {% if suggestion.application_platform %}
+                    <p class="mt-1 text-xs text-gray-500">
+                      <span class="font-medium">Platform:</span> {{
+                      suggestion.application_platform }}
+                    </p>
+                    {% endif %} {% if suggestion.job_url %}
+                    <p class="mt-1 text-xs text-gray-500">
+                      <span class="font-medium">Job URL:</span>
+                      <a
+                        href="{{ suggestion.job_url }}"
+                        target="_blank"
+                        class="text-blue-600 hover:underline"
+                      >
+                        View Job Posting
+                      </a>
+                    </p>
+                    {% endif %}
+                  </div>
+                </label>
               </div>
-              <div class="flex space-x-2">
-                <form
-                  action="{{ url_for('main.accept_suggestion', suggestion_id=app.id) }}"
-                  method="POST"
-                >
-                  <button
-                    type="submit"
-                    class="inline-flex items-center px-3 py-1.5 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
-                  >
-                    <i class="fas fa-check mr-1.5"></i> Accept
-                  </button>
-                </form>
-                <form
-                  action="{{ url_for('main.reject_suggestion', suggestion_id=app.id) }}"
-                  method="POST"
-                >
-                  <button
-                    type="submit"
-                    class="inline-flex items-center px-3 py-1.5 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                  >
-                    <i class="fas fa-times mr-1.5"></i> Ignore
-                  </button>
-                </form>
-              </div>
-            </div>
-          </li>
-          {% endfor %}
-        </ul>
+            </li>
+            {% endfor %}
+          </ul>
+          <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
+            <button
+              type="submit"
+              class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            >
+              Add Selected Applications
+            </button>
+          </div>
+        </form>
       </div>
+    </div>
+    {% endif %}
+
+    <!-- Select All Applications Button -->
+    <div class="mt-6 bg-white shadow overflow-hidden sm:rounded-lg">
+      <div class="px-4 py-5 sm:px-6">
+        <h3 class="text-lg leading-6 font-medium text-gray-900">
+          Process All Suggestions
+        </h3>
+        <p class="mt-1 max-w-2xl text-sm text-gray-500">
+          Select all suggestions across all pages at once.
+        </p>
+      </div>
+      <div class="border-t border-gray-200">
+        <form
+          action="{{ url_for('main.accept_all_suggestions', suggestion_id=suggestions._id) }}"
+          method="POST"
+          id="all-suggestions-form"
+        >
+          <div class="px-4 py-5 sm:p-6">
+            <div class="flex items-center">
+              <input
+                id="select-all-suggestions"
+                name="select_all"
+                type="checkbox"
+                class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+              />
+              <label
+                for="select-all-suggestions"
+                class="ml-3 text-sm font-medium text-gray-700"
+              >
+                Select all {{ suggestions.suggestions|length }} suggestions
+              </label>
+            </div>
+            <p class="mt-2 text-sm text-gray-500">
+              This will process all suggestions across all pages, including both
+              status updates and new applications.
+            </p>
+          </div>
+          <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
+            <button
+              type="submit"
+              class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            >
+              Process All Selected Suggestions
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Pagination Controls -->
+    {% if total_pages > 1 %}
+    <div class="mt-6 flex justify-center">
+      <nav
+        class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px"
+        aria-label="Pagination"
+      >
+        <!-- Previous Page -->
+        {% if has_prev %}
+        <a
+          href="{{ url_for('main.email_suggestions', page=current_page-1) }}"
+          class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
+        >
+          <span class="sr-only">Previous</span>
+          <i class="fas fa-chevron-left h-5 w-5"></i>
+        </a>
+        {% else %}
+        <span
+          class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-gray-100 text-sm font-medium text-gray-400 cursor-not-allowed"
+        >
+          <span class="sr-only">Previous</span>
+          <i class="fas fa-chevron-left h-5 w-5"></i>
+        </span>
+        {% endif %}
+
+        <!-- Page Numbers -->
+        {% for page_num in range(1, total_pages + 1) %} {% if page_num ==
+        current_page %}
+        <span
+          class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-blue-50 text-sm font-medium text-blue-600"
+        >
+          {{ page_num }}
+        </span>
+        {% else %}
+        <a
+          href="{{ url_for('main.email_suggestions', page=page_num) }}"
+          class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50"
+        >
+          {{ page_num }}
+        </a>
+        {% endif %} {% endfor %}
+
+        <!-- Next Page -->
+        {% if has_next %}
+        <a
+          href="{{ url_for('main.email_suggestions', page=current_page+1) }}"
+          class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
+        >
+          <span class="sr-only">Next</span>
+          <i class="fas fa-chevron-right h-5 w-5"></i>
+        </a>
+        {% else %}
+        <span
+          class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-gray-100 text-sm font-medium text-gray-400 cursor-not-allowed"
+        >
+          <span class="sr-only">Next</span>
+          <i class="fas fa-chevron-right h-5 w-5"></i>
+        </span>
+        {% endif %}
+      </nav>
     </div>
     {% endif %} {% endif %}
   </div>
 </div>
+{% endblock %} {% block head %} {{ super() }}
+<!-- Fix for mobile web app capable warning -->
+<meta name="mobile-web-app-capable" content="yes" />
+{% endblock %} {% block scripts %}
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Select All for Status Updates
+    const selectAllUpdatesBtn = document.getElementById("select-all-updates");
+    if (selectAllUpdatesBtn) {
+      selectAllUpdatesBtn.addEventListener("click", function () {
+        const checkboxes = document.querySelectorAll(".update-checkbox");
+        const allChecked = Array.from(checkboxes).every((cb) => cb.checked);
+
+        checkboxes.forEach((checkbox) => {
+          checkbox.checked = !allChecked;
+        });
+
+        // Update button text
+        this.innerHTML = allChecked
+          ? '<i class="fas fa-check-square mr-1"></i> Select All'
+          : '<i class="fas fa-check-square mr-1"></i> Deselect All';
+      });
+    }
+
+    // Select All for New Applications
+    const selectAllNewBtn = document.getElementById("select-all-new");
+    if (selectAllNewBtn) {
+      selectAllNewBtn.addEventListener("click", function () {
+        const checkboxes = document.querySelectorAll(".new-checkbox");
+        const allChecked = Array.from(checkboxes).every((cb) => cb.checked);
+
+        checkboxes.forEach((checkbox) => {
+          checkbox.checked = !allChecked;
+        });
+
+        // Update button text
+        this.innerHTML = allChecked
+          ? '<i class="fas fa-check-square mr-1"></i> Select All'
+          : '<i class="fas fa-check-square mr-1"></i> Deselect All';
+      });
+    }
+
+    // Select All Suggestions (across all pages)
+    const selectAllSuggestionsCheckbox = document.getElementById(
+      "select-all-suggestions"
+    );
+    if (selectAllSuggestionsCheckbox) {
+      selectAllSuggestionsCheckbox.addEventListener("change", function () {
+        const form = document.getElementById("all-suggestions-form");
+        if (this.checked) {
+          // Add a hidden field to indicate all suggestions should be processed
+          const hiddenField = document.createElement("input");
+          hiddenField.type = "hidden";
+          hiddenField.name = "process_all";
+          hiddenField.value = "true";
+          hiddenField.id = "process-all-field";
+          form.appendChild(hiddenField);
+        } else {
+          // Remove the hidden field if unchecked
+          const hiddenField = document.getElementById("process-all-field");
+          if (hiddenField) {
+            hiddenField.remove();
+          }
+        }
+      });
+    }
+  });
+</script>
 {% endblock %}

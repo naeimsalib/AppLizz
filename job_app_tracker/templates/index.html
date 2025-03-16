@@ -63,20 +63,77 @@
     height: 300px;
     width: 100%;
   }
+
+  .hero-section {
+    background: #2563eb;
+    position: relative;
+    overflow: hidden;
+    color: white;
+  }
+
+  .hero-section::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      135deg,
+      rgba(59, 130, 246, 0.7) 0%,
+      rgba(37, 99, 235, 0.8) 100%
+    );
+    z-index: 0;
+  }
+
+  .dark .hero-section {
+    background: #1e40af;
+  }
+
+  .dark .hero-section::before {
+    background: linear-gradient(
+      135deg,
+      rgba(30, 58, 138, 0.5) 0%,
+      rgba(30, 64, 175, 0.6) 100%
+    );
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 10;
+  }
+
+  .hero-content h1,
+  .hero-content p {
+    color: white;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  }
+
+  .hero-content h1 span {
+    color: white !important;
+  }
+
+  .hero-content h1 span.highlight {
+    color: #fef08a !important; /* Light yellow for highlight */
+  }
+
+  .dark .hero-content {
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  }
 </style>
 {% endblock %} {% block content %}
 <!-- Hero Section with Animation -->
-<div class="hero-gradient text-white py-20 px-4 sm:px-6 lg:px-8">
+<div class="relative py-20 px-4 sm:px-6 lg:px-8 hero-section">
   <div class="max-w-7xl mx-auto">
     <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-      <div data-aos="fade-right" data-aos-duration="1000">
+      <div data-aos="fade-right" data-aos-duration="1000" class="hero-content">
         <h1
           class="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight"
         >
           <span class="block">Simplify Your</span>
-          <span class="block text-yellow-300">Job Search Journey</span>
+          <span class="block highlight">Job Search Journey</span>
         </h1>
-        <p class="mt-6 text-xl text-gray-100 max-w-3xl">
+        <p class="mt-6 text-xl max-w-3xl">
           Applizz helps you track, organize, and optimize your job applications
           with powerful automation and insightful analytics.
         </p>
@@ -84,20 +141,20 @@
           {% if not current_user.is_authenticated %}
           <a
             href="{{ url_for('auth.register') }}"
-            class="px-8 py-3 rounded-md bg-white text-blue-600 font-medium text-lg shadow-lg hover:bg-gray-100 transition-all"
+            class="px-8 py-3 rounded-md bg-white text-blue-700 font-medium text-lg shadow-lg hover:bg-gray-100 transition-all"
           >
             Get Started Free
           </a>
           <a
             href="{{ url_for('auth.login') }}"
-            class="px-8 py-3 rounded-md border-2 border-white text-white font-medium text-lg hover:bg-white hover:text-blue-600 transition-all"
+            class="px-8 py-3 rounded-md border-2 border-white text-white font-medium text-lg hover:bg-white hover:text-blue-700 transition-all"
           >
             Sign In
           </a>
           {% else %}
           <a
             href="{{ url_for('main.dashboard') }}"
-            class="px-8 py-3 rounded-md bg-white text-blue-600 font-medium text-lg shadow-lg hover:bg-gray-100 transition-all"
+            class="px-8 py-3 rounded-md bg-white text-blue-700 font-medium text-lg shadow-lg hover:bg-gray-100 transition-all"
           >
             Go to Dashboard
           </a>
@@ -118,12 +175,92 @@
               margin: 0 auto;
             "
           >
-            <img
-              src="{{ url_for('static', filename='img/dashboard-preview.svg') }}"
-              alt="Dashboard Preview"
-              class="rounded-lg shadow-2xl max-w-full mx-auto"
-              onerror="this.src='https://placehold.co/600x400/3b82f6/FFFFFF?text=Applizz+Dashboard+Preview'"
-            />
+            <div
+              class="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-6 max-w-full mx-auto"
+            >
+              <h3
+                class="text-xl font-semibold text-center text-blue-800 dark:text-blue-300 mb-4"
+              >
+                Applizz Dashboard Preview
+              </h3>
+              <div class="grid grid-cols-2 gap-4 mb-6">
+                <div class="bg-blue-50 dark:bg-gray-700 p-3 rounded-lg shadow">
+                  <p class="text-sm text-gray-600 dark:text-gray-300">
+                    Applications
+                  </p>
+                  <p class="text-xl font-bold text-gray-800 dark:text-white">
+                    42
+                  </p>
+                </div>
+                <div class="bg-blue-50 dark:bg-gray-700 p-3 rounded-lg shadow">
+                  <p class="text-sm text-gray-600 dark:text-gray-300">
+                    Interviews
+                  </p>
+                  <p class="text-xl font-bold text-gray-800 dark:text-white">
+                    8
+                  </p>
+                </div>
+              </div>
+              <div
+                class="bg-blue-50 dark:bg-gray-700 p-4 rounded-lg shadow mb-4"
+              >
+                <h4 class="font-medium text-gray-800 dark:text-white mb-2">
+                  Application Status
+                </h4>
+                <div class="space-y-2">
+                  <div>
+                    <div class="flex justify-between text-xs mb-1">
+                      <span class="text-blue-700 dark:text-blue-300"
+                        >Applied</span
+                      >
+                      <span class="text-blue-700 dark:text-blue-300">45%</span>
+                    </div>
+                    <div
+                      class="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-2"
+                    >
+                      <div
+                        class="bg-blue-600 h-2 rounded-full"
+                        style="width: 45%"
+                      ></div>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="flex justify-between text-xs mb-1">
+                      <span class="text-yellow-600 dark:text-yellow-300"
+                        >Interview</span
+                      >
+                      <span class="text-yellow-600 dark:text-yellow-300"
+                        >25%</span
+                      >
+                    </div>
+                    <div
+                      class="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-2"
+                    >
+                      <div
+                        class="bg-yellow-500 h-2 rounded-full"
+                        style="width: 25%"
+                      ></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="bg-blue-50 dark:bg-gray-700 p-3 rounded-lg shadow">
+                <div class="flex justify-between items-start">
+                  <div>
+                    <h4 class="font-medium text-gray-800 dark:text-white">
+                      Google
+                    </h4>
+                    <p class="text-xs text-gray-600 dark:text-gray-300">
+                      Software Engineer
+                    </p>
+                  </div>
+                  <span
+                    class="text-xs bg-blue-200 dark:bg-blue-800 text-blue-800 dark:text-blue-200 px-2 py-1 rounded"
+                    >Today</span
+                  >
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -445,7 +582,8 @@
   </div>
 </div>
 
-<!-- Testimonials -->
+<!-- Testimonials Section - Commented out as requested -->
+<!--
 <div class="py-16 bg-gray-50">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="text-center mb-16" data-aos="fade-up">
@@ -559,6 +697,7 @@
     </div>
   </div>
 </div>
+-->
 
 <!-- CTA Section -->
 <div class="cta-gradient py-16 text-white">

@@ -1,0 +1,180 @@
+{% extends "base.html" %} {% block title %}Cache Statistics - JobJourney{%
+endblock %} {% block content %}
+<div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+  <div class="px-4 py-6 sm:px-0">
+    <div class="flex justify-between items-center mb-6">
+      <h1 class="text-2xl font-semibold text-gray-900">
+        Email Analysis Cache Statistics
+      </h1>
+      <div>
+        <a
+          href="{{ url_for('main.settings') }}"
+          class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+        >
+          <i class="fas fa-arrow-left mr-2"></i> Back to Settings
+        </a>
+        <form
+          action="{{ url_for('main.clear_email_cache') }}"
+          method="POST"
+          class="inline-block ml-2"
+        >
+          <button
+            type="submit"
+            class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+          >
+            <i class="fas fa-trash-alt mr-2"></i> Clear Cache
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Overview Stats -->
+    <div class="bg-white shadow overflow-hidden sm:rounded-lg mb-8">
+      <div class="px-4 py-5 sm:px-6">
+        <h3 class="text-lg leading-6 font-medium text-gray-900">Overview</h3>
+        <p class="mt-1 max-w-2xl text-sm text-gray-500">
+          General statistics about the email analysis cache.
+        </p>
+      </div>
+      <div class="border-t border-gray-200">
+        <dl>
+          <div
+            class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
+          >
+            <dt class="text-sm font-medium text-gray-500">
+              Total cache entries
+            </dt>
+            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+              {{ total_cache_entries }}
+            </dd>
+          </div>
+          <div
+            class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
+          >
+            <dt class="text-sm font-medium text-gray-500">
+              Your cache entries
+            </dt>
+            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+              {{ user_cache_entries }}
+            </dd>
+          </div>
+          <div
+            class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
+          >
+            <dt class="text-sm font-medium text-gray-500">
+              Job-related entries
+            </dt>
+            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+              {{ job_related_entries }}
+            </dd>
+          </div>
+          <div
+            class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
+          >
+            <dt class="text-sm font-medium text-gray-500">
+              Non-job-related entries
+            </dt>
+            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+              {{ non_job_related_entries }}
+            </dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+
+    <!-- Age Distribution -->
+    <div class="bg-white shadow overflow-hidden sm:rounded-lg mb-8">
+      <div class="px-4 py-5 sm:px-6">
+        <h3 class="text-lg leading-6 font-medium text-gray-900">
+          Age Distribution
+        </h3>
+        <p class="mt-1 max-w-2xl text-sm text-gray-500">
+          Distribution of cache entries by age.
+        </p>
+      </div>
+      <div class="border-t border-gray-200">
+        <dl>
+          <div
+            class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
+          >
+            <dt class="text-sm font-medium text-gray-500">Recent (< 1 day)</dt>
+            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+              {{ recent_entries }}
+            </dd>
+          </div>
+          <div
+            class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
+          >
+            <dt class="text-sm font-medium text-gray-500">
+              Last week (1-7 days)
+            </dt>
+            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+              {{ week_old_entries }}
+            </dd>
+          </div>
+          <div
+            class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
+          >
+            <dt class="text-sm font-medium text-gray-500">Older (> 7 days)</dt>
+            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+              {{ older_entries }}
+            </dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+
+    <!-- Top Companies -->
+    <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+      <div class="px-4 py-5 sm:px-6">
+        <h3 class="text-lg leading-6 font-medium text-gray-900">
+          Top Companies
+        </h3>
+        <p class="mt-1 max-w-2xl text-sm text-gray-500">
+          Most common companies in the cache.
+        </p>
+      </div>
+      <div class="border-t border-gray-200">
+        {% if top_companies %}
+        <table class="min-w-full divide-y divide-gray-200">
+          <thead class="bg-gray-50">
+            <tr>
+              <th
+                scope="col"
+                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              >
+                Company
+              </th>
+              <th
+                scope="col"
+                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              >
+                Count
+              </th>
+            </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-gray-200">
+            {% for company in top_companies %}
+            <tr>
+              <td
+                class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
+              >
+                {{ company._id }}
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                {{ company.count }}
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        {% else %}
+        <div class="px-6 py-4 text-sm text-gray-500">
+          No company data available.
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

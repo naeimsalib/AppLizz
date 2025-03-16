@@ -4,7 +4,36 @@ block content %}
   <div class="max-w-3xl mx-auto bg-white rounded-lg shadow-md p-6">
     <h1 class="text-2xl font-bold text-blue-600 mb-6">Connect Yahoo Mail</h1>
 
-    <div class="mb-8 bg-blue-50 p-4 rounded-lg">
+    <div class="mb-6 bg-blue-50 p-4 rounded-lg">
+      <p class="mb-4">
+        Connect your Yahoo Mail account to automatically detect job
+        applications, interview invitations, and other job-related emails.
+      </p>
+
+      <div class="flex flex-col md:flex-row gap-4 mt-4">
+        <a
+          href="{{ url_for('email.connect_yahoo') }}"
+          class="flex-1 px-4 py-3 bg-purple-600 text-white text-center rounded-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
+        >
+          <div class="font-semibold">Connect with Yahoo Account</div>
+          <div class="text-sm mt-1">Recommended: Quick and secure</div>
+        </a>
+
+        <div class="text-center flex items-center justify-center px-4">
+          <span class="text-gray-500">OR</span>
+        </div>
+
+        <button
+          onclick="showImapForm()"
+          class="flex-1 px-4 py-3 bg-gray-200 text-gray-800 text-center rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2"
+        >
+          <div class="font-semibold">Connect with App Password</div>
+          <div class="text-sm mt-1">Alternative method</div>
+        </button>
+      </div>
+    </div>
+
+    <div id="imap-instructions" class="mb-8 bg-blue-50 p-4 rounded-lg hidden">
       <h2 class="text-lg font-semibold mb-2">
         How to Generate a Yahoo App Password
       </h2>
@@ -27,7 +56,7 @@ block content %}
         <li>
           Scroll down to "App passwords" and click "Generate app password"
         </li>
-        <li>Select "Other app" from the dropdown and name it "JobJourney"</li>
+        <li>Select "Other app" from the dropdown and name it "Applizz"</li>
         <li>Click "Generate" to create your app password</li>
         <li>
           Copy the generated password (it will be a 16-character code without
@@ -39,16 +68,17 @@ block content %}
       <div class="mt-4 bg-yellow-50 p-3 rounded border border-yellow-200">
         <p class="text-sm text-yellow-800">
           <strong>Note:</strong> App passwords are specific to each application
-          and device. They allow JobJourney to access your Yahoo Mail without
+          and device. They allow Applizz to access your Yahoo Mail without
           requiring your actual Yahoo password.
         </p>
       </div>
     </div>
 
     <form
+      id="imap-form"
       method="POST"
       action="{{ url_for('email.connect_yahoo_imap') }}"
-      class="space-y-4"
+      class="space-y-4 hidden"
     >
       <div>
         <label
@@ -87,11 +117,13 @@ block content %}
       </div>
 
       <div class="flex items-center justify-between pt-4">
-        <a
-          href="{{ url_for('main.dashboard') }}"
+        <button
+          type="button"
+          onclick="hideImapForm()"
           class="text-blue-600 hover:underline"
-          >Cancel</a
         >
+          Cancel
+        </button>
         <button
           type="submit"
           class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
@@ -104,12 +136,24 @@ block content %}
     <div class="mt-8 border-t pt-6">
       <h3 class="text-lg font-semibold mb-2">Privacy Information</h3>
       <p class="text-sm text-gray-600">
-        JobJourney uses IMAP to scan your Yahoo Mail for job application emails.
-        We only access email content to identify job-related messages and never
-        store the full content of your emails. Your app password is securely
-        stored and is only used to connect to your Yahoo Mail account.
+        Applizz scans your Yahoo Mail for job application emails. We only access
+        email content to identify job-related messages and never store the full
+        content of your emails. Your credentials are securely stored and are
+        only used to connect to your Yahoo Mail account.
       </p>
     </div>
   </div>
 </div>
+
+<script>
+  function showImapForm() {
+    document.getElementById("imap-instructions").classList.remove("hidden");
+    document.getElementById("imap-form").classList.remove("hidden");
+  }
+
+  function hideImapForm() {
+    document.getElementById("imap-instructions").classList.add("hidden");
+    document.getElementById("imap-form").classList.add("hidden");
+  }
+</script>
 {% endblock %}

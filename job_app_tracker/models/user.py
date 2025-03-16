@@ -2,7 +2,7 @@ from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 from job_app_tracker.config.mongodb import mongo
 from bson.objectid import ObjectId
-from datetime import datetime
+from datetime import datetime, timedelta
 
 class User(UserMixin):
     def __init__(self, user_data):
@@ -18,12 +18,42 @@ class User(UserMixin):
         self.email_token = user_data.get('email_token')
         self.email_refresh_token = user_data.get('email_refresh_token')
         self.email_token_expiry = user_data.get('email_token_expiry')
+        self.email_password = user_data.get('email_password')
         self.email_settings = user_data.get('email_settings', {
             'auto_scan': True,
             'require_approval': True,
             'scan_attachments': False,
             'last_scan': None
         })
+        
+        # Subscription fields
+        self.subscription = user_data.get('subscription', {
+            'is_premium': False,
+            'plan': 'free',
+            'start_date': None,
+            'end_date': None,
+            'payment_id': None
+        })
+        
+    @property
+    def is_premium(self):
+        """Check if user has an active premium subscription"""
+        if not self.subscription:
+            return False
+            
+        # Special case for naeimsalib@yahoo.com - always premium
+        if self.email == 'naeimsalib@yahoo.com':
+            return True
+            
+        # Check if subscription is active
+        is_premium = self.subscription.get('is_premium', False)
+        end_date = self.subscription.get('end_date')
+        
+        if not is_premium or not end_date:
+            return False
+            
+        # Check if subscription has expired
+        return end_date > datetime.utcnow()
         
     @staticmethod
     def create_user(email, password, name):
@@ -39,8 +69,26 @@ class User(UserMixin):
                 'scan_attachments': False,
                 'last_scan': None
             },
+            'subscription': {
+                'is_premium': False,
+                'plan': 'free',
+                'start_date': None,
+                'end_date': None,
+                'payment_id': None
+            },
             'created_at': datetime.now()
         }
+        
+        # Special case for naeimsalib@yahoo.com - make premium with no expiration
+        if email == 'naeimsalib@yahoo.com':
+            user_data['subscription'] = {
+                'is_premium': True,
+                'plan': 'premium',
+                'start_date': datetime.now(),
+                'end_date': datetime.now() + timedelta(days=36500),  # 100 years
+                'payment_id': 'test_account'
+            }
+            
         result = mongo.db.users.insert_one(user_data)
         user_data['_id'] = result.inserted_id
         return User(user_data)
@@ -98,7 +146,8 @@ class User(UserMixin):
             'email_provider': None,
             'email_token': None,
             'email_refresh_token': None,
-            'email_token_expiry': None
+            'email_token_expiry': None,
+            'email_password': None
         }
         
         mongo.db.users.update_one(
@@ -113,6 +162,7 @@ class User(UserMixin):
         self.email_token = None
         self.email_refresh_token = None
         self.email_token_expiry = None
+        self.email_password = None
         
         return True
     
@@ -131,6 +181,26 @@ class User(UserMixin):
         self.email_settings = settings
         
         return True
+        
+    def update_subscription(self, is_premium, plan, start_date, end_date, payment_id):
+        """Update subscription details"""
+        subscription = {
+            'is_premium': is_premium,
+            'plan': plan,
+            'start_date': start_date,
+            'end_date': end_date,
+            'payment_id': payment_id
+        }
+        
+        mongo.db.users.update_one(
+            {'_id': ObjectId(self.id)},
+            {'$set': {'subscription': subscription}}
+        )
+        
+        # Update local attributes
+        self.subscription = subscription
+        
+        return True
     
     def to_dict(self):
         """Convert user object to dictionary"""
@@ -140,7 +210,9 @@ class User(UserMixin):
             'name': self.name,
             'email_connected': self.email_connected,
             'connected_email': self.connected_email,
-            'email_provider': self.email_provider
+            'email_provider': self.email_provider,
+            'is_premium': self.is_premium,
+            'plan': self.subscription.get('plan', 'free') if self.subscription else 'free'
         }
         
     @property
