@@ -35,6 +35,15 @@ class User(UserMixin):
             'payment_id': None
         })
         
+        self._is_premium = user_data.get('is_premium', False)
+        self.last_email_scan = user_data.get('last_email_scan')
+        self.email_credentials = user_data.get('email_credentials')
+        self.created_at = user_data.get('created_at', datetime.utcnow())
+        self.updated_at = user_data.get('updated_at', datetime.utcnow())
+        self.last_processed_email_id = user_data.get('last_processed_email_id')
+        self.email_cache = user_data.get('email_cache', {})
+        self.email_cache_ttl = user_data.get('email_cache_ttl', 7)  # Cache TTL in days
+        
     @property
     def is_premium(self):
         """Check if user has an active premium subscription"""
@@ -224,4 +233,48 @@ class User(UserMixin):
             'processed': False
         })
         
-        return count > 0 
+        return count > 0
+
+    def save(self):
+        """Save user data to database."""
+        user_data = {
+            'email': self.email,
+            'password_hash': self.password_hash,
+            'subscription': self.subscription,  # Save subscription data instead of is_premium
+            'connected_email': self.connected_email,
+            'email_password': self.email_password,
+            'last_email_scan': self.last_email_scan,
+            'email_provider': self.email_provider,
+            'email_credentials': self.email_credentials,
+            'last_processed_email_id': self.last_processed_email_id,
+            'email_cache': self.email_cache,
+            'email_cache_ttl': self.email_cache_ttl,
+            'email_settings': self.email_settings,
+            'updated_at': datetime.utcnow()
+        }
+        
+        if self.id:
+            mongo.db.users.update_one(
+                {'_id': ObjectId(self.id)},
+                {'$set': user_data}
+            )
+        else:
+            result = mongo.db.users.insert_one(user_data)
+            self.id = str(result.inserted_id)
+        
+        return self
+
+    def update_last_processed_email(self, email_id):
+        """Update the last processed email ID."""
+        self.last_processed_email_id = email_id
+        self.save()
+
+    def update_last_scan(self):
+        """Update the last email scan timestamp."""
+        self.last_email_scan = datetime.utcnow()
+        self.save()
+
+    def clear_email_cache(self):
+        """Clear the email cache."""
+        self.email_cache = {}
+        self.save() 

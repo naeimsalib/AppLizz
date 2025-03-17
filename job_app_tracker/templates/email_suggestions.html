@@ -21,25 +21,56 @@ endblock %} {% block content %}
       </div>
     </div>
 
-    {% if not suggestions %}
-    <div class="bg-white shadow overflow-hidden sm:rounded-lg">
-      <div class="px-4 py-5 sm:p-6 text-center">
-        <i class="fas fa-inbox text-gray-400 text-5xl mb-4"></i>
-        <h3 class="text-lg font-medium text-gray-900 mb-2">
-          No suggestions yet
-        </h3>
-        <p class="text-gray-500 mb-4">
-          We haven't found any job application emails to suggest yet.
-        </p>
-        <a
-          href="{{ url_for('main.scan_emails') }}"
-          class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-        >
-          <i class="fas fa-sync-alt mr-2"></i> Scan Emails Now
-        </a>
+    <!-- Status Box -->
+    <div id="statusBox" class="card mb-4" style="display: none">
+      <div class="card-body">
+        <h5 class="card-title">Scanning Emails</h5>
+        <div class="progress mb-3">
+          <div
+            id="progressBar"
+            class="progress-bar progress-bar-striped progress-bar-animated"
+            role="progressbar"
+            style="width: 0%"
+          ></div>
+        </div>
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
+            <span id="processedCount">0</span> /
+            <span id="totalCount">0</span> emails processed
+          </div>
+          <div>
+            <span id="timeRemaining">Calculating...</span>
+          </div>
+        </div>
+        <div class="mt-2">
+          <small class="text-muted" id="currentStatus">Initializing...</small>
+        </div>
       </div>
     </div>
-    {% else %}
+
+    <!-- Flash Messages -->
+    <div class="flash-messages">
+      {% with messages = get_flashed_messages(with_categories=true) %} {% if
+      messages %} {% for category, message in messages %}
+      <div
+        class="alert alert-{{ category }} alert-dismissible fade show"
+        role="alert"
+      >
+        {{ message }}
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="alert"
+          aria-label="Close"
+        ></button>
+      </div>
+      {% endfor %} {% endif %} {% endwith %}
+    </div>
+
+    <!-- Email List -->
+    <div id="emailList" class="list-group">
+      <!-- Emails will be populated here -->
+    </div>
 
     <!-- Status Updates -->
     {% if status_updates %}
@@ -385,14 +416,239 @@ endblock %} {% block content %}
         {% endif %}
       </nav>
     </div>
-    {% endif %} {% endif %}
+    {% endif %}
   </div>
 </div>
+
+<script>
+  let startTime = null;
+  let processedEmails = 0;
+  let totalEmails = 0;
+  let lastUpdateTime = null;
+
+  function updateProgress(processed, total) {
+    processedEmails = processed;
+    totalEmails = total;
+
+    // Show status box if not already visible
+    document.getElementById("statusBox").style.display = "block";
+
+    // Update progress bar
+    const percentage = (processed / total) * 100;
+    document.getElementById("progressBar").style.width = `${percentage}%`;
+
+    // Update counts
+    document.getElementById("processedCount").textContent = processed;
+    document.getElementById("totalCount").textContent = total;
+
+    // Calculate time remaining
+    if (!startTime) {
+      startTime = Date.now();
+    }
+
+    const currentTime = Date.now();
+    const elapsedTime = (currentTime - startTime) / 1000; // in seconds
+    const emailsPerSecond = processed / elapsedTime;
+
+    if (emailsPerSecond > 0) {
+      const remainingEmails = total - processed;
+      const remainingSeconds = remainingEmails / emailsPerSecond;
+
+      // Format time remaining
+      let timeString = "";
+      if (remainingSeconds < 60) {
+        timeString = `${Math.round(remainingSeconds)} seconds`;
+      } else if (remainingSeconds < 3600) {
+        timeString = `${Math.round(remainingSeconds / 60)} minutes`;
+      } else {
+        timeString = `${Math.round(remainingSeconds / 3600)} hours`;
+      }
+
+      document.getElementById(
+        "timeRemaining"
+      ).textContent = `~${timeString} remaining`;
+    }
+
+    // Update status text
+    const statusText = `Processing email ${processed} of ${total}`;
+    document.getElementById("currentStatus").textContent = statusText;
+
+    // Store last update time
+    lastUpdateTime = currentTime;
+  }
+
+  function hideStatusBox() {
+    document.getElementById("statusBox").style.display = "none";
+    startTime = null;
+    processedEmails = 0;
+    totalEmails = 0;
+    lastUpdateTime = null;
+  }
+
+  function showNotification(message, type = "success") {
+    const alertDiv = document.createElement("div");
+    alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
+    alertDiv.role = "alert";
+    alertDiv.innerHTML = `
+        ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    `;
+    document.querySelector(".flash-messages").appendChild(alertDiv);
+
+    // Auto-remove after 5 seconds
+    setTimeout(() => {
+      alertDiv.remove();
+    }, 5000);
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    // Select All for Status Updates
+    const selectAllUpdatesBtn = document.getElementById("select-all-updates");
+    if (selectAllUpdatesBtn) {
+      selectAllUpdatesBtn.addEventListener("click", function () {
+        const checkboxes = document.querySelectorAll(".update-checkbox");
+        const allChecked = Array.from(checkboxes).every((cb) => cb.checked);
+
+        checkboxes.forEach((checkbox) => {
+          checkbox.checked = !allChecked;
+        });
+
+        // Update button text
+        this.innerHTML = allChecked
+          ? '<i class="fas fa-check-square mr-1"></i> Select All'
+          : '<i class="fas fa-check-square mr-1"></i> Deselect All';
+      });
+    }
+
+    // Select All for New Applications
+    const selectAllNewBtn = document.getElementById("select-all-new");
+    if (selectAllNewBtn) {
+      selectAllNewBtn.addEventListener("click", function () {
+        const checkboxes = document.querySelectorAll(".new-checkbox");
+        const allChecked = Array.from(checkboxes).every((cb) => cb.checked);
+
+        checkboxes.forEach((checkbox) => {
+          checkbox.checked = !allChecked;
+        });
+
+        // Update button text
+        this.innerHTML = allChecked
+          ? '<i class="fas fa-check-square mr-1"></i> Select All'
+          : '<i class="fas fa-check-square mr-1"></i> Deselect All';
+      });
+    }
+
+    // Select All Suggestions (across all pages)
+    const selectAllSuggestionsCheckbox = document.getElementById(
+      "select-all-suggestions"
+    );
+    if (selectAllSuggestionsCheckbox) {
+      selectAllSuggestionsCheckbox.addEventListener("change", function () {
+        const form = document.getElementById("all-suggestions-form");
+        if (this.checked) {
+          // Add a hidden field to indicate all suggestions should be processed
+          const hiddenField = document.createElement("input");
+          hiddenField.type = "hidden";
+          hiddenField.name = "process_all";
+          hiddenField.value = "true";
+          hiddenField.id = "process-all-field";
+          form.appendChild(hiddenField);
+        } else {
+          // Remove the hidden field if unchecked
+          const hiddenField = document.getElementById("process-all-field");
+          if (hiddenField) {
+            hiddenField.remove();
+          }
+        }
+      });
+    }
+  });
+</script>
 {% endblock %} {% block head %} {{ super() }}
 <!-- Fix for mobile web app capable warning -->
 <meta name="mobile-web-app-capable" content="yes" />
 {% endblock %} {% block scripts %}
 <script>
+  let startTime = null;
+  let processedEmails = 0;
+  let totalEmails = 0;
+  let lastUpdateTime = null;
+
+  function updateProgress(processed, total) {
+    processedEmails = processed;
+    totalEmails = total;
+
+    // Show status box if not already visible
+    document.getElementById("statusBox").style.display = "block";
+
+    // Update progress bar
+    const percentage = (processed / total) * 100;
+    document.getElementById("progressBar").style.width = `${percentage}%`;
+
+    // Update counts
+    document.getElementById("processedCount").textContent = processed;
+    document.getElementById("totalCount").textContent = total;
+
+    // Calculate time remaining
+    if (!startTime) {
+      startTime = Date.now();
+    }
+
+    const currentTime = Date.now();
+    const elapsedTime = (currentTime - startTime) / 1000; // in seconds
+    const emailsPerSecond = processed / elapsedTime;
+
+    if (emailsPerSecond > 0) {
+      const remainingEmails = total - processed;
+      const remainingSeconds = remainingEmails / emailsPerSecond;
+
+      // Format time remaining
+      let timeString = "";
+      if (remainingSeconds < 60) {
+        timeString = `${Math.round(remainingSeconds)} seconds`;
+      } else if (remainingSeconds < 3600) {
+        timeString = `${Math.round(remainingSeconds / 60)} minutes`;
+      } else {
+        timeString = `${Math.round(remainingSeconds / 3600)} hours`;
+      }
+
+      document.getElementById(
+        "timeRemaining"
+      ).textContent = `~${timeString} remaining`;
+    }
+
+    // Update status text
+    const statusText = `Processing email ${processed} of ${total}`;
+    document.getElementById("currentStatus").textContent = statusText;
+
+    // Store last update time
+    lastUpdateTime = currentTime;
+  }
+
+  function hideStatusBox() {
+    document.getElementById("statusBox").style.display = "none";
+    startTime = null;
+    processedEmails = 0;
+    totalEmails = 0;
+    lastUpdateTime = null;
+  }
+
+  function showNotification(message, type = "success") {
+    const alertDiv = document.createElement("div");
+    alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
+    alertDiv.role = "alert";
+    alertDiv.innerHTML = `
+        ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    `;
+    document.querySelector(".flash-messages").appendChild(alertDiv);
+
+    // Auto-remove after 5 seconds
+    setTimeout(() => {
+      alertDiv.remove();
+    }, 5000);
+  }
+
   document.addEventListener("DOMContentLoaded", function () {
     // Select All for Status Updates
     const selectAllUpdatesBtn = document.getElementById("select-all-updates");

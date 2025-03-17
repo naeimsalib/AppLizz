@@ -8,6 +8,9 @@ from job_app_tracker.models.user import User
 from job_app_tracker.config.mongodb import mongo
 from bson.objectid import ObjectId
 from datetime import datetime
+import logging
+
+logger = logging.getLogger(__name__)
 
 email_bp = Blueprint('email', __name__)
 
@@ -93,20 +96,74 @@ def gmail_callback():
 @email_bp.route('/scan_emails', methods=['GET', 'POST'])
 @login_required
 def scan_emails():
-    if not current_user.email_connected:
-        flash('Please connect your email first.', 'error')
-        return redirect(url_for('main.settings'))
-    
-    # Scan emails
-    success, message, redirect_endpoint = EmailService.scan_emails(current_user)
-    
-    if success:
-        flash(message, 'success')
-    else:
-        flash(f'Failed to scan emails: {message}', 'error')
-    
-    # Use the redirect endpoint directly
-    return redirect(url_for(redirect_endpoint))
+    try:
+        # Get user's email provider
+        email_provider = current_user.email_provider
+        
+        # Initialize response data
+        response_data = {
+            'success': False,
+            'message': '',
+            'processed_count': 0,
+            'total_count': 0,
+            'job_applications': []
+        }
+        
+        if email_provider == 'yahoo':
+            # Scan Yahoo emails
+            result = EmailService._scan_yahoo_imap(current_user)
+            
+            if result['success']:
+                response_data.update({
+                    'success': True,
+                    'message': f"Successfully processed {result['processed_count']} emails",
+                    'processed_count': result['processed_count'],
+                    'total_count': result['total_count'],
+                    'job_applications': result['job_applications']
+                })
+                flash(f"Successfully processed {result['processed_count']} emails", 'success')
+            else:
+                response_data['message'] = f"Error scanning emails: {result.get('error', 'Unknown error')}"
+                flash(f"Error scanning emails: {result.get('error', 'Unknown error')}", 'error')
+        
+        elif email_provider == 'gmail':
+            # Scan Gmail
+            result = EmailService._scan_gmail(current_user)
+            
+            if result['success']:
+                response_data.update({
+                    'success': True,
+                    'message': f"Successfully processed {result['processed_count']} emails",
+                    'processed_count': result['processed_count'],
+                    'total_count': result['total_count'],
+                    'job_applications': result['job_applications']
+                })
+                flash(f"Successfully processed {result['processed_count']} emails", 'success')
+            else:
+                response_data['message'] = f"Error scanning emails: {result.get('error', 'Unknown error')}"
+                flash(f"Error scanning emails: {result.get('error', 'Unknown error')}", 'error')
+        
+        else:
+            response_data['message'] = f"Unsupported email provider: {email_provider}"
+            flash(f"Unsupported email provider: {email_provider}", 'error')
+        
+        # If it's a GET request, redirect to suggestions page
+        if request.method == 'GET':
+            return redirect(url_for('email.view_suggestions'))
+        
+        return jsonify(response_data)
+        
+    except Exception as e:
+        logger.error(f"Error in scan_emails route: {str(e)}")
+        error_message = "An unexpected error occurred while scanning emails"
+        flash(error_message, 'error')
+        return jsonify({
+            'success': False,
+            'message': error_message,
+            'processed_count': 0,
+            'total_count': 0,
+            'job_applications': []
+        })
 
 @email_bp.route('/suggestions')
 @login_required
