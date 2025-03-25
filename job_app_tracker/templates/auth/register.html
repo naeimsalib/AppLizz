@@ -73,7 +73,7 @@
       action="{{ url_for('auth.register') }}"
       method="POST"
     >
-      {{ form.hidden_tag() }}
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
       <div class="rounded-md shadow-sm -space-y-px">
         <div>
           {{ form.name.label(class="sr-only") }} {{

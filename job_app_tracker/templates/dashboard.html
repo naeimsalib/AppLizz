@@ -1,5 +1,5 @@
-{% extends "base.html" %} {% block title %}Dashboard - JobJourney{% endblock %}
-{% block head %} {{ super() }}
+{% extends "base.html" %} {% block title %}Dashboard - Applizz{% endblock %} {%
+block head %} {{ super() }}
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
   /* Animation styles */
@@ -62,7 +62,7 @@
               </dt>
               <dd class="flex items-baseline">
                 <div class="text-2xl font-semibold text-gray-900">
-                  {{ stats.total }}
+                  {{ total_applications }}
                 </div>
               </dd>
             </dl>
@@ -85,7 +85,7 @@
               </dt>
               <dd class="flex items-baseline">
                 <div class="text-2xl font-semibold text-gray-900">
-                  {{ stats.in_progress }}
+                  {{ active_applications }}
                 </div>
               </dd>
             </dl>
@@ -108,7 +108,7 @@
               </dt>
               <dd class="flex items-baseline">
                 <div class="text-2xl font-semibold text-gray-900">
-                  {{ stats.interviews }}
+                  {{ status_counts.Interview }}
                 </div>
               </dd>
             </dl>
@@ -129,7 +129,7 @@
               <dt class="text-sm font-medium text-gray-500 truncate">Offers</dt>
               <dd class="flex items-baseline">
                 <div class="text-2xl font-semibold text-gray-900">
-                  {{ stats.offers }}
+                  {{ status_counts.Offer }}
                 </div>
               </dd>
             </dl>
@@ -625,6 +625,7 @@
         </div>
         <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
           <form id="delete-form" method="POST">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
             <input
               type="hidden"
               id="delete-id"
@@ -648,93 +649,6 @@
         </div>
       </div>
     </div>
-  </div>
-
-  <!-- Email Integration Section -->
-  <div class="bg-white rounded-lg shadow-md p-6 mb-6">
-    <h2 class="text-xl font-semibold text-gray-800 mb-4">Email Integration</h2>
-
-    {% if current_user.email_connected %}
-    <div class="mb-4">
-      <p class="text-green-600 font-medium">
-        <i class="fas fa-check-circle mr-2"></i>Connected to {{
-        current_user.connected_email }}
-      </p>
-      <p class="text-sm text-gray-600 mt-1">
-        Provider: {{ current_user.email_provider|capitalize }}
-      </p>
-
-      <div class="mt-4 flex space-x-4">
-        <a
-          href="{{ url_for('email.scan_emails') }}"
-          class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
-        >
-          <i class="fas fa-sync-alt mr-2"></i>Scan Emails
-        </a>
-
-        {% if current_user.has_suggestions %}
-        <a
-          href="{{ url_for('email.view_suggestions') }}"
-          class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
-        >
-          <i class="fas fa-lightbulb mr-2"></i>View Suggestions
-        </a>
-        {% endif %}
-
-        <a
-          href="{{ url_for('email.email_settings') }}"
-          class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300"
-        >
-          <i class="fas fa-cog mr-2"></i>Settings
-        </a>
-
-        <a
-          href="{{ url_for('email.disconnect_email') }}"
-          class="px-4 py-2 bg-red-100 text-red-700 rounded-md hover:bg-red-200"
-        >
-          <i class="fas fa-unlink mr-2"></i>Disconnect
-        </a>
-      </div>
-    </div>
-    {% else %}
-    <p class="text-gray-600 mb-4">
-      Connect your email account to automatically track job applications from
-      your inbox.
-    </p>
-
-    <div class="flex flex-wrap gap-4">
-      <a
-        href="{{ url_for('email.connect_gmail') }}"
-        class="flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50"
-      >
-        <img
-          src="{{ url_for('static', filename='img/gmail-logo.png') }}"
-          alt="Gmail"
-          class="h-5 mr-2"
-        />
-        Connect Gmail
-      </a>
-
-      <a
-        href="{{ url_for('email.connect_yahoo') }}"
-        class="flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50"
-      >
-        <img
-          src="{{ url_for('static', filename='img/yahoo-logo.png') }}"
-          alt="Yahoo"
-          class="h-5 mr-2"
-        />
-        Connect Yahoo Mail
-      </a>
-
-      <!-- Add more email providers as needed -->
-    </div>
-
-    <p class="text-sm text-gray-500 mt-4">
-      <i class="fas fa-lock mr-1"></i> Your email credentials are securely
-      stored and only used to scan for job-related emails.
-    </p>
-    {% endif %}
   </div>
 </div>
 {% endblock %} {% block extra_js %}
@@ -1022,13 +936,16 @@
     deleteButtons.forEach((button) => {
       button.addEventListener("click", function (e) {
         e.preventDefault();
-        const id = this.getAttribute("data-id");
+        const appId = this.getAttribute("data-id");
         const company = this.getAttribute("data-company");
 
-        deleteId.value = id;
-        deleteForm.action = `/application/delete/${id}`;
-        modalDescription.textContent = `Are you sure you want to delete the application for ${company}? This action cannot be undone.`;
-        deleteModal.classList.remove("hidden");
+        document.getElementById('modal-description').textContent =
+          `Are you sure you want to delete the "${company}" application? This action cannot be undone.`;
+
+        document.getElementById('delete-id').value = appId;
+        document.getElementById('delete-form').action = `/application/delete/${appId}`;
+
+        document.getElementById('delete-modal').classList.remove('hidden');
       });
     });
 
@@ -1056,11 +973,11 @@
             labels: ['Applied', 'In Progress', 'Interview', 'Offer', 'Rejected'],
             datasets: [{
               data: [
-                {{ stats.applied if stats.applied else 0 }},
-                {{ stats.in_progress if stats.in_progress else 0 }},
-                {{ stats.interviews if stats.interviews else 0 }},
-                {{ stats.offers if stats.offers else 0 }},
-                {{ stats.rejected if stats.rejected else 0 }}
+                {{ status_counts.Applied if status_counts.Applied else 0 }},
+                {{ status_counts['In Progress'] if status_counts['In Progress'] else 0 }},
+                {{ status_counts.Interview if status_counts.Interview else 0 }},
+                {{ status_counts.Offer if status_counts.Offer else 0 }},
+                {{ status_counts.Rejected if status_counts.Rejected else 0 }}
               ],
               backgroundColor: [
                 '#9CA3AF', // gray-400
@@ -1088,15 +1005,10 @@
         new Chart(timelineCtx, {
           type: 'line',
           data: {
-            labels: ['Last Week', '2 Weeks Ago', '3 Weeks Ago', '4 Weeks Ago'],
+            labels: {{ timeline_labels|tojson }},
             datasets: [{
               label: 'Applications',
-              data: [
-                {{ stats.last_week if stats.last_week else 0 }},
-                {{ stats.two_weeks_ago if stats.two_weeks_ago else 0 }},
-                {{ stats.three_weeks_ago if stats.three_weeks_ago else 0 }},
-                {{ stats.four_weeks_ago if stats.four_weeks_ago else 0 }}
-              ],
+              data: {{ timeline_values|tojson }},
               borderColor: '#3B82F6',
               backgroundColor: 'rgba(59, 130, 246, 0.1)',
               tension: 0.4,

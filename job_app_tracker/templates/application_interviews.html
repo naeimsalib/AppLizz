@@ -159,6 +159,7 @@
         class="mt-5"
         id="interview-form"
       >
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
         <div class="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
           <div class="sm:col-span-3">
             <label

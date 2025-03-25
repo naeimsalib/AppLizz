@@ -110,7 +110,9 @@ block content %}
                   suggestion.email_subject }}
                 </div>
                 <div class="text-xs text-gray-400 mt-1">
-                  {{ suggestion.date.strftime('%Y-%m-%d %H:%M') }}
+                  {{ (suggestion.timestamp or
+                  suggestion.date).strftime('%Y-%m-%d %H:%M') if
+                  suggestion.timestamp or suggestion.date else 'N/A' }}
                 </div>
               </td>
             </tr>

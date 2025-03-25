@@ -3,13 +3,16 @@ from flask_login import login_required, current_user
 from job_app_tracker.config.mongodb import mongo
 from datetime import datetime, timedelta
 from bson import ObjectId
-from job_app_tracker.services.email_service import EmailService
 import os
 from job_app_tracker.models.application import Application
 from werkzeug.utils import secure_filename
 from flask import current_app
+import json
 
 main = Blueprint('main', __name__)
+
+# Define job application statuses
+JOB_APPLICATION_STATUSES = ['Applied', 'In Progress', 'Interview', 'Offer', 'Rejected', 'Withdrawn']
 
 @main.route('/')
 def index():
@@ -21,78 +24,68 @@ def index():
 def faq():
     return render_template('faq.html')
 
-@main.route('/pricing')
-def pricing():
-    return render_template('pricing.html')
-
 @main.route('/dashboard')
 @login_required
 def dashboard():
-    # Get all applications for the current user
-    applications = list(mongo.db.applications.find({'user_id': str(current_user.id)}))
-    
-    # Convert ObjectId to string and format dates
-    for app in applications:
-        app['_id'] = str(app['_id'])
-        if isinstance(app.get('date_applied'), str):
-            try:
-                app['date_applied'] = datetime.strptime(app['date_applied'], '%Y-%m-%d')
-            except ValueError:
-                app['date_applied'] = datetime.now()
-        elif not app.get('date_applied'):
-            app['date_applied'] = datetime.now()
-    
+    """Route for the dashboard page."""
+    # Get all job applications for the current user
+    job_applications = Application.get_all_for_user(current_user.id)
+
+    # Get counts for each status
+    status_counts = {}
+    for status in JOB_APPLICATION_STATUSES:
+        status_counts[status] = sum(1 for app in job_applications if app.status == status)
+
+    # Also add "In Progress" status which might not be in JOB_APPLICATION_STATUSES
+    if 'In Progress' not in status_counts:
+        status_counts['In Progress'] = sum(1 for app in job_applications if app.status == 'In Progress')
+
     # Calculate statistics
-    today = datetime.now()
-    one_week_ago = today - timedelta(days=7)
-    two_weeks_ago = today - timedelta(days=14)
-    three_weeks_ago = today - timedelta(days=21)
-    four_weeks_ago = today - timedelta(days=28)
+    total_applications = len(job_applications)
+    active_applications = sum(status_counts.get(status, 0) for status in ['Applied', 'In Progress', 'Interview'])
+    rejected_applications = status_counts.get('Rejected', 0)
     
-    stats = {
-        'total': len(applications),
-        'applied': sum(1 for app in applications if app.get('status') == 'Applied'),
-        'in_progress': sum(1 for app in applications if app.get('status') == 'In Progress'),
-        'interviews': sum(1 for app in applications if app.get('status') == 'Interview'),
-        'offers': sum(1 for app in applications if app.get('status') == 'Offer'),
-        'rejected': sum(1 for app in applications if app.get('status') == 'Rejected'),
-        
-        # Applications by time period
-        'last_week': sum(1 for app in applications if app.get('date_applied') and app.get('date_applied') >= one_week_ago),
-        'two_weeks_ago': sum(1 for app in applications if app.get('date_applied') and two_weeks_ago <= app.get('date_applied') < one_week_ago),
-        'three_weeks_ago': sum(1 for app in applications if app.get('date_applied') and three_weeks_ago <= app.get('date_applied') < two_weeks_ago),
-        'four_weeks_ago': sum(1 for app in applications if app.get('date_applied') and four_weeks_ago <= app.get('date_applied') < three_weeks_ago)
-    }
+    # Get recent applications (limited to 5)
+    recent_applications = sorted(
+        job_applications, 
+        key=lambda x: x.created_at if x.created_at else datetime.min, 
+        reverse=True
+    )[:5]
+
+    # Compute application timeline (last 30 days)
+    today = datetime.now().date()
+    timeline_data = {}
     
-    # Ensure all stats have at least a zero value
-    for key in ['applied', 'in_progress', 'interviews', 'offers', 'rejected', 
-                'last_week', 'two_weeks_ago', 'three_weeks_ago', 'four_weeks_ago']:
-        if key not in stats or stats[key] is None:
-            stats[key] = 0
+    # Initialize the timeline with zeros for the last 30 days
+    for i in range(30, -1, -1):
+        date = today - timedelta(days=i)
+        timeline_data[date.strftime('%Y-%m-%d')] = 0
     
-    # Get upcoming deadlines (next 7 days)
-    seven_days_later = today + timedelta(days=7)
+    # Count applications for each day
+    for app in job_applications:
+        if app.created_at:
+            app_date = app.created_at.date()
+            date_diff = (today - app_date).days
+            
+            if 0 <= date_diff <= 30:
+                date_str = app_date.strftime('%Y-%m-%d')
+                timeline_data[date_str] = timeline_data.get(date_str, 0) + 1
     
-    upcoming_deadlines = [
-        app for app in applications 
-        if app.get('deadline') and today <= app.get('deadline') <= seven_days_later
-    ]
-    
-    # Sort deadlines by date (closest first)
-    upcoming_deadlines.sort(key=lambda x: x.get('deadline'))
-    
-    # Get applications with interview status
-    upcoming_interviews = [
-        app for app in applications 
-        if app.get('status') == 'Interview'
-    ]
+    # Prepare timeline data for charts
+    timeline_labels = list(timeline_data.keys())
+    timeline_values = list(timeline_data.values())
     
     return render_template(
-        'dashboard.html', 
-        stats=stats, 
-        applications=applications,
-        upcoming_deadlines=upcoming_deadlines,
-        upcoming_interviews=upcoming_interviews
+        'dashboard.html',
+        job_applications=job_applications,
+        recent_applications=recent_applications,
+        total_applications=total_applications,
+        active_applications=active_applications,
+        rejected_applications=rejected_applications,
+        status_counts=status_counts,
+        timeline_labels=timeline_labels,
+        timeline_values=timeline_values,
+        page='dashboard'
     )
 
 @main.route('/application/new', methods=['GET', 'POST'])
@@ -172,472 +165,20 @@ def edit_application(application_id):
 @main.route('/settings', methods=['GET', 'POST'])
 @login_required
 def settings():
-    if request.method == 'POST':
-        # Handle profile update
-        name = request.form.get('name')
-        if name:
-            mongo.db.users.update_one(
-                {'_id': ObjectId(current_user.id)},
-                {'$set': {'name': name}}
-            )
-            flash('Profile updated successfully!', 'success')
-        return redirect(url_for('main.settings'))
+    """User settings page"""
+    # Display basic settings page without email functionality
     
-    return render_template('settings.html')
-
-@main.route('/upgrade', methods=['POST'])
-@login_required
-def upgrade_subscription():
-    # This is a placeholder for the actual payment processing
-    # In a real implementation, you would integrate with a payment processor like Stripe
+    # Get user data
+    from flask_pymongo import PyMongo
+    mongo = PyMongo(current_app)
     
-    # For now, we'll just simulate a successful upgrade
-    from datetime import datetime, timedelta
-    
-    # Set subscription to premium for 30 days
-    current_user.update_subscription(
-        is_premium=True,
-        plan='premium',
-        start_date=datetime.now(),
-        end_date=datetime.now() + timedelta(days=30),
-        payment_id='simulated_payment_' + str(datetime.now().timestamp())
-    )
-    
-    flash('Congratulations! Your account has been upgraded to Premium for 30 days.', 'success')
-    return redirect(url_for('main.dashboard'))
-
-@main.route('/update_email_settings', methods=['POST'])
-@login_required
-def update_email_settings():
-    auto_scan = 'auto_scan' in request.form
-    require_approval = 'require_approval' in request.form
-    scan_attachments = 'scan_attachments' in request.form
-    
-    settings = {
-        'auto_scan': auto_scan,
-        'require_approval': require_approval,
-        'scan_attachments': scan_attachments,
-        'last_scan': current_user.email_settings.get('last_scan') if hasattr(current_user, 'email_settings') and current_user.email_settings else None
-    }
-    
-    # Update user settings
-    mongo.db.users.update_one(
-        {'_id': ObjectId(current_user.id)},
-        {'$set': {'email_settings': settings}}
-    )
-    
-    flash('Email settings updated successfully!', 'success')
-    return redirect(url_for('main.settings'))
-
-@main.route('/connect_gmail')
-@login_required
-def connect_gmail():
-    # Check if Google API credentials are configured
-    if not os.environ.get('GOOGLE_CLIENT_ID') or not os.environ.get('GOOGLE_CLIENT_SECRET'):
-        flash('Google API credentials are not configured. Please contact the administrator.', 'error')
-        return redirect(url_for('main.settings'))
-    
-    # Generate OAuth URL
-    auth_url = EmailService.get_gmail_auth_url(current_user.id)
-    return redirect(auth_url)
-
-@main.route('/gmail_callback')
-@login_required
-def gmail_callback():
-    code = request.args.get('code')
-    state = request.args.get('state')
-    
-    if not code or not state:
-        flash('Authentication failed. Please try again.', 'error')
-        return redirect(url_for('main.settings'))
-    
-    # Handle callback
-    success, user = EmailService.handle_gmail_callback(code, state)
-    
-    if success:
-        flash('Gmail connected successfully!', 'success')
-    else:
-        flash('Failed to connect Gmail. Please try again.', 'error')
-    
-    return redirect(url_for('main.settings'))
-
-@main.route('/connect_outlook')
-@login_required
-def connect_outlook():
-    flash('Outlook integration is coming soon!', 'info')
-    return redirect(url_for('main.settings'))
-
-@main.route('/connect_yahoo')
-@login_required
-def connect_yahoo():
-    # Check if Yahoo API credentials are configured
-    if not os.environ.get('YAHOO_CLIENT_ID') or not os.environ.get('YAHOO_CLIENT_SECRET'):
-        flash('Yahoo API credentials are not configured. Please contact the administrator.', 'error')
-        return redirect(url_for('main.settings'))
-    
-    # Generate OAuth URL
-    auth_url = EmailService.get_yahoo_auth_url(current_user.id)
-    return redirect(auth_url)
-
-@main.route('/yahoo_callback')
-@login_required
-def yahoo_callback():
-    code = request.args.get('code')
-    state = request.args.get('state')
-    
-    if not code or not state:
-        flash('Authentication failed. Please try again.', 'error')
-        return redirect(url_for('main.settings'))
-    
-    # Handle callback
-    success, user = EmailService.handle_yahoo_callback(code, state)
-    
-    if success:
-        flash('Yahoo Mail connected successfully!', 'success')
-    else:
-        flash('Failed to connect Yahoo Mail. Please try again.', 'error')
-    
-    return redirect(url_for('main.settings'))
-
-@main.route('/disconnect_email', methods=['POST'])
-@login_required
-def disconnect_email():
-    # Disconnect email
-    current_user.disconnect_email()
-    flash('Email disconnected successfully!', 'success')
-    return redirect(url_for('main.settings'))
-
-@main.route('/clear_email_cache', methods=['POST'])
-@login_required
-def clear_email_cache():
-    """Clear the email analysis cache for the current user"""
-    # Check if user is premium
-    if not current_user.is_premium:
-        flash('Cache management is a premium feature.', 'error')
-        return redirect(url_for('main.settings'))
-    
-    # Clear cache for this user
-    from job_app_tracker.services.email_service import EmailService
-    deleted_count = EmailService.clear_analysis_cache(user_id=current_user.id)
-    
-    if deleted_count > 0:
-        flash(f'Successfully cleared {deleted_count} cached email analyses.', 'success')
-    else:
-        flash('No cached analyses found to clear.', 'info')
-    
-    return redirect(url_for('main.settings'))
-
-@main.route('/scan_emails')
-@login_required
-def scan_emails():
-    if not current_user.email_connected:
-        flash('Please connect your email first.', 'error')
-        return redirect(url_for('main.settings'))
-    
-    # Scan emails
-    success, message, redirect_endpoint = EmailService.scan_emails(current_user)
-    
-    if success:
-        flash(message, 'success')
-    else:
-        flash(f'Failed to scan emails: {message}', 'error')
-    
-    # Use the redirect endpoint directly
-    return redirect(url_for(redirect_endpoint))
-
-@main.route('/email_suggestions')
-@login_required
-def email_suggestions():
-    """Show email suggestions for job applications"""
-    user = current_user
-    
-    # Get page number from query parameters, default to 1
-    page = request.args.get('page', 1, type=int)
-    items_per_page = 10  # Number of suggestions per page
-    
-    # Get suggestions from database
-    suggestions = mongo.db.email_suggestions.find_one({
-        'user_id': str(user.id),
-        'processed': False
-    })
-    
-    if not suggestions:
-        return render_template(
-            'email_suggestions.html',
-            suggestions=None,
-            status_updates=None,
-            new_applications=None,
-            current_page=1,
-            total_pages=1,
-            has_next=False,
-            has_prev=False
-        )
-    
-    # Process suggestions
-    status_updates = []
-    new_applications = []
-    
-    for i, suggestion in enumerate(suggestions['suggestions']):
-        suggestion['index'] = i
-        if suggestion['type'] == 'update':
-            status_updates.append(suggestion)
-        elif suggestion['type'] == 'new':
-            new_applications.append(suggestion)
-    
-    # Implement pagination
-    total_status_updates = len(status_updates)
-    total_new_applications = len(new_applications)
-    
-    # Determine which section to paginate based on what's available
-    if status_updates and page <= (total_status_updates + items_per_page - 1) // items_per_page:
-        # Paginate status updates
-        start_idx = (page - 1) * items_per_page
-        end_idx = min(start_idx + items_per_page, total_status_updates)
-        paginated_status_updates = status_updates[start_idx:end_idx]
-        paginated_new_applications = []
-        section = "updates"
-        total_items = total_status_updates
-    else:
-        # Paginate new applications
-        # Adjust page number to account for status update pages
-        adjusted_page = page - ((total_status_updates + items_per_page - 1) // items_per_page)
-        start_idx = (adjusted_page - 1) * items_per_page
-        end_idx = min(start_idx + items_per_page, total_new_applications)
-        paginated_status_updates = []
-        paginated_new_applications = new_applications[start_idx:end_idx]
-        section = "new"
-        total_items = total_new_applications
-    
-    # Calculate total pages across both sections
-    total_update_pages = (total_status_updates + items_per_page - 1) // items_per_page
-    total_new_pages = (total_new_applications + items_per_page - 1) // items_per_page
-    total_pages = total_update_pages + total_new_pages
-    
-    # Check if there are next/previous pages
-    has_next = page < total_pages
-    has_prev = page > 1
+    user_data = mongo.db.users.find_one({'_id': ObjectId(current_user.id)})
     
     return render_template(
-        'email_suggestions.html',
-        suggestions=suggestions,
-        status_updates=paginated_status_updates,
-        new_applications=paginated_new_applications,
-        current_page=page,
-        total_pages=total_pages,
-        has_next=has_next,
-        has_prev=has_prev,
-        section=section,
-        items_per_page=items_per_page
+        'settings.html', 
+        user=current_user,
+        user_data=user_data
     )
-
-@main.route('/accept_suggestion/<suggestion_id>', methods=['POST'])
-@login_required
-def accept_suggestion(suggestion_id):
-    # Find suggestion
-    suggestions_doc = mongo.db.email_suggestions.find_one({
-        '_id': ObjectId(suggestion_id),
-        'user_id': str(current_user.id)
-    })
-    
-    if not suggestions_doc:
-        flash('Suggestion not found.', 'error')
-        return redirect(url_for('main.email_suggestions'))
-    
-    # Get selected suggestions from form
-    selected = request.form.getlist('accept')
-    
-    if not selected:
-        flash('No suggestions selected.', 'warning')
-        return redirect(url_for('main.email_suggestions'))
-    
-    processed_count = 0
-    
-    for selection in selected:
-        # Handle new applications (format: "new_X")
-        if selection.startswith('new_'):
-            try:
-                index = int(selection.split('_')[1])
-                if index < len(suggestions_doc['suggestions']):
-                    suggestion = suggestions_doc['suggestions'][index]
-                    if suggestion['type'] == 'new':
-                        # Add new application
-                        new_app = {
-                            'user_id': str(current_user.id),
-                            'company': suggestion['company'],
-                            'position': suggestion['position'] if suggestion['position'] != 'Unknown Position' else '',
-                            'status': suggestion['status'],
-                            'date_applied': suggestion['date'],
-                            'notes': f"Automatically added from email: {suggestion['email_subject']}",
-                            'created_at': datetime.utcnow()
-                        }
-                        mongo.db.applications.insert_one(new_app)
-                        processed_count += 1
-                        # Mark as processed by setting to None (we'll filter these out later)
-                        suggestions_doc['suggestions'][index] = None
-            except (ValueError, IndexError):
-                continue
-        else:
-            # Handle status updates (application_id directly)
-            try:
-                app_id = selection
-                # Find the suggestion with this application_id
-                for i, suggestion in enumerate(suggestions_doc['suggestions']):
-                    if suggestion and suggestion['type'] == 'update' and suggestion.get('application_id') == app_id:
-                        # Update application status
-                        mongo.db.applications.update_one(
-                            {'_id': ObjectId(suggestion['application_id'])},
-                            {'$set': {'status': suggestion['new_status']}}
-                        )
-                        processed_count += 1
-                        # Mark as processed by setting to None
-                        suggestions_doc['suggestions'][i] = None
-                        break
-            except Exception as e:
-                current_app.logger.error(f"Error processing suggestion: {str(e)}")
-                continue
-    
-    # Remove processed suggestions (None values)
-    suggestions_doc['suggestions'] = [s for s in suggestions_doc['suggestions'] if s is not None]
-    
-    if not suggestions_doc['suggestions']:
-        # If no more suggestions, mark the whole document as processed
-        mongo.db.email_suggestions.update_one(
-            {'_id': ObjectId(suggestion_id)},
-            {'$set': {'processed': True}}
-        )
-    else:
-        # Otherwise, update the suggestions list
-        mongo.db.email_suggestions.update_one(
-            {'_id': ObjectId(suggestion_id)},
-            {'$set': {'suggestions': suggestions_doc['suggestions']}}
-        )
-    
-    if processed_count > 0:
-        flash(f"Successfully processed {processed_count} suggestion(s).", 'success')
-    else:
-        flash("No suggestions were processed.", 'warning')
-    
-    return redirect(url_for('main.email_suggestions'))
-
-@main.route('/accept_all_suggestions/<suggestion_id>', methods=['POST'])
-@login_required
-def accept_all_suggestions(suggestion_id):
-    """Process all suggestions at once"""
-    # Find suggestion document
-    suggestions_doc = mongo.db.email_suggestions.find_one({
-        '_id': ObjectId(suggestion_id),
-        'user_id': str(current_user.id)
-    })
-    
-    if not suggestions_doc:
-        flash('Suggestions not found.', 'error')
-        return redirect(url_for('main.email_suggestions'))
-    
-    # Check if the user wants to process all suggestions
-    if not request.form.get('select_all'):
-        flash('No suggestions selected.', 'warning')
-        return redirect(url_for('main.email_suggestions'))
-    
-    processed_count = 0
-    new_applications = []
-    status_updates = []
-    
-    # Process all suggestions
-    for i, suggestion in enumerate(suggestions_doc['suggestions']):
-        if suggestion['type'] == 'new':
-            # Add new application
-            new_app = {
-                'user_id': str(current_user.id),
-                'company': suggestion['company'],
-                'position': suggestion['position'] if suggestion['position'] != 'Unknown Position' else '',
-                'status': suggestion['status'],
-                'date_applied': suggestion['date'],
-                'notes': f"Automatically added from email: {suggestion['email_subject']}",
-                'created_at': datetime.utcnow()
-            }
-            
-            # Add job URL if available
-            if suggestion.get('job_url'):
-                new_app['url'] = suggestion['job_url']
-                
-            # Add application platform if available
-            if suggestion.get('application_platform'):
-                if new_app.get('notes'):
-                    new_app['notes'] += f" | Applied via {suggestion['application_platform']}"
-                else:
-                    new_app['notes'] = f"Applied via {suggestion['application_platform']}"
-                
-            new_applications.append(new_app)
-            processed_count += 1
-        elif suggestion['type'] == 'update':
-            # Add to status updates list
-            status_updates.append({
-                'application_id': suggestion['application_id'],
-                'new_status': suggestion['new_status']
-            })
-            processed_count += 1
-    
-    # Bulk insert new applications
-    if new_applications:
-        mongo.db.applications.insert_many(new_applications)
-    
-    # Bulk update status updates
-    for update in status_updates:
-        try:
-            mongo.db.applications.update_one(
-                {'_id': ObjectId(update['application_id'])},
-                {'$set': {'status': update['new_status']}}
-            )
-        except Exception as e:
-            current_app.logger.error(f"Error updating application status: {str(e)}")
-    
-    # Mark all suggestions as processed
-    mongo.db.email_suggestions.update_one(
-        {'_id': ObjectId(suggestion_id)},
-        {'$set': {'processed': True}}
-    )
-    
-    flash(f"Successfully processed all {processed_count} suggestions!", 'success')
-    return redirect(url_for('main.dashboard'))
-
-@main.route('/reject_suggestion/<suggestion_id>', methods=['POST'])
-@login_required
-def reject_suggestion(suggestion_id):
-    # Find suggestion
-    suggestions_doc = mongo.db.email_suggestions.find_one({
-        '_id': ObjectId(suggestion_id),
-        'user_id': str(current_user.id)
-    })
-    
-    if not suggestions_doc:
-        flash('Suggestion not found.', 'error')
-        return redirect(url_for('main.email_suggestions'))
-    
-    # Get suggestion index from form
-    index = int(request.form.get('index', 0))
-    
-    if index >= len(suggestions_doc['suggestions']):
-        flash('Invalid suggestion index.', 'error')
-        return redirect(url_for('main.email_suggestions'))
-    
-    # Remove suggestion
-    suggestion = suggestions_doc['suggestions'].pop(index)
-    
-    if not suggestions_doc['suggestions']:
-        # If no more suggestions, mark the whole document as processed
-        mongo.db.email_suggestions.update_one(
-            {'_id': ObjectId(suggestion_id)},
-            {'$set': {'processed': True}}
-        )
-    else:
-        # Otherwise, update the suggestions list
-        mongo.db.email_suggestions.update_one(
-            {'_id': ObjectId(suggestion_id)},
-            {'$set': {'suggestions': suggestions_doc['suggestions']}}
-        )
-    
-    flash(f"Ignored suggestion for {suggestion['company']}.", 'success')
-    return redirect(url_for('main.email_suggestions'))
 
 @main.route('/test_db')
 def test_db():
@@ -675,60 +216,6 @@ def test_db():
             'status': 'error',
             'message': str(e)
         }
-
-@main.route('/cache_stats')
-@login_required
-def cache_stats():
-    """Get statistics about the email analysis cache"""
-    # Check if user is premium
-    if not current_user.is_premium:
-        flash('Cache management is a premium feature.', 'error')
-        return redirect(url_for('main.settings'))
-    
-    try:
-        # Get overall cache stats
-        total_cache_entries = mongo.db.analysis_cache.count_documents({})
-        
-        # Get user's cache stats
-        user_cache_entries = mongo.db.analysis_cache.count_documents({"user_id": str(current_user.id)})
-        
-        # Get cache size by status
-        job_related_entries = mongo.db.analysis_cache.count_documents({"is_job_related": True})
-        non_job_related_entries = mongo.db.analysis_cache.count_documents({"is_job_related": False})
-        
-        # Get cache age statistics
-        one_day_ago = datetime.utcnow() - timedelta(days=1)
-        one_week_ago = datetime.utcnow() - timedelta(days=7)
-        
-        recent_entries = mongo.db.analysis_cache.count_documents({"created_at": {"$gte": one_day_ago}})
-        week_old_entries = mongo.db.analysis_cache.count_documents({
-            "created_at": {"$lt": one_day_ago, "$gte": one_week_ago}
-        })
-        older_entries = mongo.db.analysis_cache.count_documents({"created_at": {"$lt": one_week_ago}})
-        
-        # Get most common companies in cache
-        pipeline = [
-            {"$match": {"company": {"$ne": "Unknown Company"}}},
-            {"$group": {"_id": "$company", "count": {"$sum": 1}}},
-            {"$sort": {"count": -1}},
-            {"$limit": 5}
-        ]
-        top_companies = list(mongo.db.analysis_cache.aggregate(pipeline))
-        
-        return render_template(
-            'cache_stats.html',
-            total_cache_entries=total_cache_entries,
-            user_cache_entries=user_cache_entries,
-            job_related_entries=job_related_entries,
-            non_job_related_entries=non_job_related_entries,
-            recent_entries=recent_entries,
-            week_old_entries=week_old_entries,
-            older_entries=older_entries,
-            top_companies=top_companies
-        )
-    except Exception as e:
-        flash(f'Error retrieving cache statistics: {str(e)}', 'error')
-        return redirect(url_for('main.settings'))
 
 @main.route('/application/delete/<application_id>', methods=['POST'])
 @login_required
@@ -978,15 +465,4 @@ def delete_interview(application_id, interview_id):
         
         return jsonify({'success': True})
     except Exception as e:
-        return jsonify({'success': False, 'message': str(e)})
-
-@main.route('/clear_all_user_data')
-@login_required
-def clear_all_user_data():
-    # Clear all user data
-    deleted_count = EmailService.clear_all_user_data(current_user)
-    
-    flash(f'Cleared {deleted_count["suggestions"]} suggestions and {deleted_count["applications"]} applications.', 'success')
-    
-    # Redirect to email suggestions page
-    return redirect(url_for('main.email_suggestions')) 
+        return jsonify({'success': False, 'message': str(e)}) 

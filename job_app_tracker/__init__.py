@@ -1,61 +1,59 @@
-import os
-from flask import Flask, request
+from flask import Flask
 from flask_login import LoginManager
+import os
 from flask_cors import CORS
-from .config.mongodb import init_mongodb
-from .models.user import User
-from dotenv import load_dotenv
-from .config.default import Config
-
-# Load environment variables
-load_dotenv()
+from flask_wtf.csrf import CSRFProtect
 
 # Initialize extensions
 login_manager = LoginManager()
 login_manager.login_view = 'auth.login'
-login_manager.login_message_category = 'info'
+csrf = CSRFProtect()
 
-@login_manager.user_loader
-def load_user(user_id):
-    return User.get_by_id(user_id)
-
-def create_app(config=None):
-    app = Flask(__name__)
+def create_app(test_config=None):
+    app = Flask(__name__, instance_relative_config=True)
     
-    # Load configuration
-    app.config.from_object(Config)
-    if config:
-        app.config.update(config)
+    # Configure the app
+    app.config.from_mapping(
+        SECRET_KEY=os.environ.get('SECRET_KEY', 'dev_key'),
+        MONGODB_URI=os.environ.get('MONGODB_URI', 'mongodb://localhost:27017/job_app_tracker'),
+        UPLOAD_FOLDER=os.path.join(os.path.dirname(os.path.abspath(__file__)), 'uploads'),
+        MAX_CONTENT_LENGTH=16 * 1024 * 1024  # 16 MB max upload
+    )
     
-    # Initialize CORS with configuration
-    CORS(app, resources={r"/*": {"origins": app.config['CORS_ORIGINS']}})
+    # Initialize the upload folder
+    if not os.path.exists(app.config['UPLOAD_FOLDER']):
+        os.makedirs(app.config['UPLOAD_FOLDER'])
     
     # Initialize MongoDB
-    init_mongodb(app)
+    from job_app_tracker.config.mongodb import init_db
+    init_db(app)
     
-    # Initialize Flask-Login
+    # Initialize extensions
     login_manager.init_app(app)
-    
-    # Add security headers to all responses
-    @app.after_request
-    def add_security_headers(response):
-        for header, value in app.config['SECURITY_HEADERS'].items():
-            response.headers[header] = value
-        return response
+    csrf.init_app(app)
+    CORS(app)
     
     # Register blueprints
-    from .main.routes import main
-    from .auth.routes import auth
-    from .routes.email_routes import email_bp
+    from job_app_tracker.auth.routes import auth_bp
+    from job_app_tracker.main.routes import main
     
-    app.register_blueprint(main)
-    app.register_blueprint(auth, url_prefix='/auth')
-    app.register_blueprint(email_bp, url_prefix='/email')
+    app.register_blueprint(auth_bp, url_prefix='/auth')
+    app.register_blueprint(main, url_prefix='')
     
-    # Start scheduled tasks
-    with app.app_context():
-        # Schedule cache cleanup
-        from .services.email_service import EmailService
-        EmailService.schedule_cache_cleanup()
+    # User loader for Flask-Login
+    from job_app_tracker.models.user import User
+    
+    @login_manager.user_loader
+    def load_user(user_id):
+        return User.get_by_id(user_id)
+    
+    # Error handlers
+    @app.errorhandler(404)
+    def page_not_found(e):
+        return "Page not found (404)", 404
+    
+    @app.errorhandler(500)
+    def server_error(e):
+        return "Internal server error (500)", 500
     
     return app 

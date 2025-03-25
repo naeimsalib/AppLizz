@@ -1,96 +1,106 @@
-# Job Application Tracker
+# Applizz - Job Application Tracker
 
-A web application that helps users track their job applications by automatically processing their emails and organizing application status.
+A clean, streamlined job application tracking system built with Flask and MongoDB.
 
 ## Features
 
-- Email Integration: Automatically tracks job applications from your email
-- Application Status Tracking: Keep track of your application statuses
-- User Authentication: Secure login and registration system
-- Dashboard: View all your job applications in one place
+- **User Management**: Register, login, and user profile management
+- **Application Tracking**: Add, edit, and delete job applications with status management
+- **Dashboard**: Visual statistics of your job hunt progress
+- **Document Management**: Attach and manage documents for each application
+- **Interview Tracking**: Schedule and manage interview processes
+- **Notes System**: Keep detailed notes on each application
 
 ## Tech Stack
 
-- Python 3.8+
-- Flask (Web Framework)
-- PostgreSQL (Database)
-- SQLAlchemy (ORM)
-- Flask-Login (Authentication)
-- Flask-Mail (Email Integration)
+- **Backend**: Flask (Python)
+- **Database**: MongoDB
+- **Frontend**: HTML, Tailwind CSS, JavaScript
+- **Authentication**: Flask-Login
+- **Data Visualization**: Chart.js
 
-## Setup
+## Deployment Instructions
 
-1. Clone the repository:
+### Local Development
 
-```bash
-git clone <repository-url>
-cd job_app_tracker
-```
+1. Clone the repository
 
-2. Create and activate virtual environment:
+   ```
+   git clone <repository-url>
+   cd job_app_tracker
+   ```
 
-```bash
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-```
+2. Create a virtual environment and install dependencies
 
-3. Install dependencies:
+   ```
+   python -m venv venv
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   pip install -r requirements.txt
+   ```
 
-```bash
-pip install -r requirements.txt
-```
+3. Set up environment variables
+   Create a `.env` file in the root directory with the following:
 
-4. Set up environment variables:
-   Create a `.env` file in the root directory with the following variables:
+   ```
+   FLASK_ENV=development
+   SECRET_KEY=your_secret_key
+   MONGODB_URI=mongodb://localhost:27017/job_app_tracker
+   ```
 
-```
-SECRET_KEY=your-secret-key
-DATABASE_URL=postgresql://localhost/job_app_tracker
-MAIL_USERNAME=your-email@gmail.com
-MAIL_PASSWORD=your-app-specific-password
-```
+4. Run the application
+   ```
+   python run.py
+   ```
+   The application will be available at http://localhost:3000
 
-5. Initialize the database:
+### Production Deployment
 
-```bash
-python init_db.py
-```
+#### Deploying to Heroku
 
-6. Run the application:
+1. Create a Heroku account and install the Heroku CLI
 
-```bash
-python run.py
-```
+2. Login to Heroku and create a new app
 
-## Usage
+   ```
+   heroku login
+   heroku create your-app-name
+   ```
 
-1. Register an account at `/auth/register`
-2. Configure your email settings in your profile
-3. The application will automatically track job applications from configured email addresses
-4. View and manage your applications on the dashboard
+3. Add MongoDB as an add-on or connect to your own MongoDB instance
 
-## Development
+   ```
+   # Using MongoDB Atlas
+   heroku config:set MONGODB_URI=your_mongodb_connection_string
+   ```
 
-- Use `DevelopmentConfig` for local development
-- Run tests with `python -m pytest`
-- Follow PEP 8 style guide
-- Use type hints for better code documentation
+4. Configure environment variables
 
-## Production Deployment
+   ```
+   heroku config:set FLASK_ENV=production
+   heroku config:set SECRET_KEY=your_secure_secret_key
+   ```
 
-1. Set up proper PostgreSQL database
-2. Configure production environment variables
-3. Use `ProductionConfig`
-4. Set up proper WSGI server (e.g., Gunicorn)
-5. Configure proper email server settings
+5. Deploy the application
+   ```
+   git push heroku main
+   ```
 
-## Contributing
+#### Deploying with Docker
 
-1. Fork the repository
-2. Create a feature branch
-3. Commit your changes
-4. Push to the branch
-5. Create a Pull Request
+1. Build the Docker image
+
+   ```
+   docker build -t applizz .
+   ```
+
+2. Run the container
+   ```
+   docker run -p 3000:3000 \
+     -e FLASK_ENV=production \
+     -e SECRET_KEY=your_secure_secret_key \
+     -e MONGODB_URI=your_mongodb_connection_string \
+     applizz
+   ```
 
 ## License
 

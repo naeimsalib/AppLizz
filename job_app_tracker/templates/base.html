@@ -118,23 +118,6 @@
               class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-100"
               >Dashboard</a
             >
-            {% if current_user.email_connected %}
-            <a
-              href="{{ url_for('main.email_suggestions') }}"
-              class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-100 relative"
-            >
-              Email Suggestions {% if current_user.has_suggestions %}
-              <span class="absolute top-1 right-1 flex h-2 w-2">
-                <span
-                  class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"
-                ></span>
-                <span
-                  class="relative inline-flex rounded-full h-2 w-2 bg-red-500"
-                ></span>
-              </span>
-              {% endif %}
-            </a>
-            {% endif %}
             <a
               href="{{ url_for('main.settings') }}"
               class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-100"
@@ -144,11 +127,6 @@
               href="{{ url_for('main.faq') }}"
               class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-100"
               >FAQ</a
-            >
-            <a
-              href="{{ url_for('main.pricing') }}"
-              class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-100"
-              >Pricing</a
             >
             <div class="ml-3 relative">
               <a
@@ -212,11 +190,6 @@
               class="ml-4 px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-100"
               >FAQ</a
             >
-            <a
-              href="{{ url_for('main.pricing') }}"
-              class="ml-4 px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-100"
-              >Pricing</a
-            >
             <!-- Theme Toggle Switch -->
             <div class="theme-switch-wrapper ml-4">
               <label class="theme-switch" for="theme-toggle">
@@ -241,23 +214,6 @@
             class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-100"
             >Dashboard</a
           >
-          {% if current_user.email_connected %}
-          <a
-            href="{{ url_for('main.email_suggestions') }}"
-            class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-100 relative"
-          >
-            Email Suggestions {% if current_user.has_suggestions %}
-            <span class="inline-flex ml-2 h-2 w-2">
-              <span
-                class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"
-              ></span>
-              <span
-                class="relative inline-flex rounded-full h-2 w-2 bg-red-500"
-              ></span>
-            </span>
-            {% endif %}
-          </a>
-          {% endif %}
           <a
             href="{{ url_for('main.settings') }}"
             class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-100"
@@ -267,11 +223,6 @@
             href="{{ url_for('main.faq') }}"
             class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-100"
             >FAQ</a
-          >
-          <a
-            href="{{ url_for('main.pricing') }}"
-            class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-100"
-            >Pricing</a
           >
           <a
             href="{{ url_for('auth.logout') }}"
@@ -346,12 +297,6 @@
               class="text-gray-500 hover:text-gray-700"
             >
               FAQ
-            </a>
-            <a
-              href="{{ url_for('main.pricing') }}"
-              class="text-gray-500 hover:text-gray-700"
-            >
-              Pricing
             </a>
             <a
               href="https://github.com"

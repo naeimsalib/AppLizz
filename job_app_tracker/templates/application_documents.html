@@ -146,6 +146,7 @@
         class="mt-5"
         id="upload-form"
       >
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
         <div class="file-upload-area" id="drop-area">
           <input type="file" id="document" name="document" class="hidden" />
           <div class="text-center">

@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}{% if application %}Edit{% else %}Add{% endif %} Application - JobJourney{% endblock %}
+{% block title %}{% if application %}Edit{% else %}Add{% endif %} Application - Applizz{% endblock %}
 
 {% block content %}
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -48,6 +48,7 @@
     </div>
     <div class="mt-5 md:mt-0 md:col-span-2">
       <form action="{{ url_for('main.edit_application', application_id=application._id) if application else url_for('main.add_application') }}" method="POST">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
         <div class="shadow sm:rounded-lg overflow-hidden">
           <div class="px-6 py-5 bg-white space-y-6">
             <!-- Company Name -->

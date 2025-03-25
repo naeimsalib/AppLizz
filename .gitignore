@@ -21,9 +21,56 @@ wheels/
 .installed.cfg
 *.egg
 
+# Flask
+instance/
+.webassets-cache
+/uploads/
+
 # Virtual Environment
 venv/
 ENV/
+env/
+
+# Environment variables
+.env
+.flaskenv
+
+# IDE specific files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Logs
+*.log
+logs/
+app.log
+
+# Database
+*.db
+*.sqlite3
+
+# OS specific files
+.DS_Store
+Thumbs.db
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+pytest_cache/
+
+# Session files
+flask_session/
+
+# Jupyter Notebook
+.ipynb_checkpoints
 
 # IDE
 .idea/
@@ -80,16 +127,6 @@ local.properties
 *.user
 *.userosscache
 *.sln.docstates
-
-# Jupyter Notebook
-.ipynb_checkpoints
-
-# Uploaded files
-uploads/
-media/
-
-# Compiled Python bytecode
-*.pyc
 
 # Package files
 *.jar

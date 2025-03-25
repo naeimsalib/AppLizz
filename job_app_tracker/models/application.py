@@ -15,7 +15,7 @@ class Application:
         self.company_logo = app_data.get('company_logo')
         self.notes = app_data.get('notes', '')
         
-        # New fields for enhanced functionality
+        # Fields for enhanced functionality
         self.notes_list = app_data.get('notes_list', [])
         self.documents = app_data.get('documents', [])
         self.contacts = app_data.get('contacts', [])
@@ -23,8 +23,7 @@ class Application:
         self.salary_info = app_data.get('salary_info', {})
         self.created_at = app_data.get('created_at')
         self.updated_at = app_data.get('updated_at')
-        self.source = app_data.get('source', 'manual')  # manual, email, etc.
-        self.email_ids = app_data.get('email_ids', [])  # IDs of related emails
+        self.source = app_data.get('source', 'manual')  # manual entry source
         self.tags = app_data.get('tags', [])
     
     @staticmethod
@@ -306,6 +305,5 @@ class Application:
             'created_at': self.created_at,
             'updated_at': self.updated_at,
             'source': self.source,
-            'email_ids': self.email_ids,
             'tags': self.tags
         } 

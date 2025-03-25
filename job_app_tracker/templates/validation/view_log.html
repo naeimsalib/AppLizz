@@ -1,0 +1,59 @@
+{% extends "base.html" %} {% block title %}Validation Log{% endblock %} {% block
+content %}
+<div class="container mt-4">
+  <h1>Validation Log</h1>
+  <p class="lead">{{ log_file }}</p>
+
+  <div class="mb-3">
+    <a
+      href="{{ url_for('validation.email_validation') }}"
+      class="btn btn-secondary"
+    >
+      <i class="fas fa-arrow-left"></i> Back to Dashboard
+    </a>
+  </div>
+
+  <div class="card mb-4">
+    <div class="card-header">
+      <h5>Log Contents</h5>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        {% if log_file.endswith('.csv') %} {% set lines =
+        log_content.strip().split('\n') %} {% set headers = lines[0].split(',')
+        %}
+        <table class="table table-striped table-bordered table-sm">
+          <thead>
+            <tr>
+              {% for header in headers %}
+              <th>{{ header }}</th>
+              {% endfor %}
+            </tr>
+          </thead>
+          <tbody>
+            {% for line in lines[1:] %} {% set cells = line.split(',') %}
+            <tr>
+              {% for cell in cells %}
+              <td>{{ cell }}</td>
+              {% endfor %}
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        {% else %}
+        <pre class="pre-scrollable">{{ log_content }}</pre>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <a
+      href="{{ url_for('validation.email_validation') }}"
+      class="btn btn-secondary"
+    >
+      <i class="fas fa-arrow-left"></i> Back to Dashboard
+    </a>
+  </div>
+</div>
+{% endblock %}
