@@ -96,4 +96,26 @@ def change_password():
     )
     
     flash('Password updated successfully!', 'success')
-    return redirect(url_for('main.settings')) 
+    return redirect(url_for('main.settings'))
+
+@auth.route('/delete-account', methods=['POST'])
+@login_required
+def delete_account():
+    """Delete user account and all associated data"""
+    confirm_delete = request.form.get('confirm_delete')
+    
+    if confirm_delete != 'DELETE':
+        flash('Please type DELETE to confirm account deletion', 'error')
+        return redirect(url_for('main.settings'))
+    
+    # Delete user's job applications
+    mongo.db.applications.delete_many({'user_id': current_user.id})
+    
+    # Delete user account
+    mongo.db.users.delete_one({'_id': ObjectId(current_user.id)})
+    
+    # Log out the user
+    logout_user()
+    
+    flash('Your account has been permanently deleted', 'success')
+    return redirect(url_for('main.index')) 
