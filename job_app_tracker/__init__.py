@@ -1,10 +1,8 @@
-from flask import Flask
+from flask import Flask, request
 from flask_login import LoginManager
 import os
 from flask_cors import CORS
 from flask_wtf.csrf import CSRFProtect
-from flask_limiter import Limiter
-from flask_limiter.util import get_remote_address
 import logging
 from logging.handlers import RotatingFileHandler
 
@@ -12,14 +10,13 @@ from logging.handlers import RotatingFileHandler
 login_manager = LoginManager()
 login_manager.login_view = 'auth.login'
 csrf = CSRFProtect()
-limiter = Limiter(key_func=get_remote_address)
 
 def setup_logging(app):
     """Configure logging for the application"""
     if not os.path.exists('logs'):
         os.makedirs('logs')
         
-    formatter = logging.Formatter(app.config['LOG_FORMAT'])
+    formatter = logging.Formatter('[%(asctime)s] %(levelname)s in %(module)s: %(message)s')
     
     file_handler = RotatingFileHandler(
         'logs/applizz.log',
@@ -30,7 +27,7 @@ def setup_logging(app):
     file_handler.setLevel(logging.INFO)
     
     app.logger.addHandler(file_handler)
-    app.logger.setLevel(app.config['LOG_LEVEL'])
+    app.logger.setLevel(logging.INFO)
     app.logger.info('Applizz startup')
 
 def create_app(test_config=None):
@@ -59,7 +56,6 @@ def create_app(test_config=None):
     # Initialize extensions
     login_manager.init_app(app)
     csrf.init_app(app)
-    limiter.init_app(app)
     CORS(app)
     
     # Setup logging

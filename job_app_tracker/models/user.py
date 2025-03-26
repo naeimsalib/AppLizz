@@ -20,6 +20,11 @@ class User(UserMixin):
         self.subscription = user_data.get('subscription', {})
 
     @property
+    def id(self):
+        """Return string representation of _id for Flask-Login"""
+        return str(self._id) if self._id else None
+
+    @property
     def is_active(self):
         return self._is_active
     
