@@ -1,0 +1,51 @@
+Subject: Don't miss these special classes! 
+From: BabySparks <hello@m4.babysparks.com>
+Date: Tue, 11 Mar 2025 01:53:17 +0000 (UTC)
+
+--- BODY ---
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:v="urn:schemas-microsoft-com:vml">
+<head><!-- NAME: SELL PRODUCTS --><!-- >
+        <xml>
+            <o:OfficeDocumentSettings>
+            <o:AllowPNG/>
+            <o:PixelsPerInch>96</o:PixelsPerInch>
+            </o:OfficeDocumentSettings>
+        </xml>
+        <! --><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1">
+	<title></title>
+	
+</head>
+<body>
+<center>
+<table align="center" border="0" cellpadding="0" cellspacing="0" height="100%" id="bodyTable" width="100%">
+	<tbody>
+		<tr>
+			<td align="center" id="bodyCell" valign="top"><!-- BEGIN TEMPLATE // -->
+			<table border="0" cellpadding="0" cellspacing="0" width="100%">
+				<tbody>
+					<tr>
+						<td align="center" data-template-container="" id="templateHeader" valign="top"><!-- >
+                                    <table align="center" border="0" cellspacing="0" cellpadding="0" width="600" style="width:600px;">
+                                    <tr>
+                                    <td align="center" valign="top" width="600" style="width:600px;">
+                                    <! -->
+						<table align="center" border="0" cellpadding="0" cellspacing="0" class="templateContainer" width="100%">
+							<tbody>
+								<tr>
+									<td class="headerContainer" valign="top">
+									<table border="0" cellpadding="0" cellspacing="0" class="mcnImageBlock" style="min-width:100%;" width="100%">
+										<tbody class="mcnImageBlockOuter">
+											<tr>
+												<td class="mcnImageBlockInner" style="padding:9px" valign="top">
+												<table align="left" border="0" cellpadding="0" cellspacing="0" class="mcnImageContentContainer" style="min-width:100%;" width="100%">
+													<tbody>
+														<tr>
+															<td class="mcnImageContent" style="p
+... (truncated) ...
+
+--- ANALYSIS ---
+Is job related: True
+Company: M4
+Position: Unknown Position
+Status: Applied

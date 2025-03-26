@@ -1,6 +1,5 @@
 import os
 from job_app_tracker import create_app
-from job_app_tracker.config.mongodb import init_db
 import logging
 from logging.config import dictConfig
 
@@ -36,14 +35,6 @@ dictConfig({
 app = create_app()
 
 if __name__ == '__main__':
-    # Initialize MongoDB indexes if needed
-    with app.app_context():
-        from job_app_tracker.config.init_indexes import init_indexes
-        try:
-            init_indexes()
-        except Exception as e:
-            app.logger.warning(f"Error initializing indexes: {str(e)}")
-    
     # Get port from environment variable or use default
     port = int(os.environ.get('PORT', 3000))
     

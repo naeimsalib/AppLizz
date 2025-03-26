@@ -1,0 +1,83 @@
+Subject: FINAL DAY: $49 spring travel sale.
+From: "Southwest Airlines" <SouthwestAirlines@iluv.southwest.com>
+Date: Thu, 13 Mar 2025 08:38:39 -0500
+
+--- BODY ---
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+ 
+<html xmlns="http://www.w3.org/1999/xhtml">
+ 
+<head>
+ 
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+ 
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+ 
+  <title>Southwest Airlines</title>
+ 
+<style type="text/css">
+ 
+/* Client-specific Styles */
+    #outlook a {padding: 0;}
+    body {
+      width: 100% !important;
+      -webkit-text-size-adjust: 100%;
+      -ms-text-size-adjust: 100%;
+      margin: 0; padding: 0;
+    }
+    table {
+      border-collapse: collapse;
+      mso-table-lspace: 0pt;
+      mso-table-rspace: 0pt;
+    }
+    table td {border-collapse: collapse;}
+    
+    .ExternalClass {width: 100%;}
+    .ExternalClass,
+    .ExternalClass p,
+    .ExternalClass span,
+    .ExternalClass font,
+    .ExternalClass td,
+    .ExternalClass div {line-height: 100%;}
+    
+    p, span, font, td, div {line-height: normal;}
+    
+    #mainContainer {
+      margin: 0; padding: 0;
+      width: 100% !important;
+      line-height: 100% !important;
+    }
+    
+    /* Default Styles & resets */
+    img {
+      outline: none;
+      text-decoration: none;
+      -ms-interpolation-mode: bicubic;
+    }
+    a img {border: none;}
+ 
+  
+ 
+    /* Media Queries */
+ 
+    /*General Tablets and iPad 1, 2, Mini and Air */
+@media screen and (min-width: 601px) and (max-width:1024px) {
+/* Hides desktop image on tablets */
+.tabHide {display: none !important;}
+    
+/* Allows mobile creative to show on tablets */
+.container.tablet {padding-bottom: 15px !important;}
+.container.tablet  img {
+        max-height: none !important;
+        height: auto !important;
+        width: 100% !important;
+    }
+}
+    
+/*iPad Pro 10.5 */
+@media only screen 
+  and (min-device-width: 834px) 
+  and (max-device-width: 1112px)
+  and (-webkit-min-device-pixel-ratio: 2) {
+/* Hide
+... (truncated) ...

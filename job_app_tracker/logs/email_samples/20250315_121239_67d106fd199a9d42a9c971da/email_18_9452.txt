@@ -1,0 +1,21 @@
+Subject: [Heads Up] Sophisticated Phishing Attack Uses New JavaScript
+ Obfuscation Trick
+From: KnowBe4 via LinkedIn <newsletters-noreply@linkedin.com>
+Date: Wed, 12 Mar 2025 00:58:52 +0000 (UTC)
+
+--- BODY ---
+CyberheistNews
+
+By KnowBe4
+
+
+By KnowBe4
+
+    
+    
+    Read this article on LinkedIn to join the conversation
+Read on LinkedIn
+https://www.linkedin.com/comm/pulse/heads-up-sophisticated-phishing-attack-uses-new-javascript-obfuscation-a0yze?lipi=urn%3Ali%3Apage%3Aemail_email_series_follow_newsletter_01%3BT5HYfkfbRGiM33O%2FznLWrg%3D%3D&midToken=AQGk9mBSiLCSMw&midSig=33HztbGrqqYHE1&trk=eml-email_series_follow_newsletter_01-null-0-read_more_banner_cta_&trkEmail=eml-email_series_follow_newsletter_01-null-0-read_more_banner_cta_-null-6u3uxm~m857oy3q~h6-null-null&eid=6u3uxm-m857oy3q-h6&otpToken=MTYwNDFkZTMxNDJiY2NjZGIwMjQwNGVkNDIxZmUwYjA4ZWNmZDM0MDljYWQ4ZDYxNzZjZjAyNjk0YTVkNTRmNGY1ZDFkZmEyNGJiOGZiZjI2MWE5Zjc0OWE3NjkxZjQ2MTk4MGVmMmM0YTFmNGNkZmZiNWQ4NiwxLDE%3D
+  
+Researchers at Juniper Threat Labs warn that phishing attacks are utilizing a new obfuscation technique to hide malicious JavaScript. "While investigating a sophisticated phishing attack targeting affiliates of a major American political action committee (PAC) in early January 2025, Juniper Threat Labs observed a new JavaScript obfuscation technique," the researchers write. "This technique was first described by a security researcher on X back in October 2024, highlighting the speed with which offensive security research can be incorporated into real-world attacks." The technique uses whitespace Unicode characters from the Korean alphabet to encode and conceal the malicious JavaScript, rendering it invisible to humans and security tools while still allowing it to execute when triggered. "On October 8, 2024, Martin Kleppe first demonstrated this technique via a post on X," Juniper explains. "A refinement of the technique, which was used verbatim in the phishing attack, was posted on October 28 and is demonstrated at https://aem1k.com/invisible/encoder/. "The encoding works by using two different Unicode filler characters, the Hangul half-width and the Hangul full width, to represent the binary values 0 a
+... (truncated) ...

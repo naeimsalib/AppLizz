@@ -1,0 +1,9 @@
+Subject: Bill alert: your total bills
+From: Albert <support@meetalbert.com>
+Date: Sat, 15 Mar 2025 13:43:59 +0000 (UTC)
+
+--- BODY ---
+
+Bill alert: your total bills
+
+Visit the Albert app to see all your bills and subscriptions.

@@ -1,0 +1,67 @@
+Subject: Get a 
+From: Uber <noreply@uber.com>
+Date: Wed, 12 Mar 2025 16:48:22 +0000 (UTC)
+
+--- BODY ---
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width">
+<!--[if !mso]><!-- -->
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<!--<![endif]-->
+<!--[if gte mso 9]><xml>
+<o:OfficeDocumentSettings>
+<o:AllowPNG/>
+<o:PixelsPerInch>96</o:PixelsPerInch>
+</o:OfficeDocumentSettings>
+</xml><![endif]-->
+
+<style>
+
+@media only screen and (min-width: 650px) {
+   .p13_mm_offer_tag{font-size:14px!important;line-height:22px!important;}
+   .p13_mm_discounted_price{font-size:16px!important;line-height:22px!important;}
+   .p13_mm_original_price{font-size:14px!important;line-height:22px!important;}
+   .p13_mm_description{font-size:14px!important;line-height:22px!important;}
+   .gr_3_merchant{width: 31% !important;}
+   .gr_4_merchant{width: 22% !important;}
+}
+
+@media only screen and (max-width: 430px){
+   .m_to_50_percentage{width:50%!important;} 
+  
+  .temp_td_h5{ font-size: 16px !important; line-height: 22px !important;  }
+  .temp_display_table{display:table !important;}
+  .temp_mob_reset{padding:0!important;}
+  .mobtac {text-align: center !important;}
+}
+
+  
+</style>
+
+<style type="text/css">
+@media only screen and (max-width: 640px){
+   .left_aligned{text-align:left!important;}
+   .mob_h_130{height:130px!important;}
+   .card{height:auto!important;}
+   .img_312{max-width:none!important;}
+}
+  
+@media only screen and (max-width: 350px){
+   .mob_h_73{height:73px!important;}
+}
+
+</style>
+
+<style type="text/css">
+a {text-decoration: none;}
+a[x-apple-data-detectors] { color: inherit !important; text-decoration: none !important; font-size: inherit !important; font-family: inherit !important; font-weight: inherit !important; line-height: inherit !important } table{ mso-table-lspace: 0; mso-table-rspace: 0; mso-table-ls
+... (truncated) ...
+
+--- ANALYSIS ---
+Is job related: True
+Company: Uber
+Position: Unknown Position
+Status: Offer

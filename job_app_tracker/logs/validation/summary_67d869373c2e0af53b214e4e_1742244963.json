@@ -1,0 +1,54 @@
+{
+  "session_id": "67d869373c2e0af53b214e4e_1742244963",
+  "user_id": "67d869373c2e0af53b214e4e",
+  "start_time": "2025-03-17T16:56:03.104016",
+  "end_time": "2025-03-17T16:58:20.635387",
+  "total_emails": 10000,
+  "processed_emails": 167,
+  "job_related_emails": 0,
+  "correctly_processed": 127,
+  "errors": {
+    "classification": 0,
+    "status": 40,
+    "company": 0,
+    "position": 1,
+    "total": 40
+  },
+  "status_distribution": {
+    "Applied": 167
+  },
+  "company_distribution": {
+    "Unknown Company": 167
+  },
+  "position_distribution": {
+    "Unknown Position": 167
+  },
+  "fixed_errors": 0,
+  "improvement_suggestions": [
+    {
+      "type": "status_detection",
+      "priority": "high",
+      "description": "Improve status detection accuracy. Currently failing for 40 emails.",
+      "suggestion": "Review status keywords and consider adding context-aware rules for status detection."
+    },
+    {
+      "type": "position_detection",
+      "priority": "medium",
+      "description": "Improve position title extraction. Currently failing for 1 emails.",
+      "suggestion": "Add domain-specific patterns for job titles or integrate an AI-based NER model."
+    },
+    {
+      "type": "general",
+      "priority": "critical",
+      "description": "Overall accuracy is below 90% (76.0%).",
+      "suggestion": "Consider implementing an AI-based parsing solution or retraining the current model with corrected data."
+    }
+  ],
+  "accuracy": {
+    "overall": 0.7604790419161677,
+    "classification": 1.0,
+    "status": 0.7604790419161677,
+    "company": 1.0,
+    "position": 0.9940119760479041
+  }
+}

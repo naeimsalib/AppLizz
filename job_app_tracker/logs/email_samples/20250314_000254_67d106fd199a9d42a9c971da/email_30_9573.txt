@@ -1,0 +1,19 @@
+Subject: 📉 Charting the S&P 500
+From: "eToro" <no-reply@connect.etoro.com>
+Date: Tue, 11 Mar 2025 07:26:35 -0600
+
+--- BODY ---
+<amp-script>
+    
+</custom></amp-script>
+<img src="https://click.connect.etoro.com/open.aspx?ffcb10-fec01c70766d0775-fe5710747d6c037f7214-fe3a117075640474741773-ff9b1070-fe5711707c6d03797617-ff081674756405&d=500013&bmt=0" width="1" height="1" alt="">
+    <amp-script>
+    
+</amp-script>
+<style type="text/css"> html { width: 100%; } .gmailfix { display: none; display: none !important; } body { -webkit-text-size-adjust: none; -ms-text-size-adjust: none; } body { margin: 0; padding: 0; } body { font-family: Arial, sans-serif, Arial, Tahoma, Helvetica, sans-serif; } table { border-spacing: 0; } table td { border-collapse: collapse; } html, body { background-color: #ffffff; margin: 0; padding: 0; } br, strong br, b br, em br, i br { line-height: 100%; } h1, h2, h3, h4, h5, h6 { line-height: 100% !important; -webkit-font-smoothing: antialiased; } table td, table tr { border-collapse: collapse; } @media only screen and (max-width: 640px) { body { width: auto !important; } table[class="container"] { width: 100% !important; } table[class="full-width"] { width: 100% !important;
+ min-width: 100% !important; } table[class="full-width-text"] { width: 100% !important; background-color: #ffffff; padding-left: 20px !important; padding-right: 20px !important; } table[class="full-width-text2"] { width: 100% !important; background-color: #ffffff; } table[class="col-2-3img-last"] { width: 50% !important; } table[class="col-2-footer"] { width: 55% !important; margin-right: 20px !important; } table[class="col-2-footer-last"] { width: 40% !important; } table[class="col-2"] { width: 47% !important; margin-right: 20px !important; } table[class="col-2-last"] { width: 47% !important; } table[class="col-3"] { width: 29% !important; margin-right: 20px !important; } table[class="col-3-last"] { width: 29% !important; } table[class="row-2"] { width: 50% !important; }
+ td[class="text-center"] { text-align: center !important; } table[class="remove"] { display: none !important; } td[class="re
+... (truncated) ...
+
+--- ANALYSIS ---
+Is job related: False

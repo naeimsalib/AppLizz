@@ -1,0 +1,23 @@
+{
+  "session_id": "67d869373c2e0af53b214e4e_1742244391",
+  "user_id": "67d869373c2e0af53b214e4e",
+  "start_time": "2025-03-17T16:46:31.271799",
+  "end_time": "2025-03-17T16:48:44.815903",
+  "total_emails": 10000,
+  "processed_emails": 0,
+  "job_related_emails": 0,
+  "correctly_processed": 0,
+  "errors": {
+    "classification": 0,
+    "status": 0,
+    "company": 0,
+    "position": 0,
+    "total": 0
+  },
+  "status_distribution": {},
+  "company_distribution": {},
+  "position_distribution": {},
+  "fixed_errors": 0,
+  "improvement_suggestions": [],
+  "error": "division by zero"
+}

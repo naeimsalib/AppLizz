@@ -1,0 +1,36 @@
+Subject: Safety feedback related to a ride
+From: Uber Support
+	<contact_713cd481-b667-4aac-b607-1b3fd0a9df91@email-support.uber.com>
+Date: Tue, 11 Mar 2025 22:58:56 +0000 (UTC)
+
+--- BODY ---
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width">
+<!--[if !mso]><!-- -->
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<!--<![endif]-->
+<!--[if gte mso 9]><xml>
+<o:OfficeDocumentSettings>
+<o:AllowPNG/>
+<o:PixelsPerInch>96</o:PixelsPerInch>
+</o:OfficeDocumentSettings>
+</xml><![endif]-->
+
+<style type="text/css">
+
+@media screen and (max-width:670px){
+  .img_312{max-width:none!important;}
+  .card{height:auto!important;}
+}
+
+a {text-decoration: none;}
+a[x-apple-data-detectors] { color: inherit !important; text-decoration: none !important; font-size: inherit !important; font-family: inherit !important; font-weight: inherit !important; line-height: inherit !important } table{ mso-table-lspace: 0; mso-table-rspace: 0; mso-table-lspace: 0; border: none; border-collapse: collapse; border-spacing: 0;} p {margin: 0 !important;} h1, .h1, .h1l { font-size: 60px !important; line-height: 66px !important; } h2, .h2 { font-size: 44px !important; line-height: 50px !important; } ul, ol {margin:0; margin-left:8px !important;} u + .body ul, u + .body ol { margin-left: 8px !important; } @media only screen and (max-width: 640px) { u + .body ul, u + .body ol { margin-left: 18px !important;} }
+.show670, .show414 {display:none;} @media screen and (max-width:670px) { .t1of12, .t2of12, .t3of12, .t4of12, .t5of12, .t6of12, .t7of12, .t8of12, .t9of12, .t10of12, .t11of12, .t12of12, .full { width: 100% !important; max-width: none !important; } .show670 { display: block !important; max-height: none !important; overflow:visible !important; } .mobheight0{height:0 !important; line-height: 0 !important;} .hide670 { display: none !important; } } @media screen and (min-width:671px) { .force700{width: 700px !important;} }
+@media screen and (max-width:430
+... (truncated) ...
+
+--- ANALYSIS ---
+Is job related: False

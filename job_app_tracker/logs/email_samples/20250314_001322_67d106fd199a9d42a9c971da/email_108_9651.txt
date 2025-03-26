@@ -1,0 +1,14 @@
+Subject: 25 more open positions in None, Tuesday, March 11, 2025 : ITI Engineering LLC,
+ Armavel, LLC, and more
+From: ZipRecruiter <alerts@ziprecruiter.com>
+Date: Tue, 11 Mar 2025 23:02:41 +0000
+
+--- BODY ---
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> <html xmlns="http://www.w3.org/1999/xhtml"> <head> <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> <meta name="viewport" content="width=device-width,initial-scale=1" /> <title> 25 more open positions in None, Tuesday, March 11, 2025 : ITI Engineering LLC, Armavel, LLC, and more </title> <style type="text/css"> *{font-size:12px;line-height:1em;font-weight: 400;} p{padding:0px;margin:0px;} h1,h2,h3,p,li{font-family:Arial,sans-serif;} td{vertical-align:top;} ul,ol{padding:0px;margin:0px;} #mainTable{margin:0px;padding:0px;width:100%; line-height: 100% !important;} img{text-decoration:none;outline:none;-ms-interpolation-mode: bicubic;} a img{} a {-webkit-tap-highlight-color: rgba(107, 255, 0, 0.1);} p{margin: 1em 0;} table td{border-collapse:collapse;} b{font-weight:700;} </style> </head> <body id="body" style="background: #fff none;max-width:690px;"> <div style="font-size:1px;color:#fff;line-height:1px;max-height:1px;max-width:1px;"> EMBEDDED SOFTWARE ENGINEER opening at ITI ENGINEERING LLC </div> <img src="https://www.ziprecruiter.com/k/tp/AAI7CEuk3y4OyHWf7o9qD8baF2R26vCg7tC0QNIf6Bn8cmvwj-UI-fuv87H7sfMqDEuvLI0X5jZ8H7FlK4udwQ174svUEJDJrQ60v7yY8zCJ52w9u2kBfP30gfZHr7azXd0ooNym8XQt5OrtuNSwXkqU1dklo6HSvA6xF5zQ9fNgGbHiuwjeWE_oQ0umL8E-ibZ5ayJjWQfUDi9dFHlKFO5Zb7iOjA" width="1" height="1" alt="" /> <table border="0" cellspacing="0" cellpadding="0" style="width:100%;border-collapse:collapse;margin-bottom:10px;"> <tr> <td align="left" valign="middle" style="text-align:left;font-family:Arial,sans-serif;font-size:11px;line-height:17px;padding:8px;padding-bottom:6px;color: #303030;background: #f2f2f2;vertical-align:middle;"> <span style="padding-right:10px;"><strong style="color:#bc4700;">Recommended:</strong> Download the app to find jobs on the go!</span> <a href="https://www.ziprecruiter.com/mobile-app-redirect?area=job-alert-email" titl
+... (truncated) ...
+
+--- ANALYSIS ---
+Is job related: True
+Company: Ziprecruiter
+Position: Thank you for stopping by to take a look at the Junior Administrator
+Status: Applied

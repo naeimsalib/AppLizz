@@ -1,0 +1,77 @@
+Subject: Florida Residents, 🐝 you won't bee-lieve these special offers 💐
+From: "Disney Destinations" <disneydestinations@mail.disneydestinations.com>
+Date: Tue, 11 Mar 2025 07:56:24 -0700
+
+--- BODY ---
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="https://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
+<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<meta name="x-apple-disable-message-reformatting">
+		<meta name="color-scheme" content="light">
+		<meta name="supported-color-schemes" content="light only">
+		<title>Florida Residents, 🐝 you won't bee-lieve these special offers 💐</title>
+		<style id="main" type="text/css">
+			* {
+				-webkit-text-size-adjust: none;
+				-ms-text-size-adjust: none;
+				margin: 0px;
+				padding: 0px;
+			}
+			img {
+				border: none;
+				display: block;
+			}
+			.ReadMsgBody,
+			.ExternalClass {
+				width: 100%;
+			}
+			a[href^="x-apple-data-detectors"],
+			a[href^="tel"],
+			a[href^="callto"],
+			a[href^="sms"],
+			a[href^="webcal"],
+			a[href^="maps"],
+			a[tel] {
+				text-decoration: none !important;
+				color: inherit !important;
+			}
+			#previewText {
+				font-family: Arial, Helvetica, sans-serif !important;
+				font-size: 1px !important;
+				line-height: 1px !important;
+				opacity: 0 !important;
+				visibility: hidden !important;
+				display: none !important;
+			}
+			.nobr {
+				white-space: nowrap !important;
+				-webkit-hyphens: none !important;
+				hyphens: none !important;
+			}
+			.rails,
+			.rails img {
+				width: 20px;
+			}
+			#emailContainer {
+				width: 560px;
+				min-width: 560px;
+				max-width: 560px;
+			}
+			#previewText {
+				color: #e8e8e8;
+			}
+			/* Fix for Samsung links */
+			#MessageViewBody a {
+				color: inherit;
+				text-decoration: none;
+				font-size: inherit;
+				font-family: inherit;
+				font-weight: inherit;
+				line-height: inherit;
+... (truncated) ...
+
+--- ANALYSIS ---
+Is job related: False

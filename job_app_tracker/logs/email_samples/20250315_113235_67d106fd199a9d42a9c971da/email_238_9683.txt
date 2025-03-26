@@ -1,0 +1,61 @@
+Subject: [Model Launch] Gemma 3 Is Now on Kaggle!
+From: Kaggle <noreply@kaggle.com>
+Date: Thu, 13 Mar 2025 10:26:51 -0700
+
+--- BODY ---
+Kaggle
+
+
+
+
+
+
+
+
+Hi naeim salib,
+
+We're excited to introduce Gemma 3, a collection of lightweight open models  
+built on the same advanced technology as Gemini 2.0. Designed for  
+portability and speed, Gemma 3 can run directly on devices, from  
+smartphones to powerful workstations, empowering developers to create  
+responsible AI applications at scale. With a range of sizes (1B, 4B, 12B,  
+27B), you can choose the best model for your needs.
+
+
+
+
+
+Access Gemma 3
+
+
+
+Key Features:
+
+
+Global support: 140 languages, enabling truly localized AI experiences.
+Advanced reasoning: Process images, text, and video with superior AI  
+capabilities.
+Large context window: 128K-token capacity for complex tasks.
+Powerful AI agents: Build intelligent agents with function calling and  
+structured output.
+
+
+Explore the expanding Gemmaverse today and see how Gemma 3 can push your AI  
+projects forward.
+
+Brenda Flynn
+Kaggle Partnerships Lead
+
+
+
+Kaggle, Inc 1600 Amphitheatre Pkwy Mountain View, CA 94043
+
+This email was sent to naeimsalib@yahoo.com because you indicated that  
+you'd like to receive news and updates about Kaggle. If you don't want to  
+receive these emails in the future, please unsubscribe here. You can also  
+change your preferences on your account's profile page by logging in at  
+kaggle.com.
+
+
+
+

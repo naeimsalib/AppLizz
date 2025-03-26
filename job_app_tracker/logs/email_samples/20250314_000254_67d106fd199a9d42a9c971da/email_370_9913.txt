@@ -1,0 +1,23 @@
+Subject: Come back for $2.99/mo for 4 months of Disney+ and Hulu
+From: "Disney+" <disneyplus@mail.disneyplus.com>
+Date: Thu, 13 Mar 2025 13:36:23 -0600
+
+--- BODY ---
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;" charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <!--[if !mso]><!-->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <!--<![endif]-->
+        <meta name="color-scheme" content="light">
+        <meta name="supported-color-schemes" content="light">
+        <style type="text/css">
+        @font-face { font-family: 'Inspire'; font-style: normal; font-weight: 300; src: local('Inspire-Light'), url(https://static-assets.bamgrid.com/fonts/inspire/Inspire-Light.b5b519ba39ee378f6a241e3cf0ffcb06.woff) format('woff'); } @font-face { font-family: 'Inspire'; font-style: normal; font-weight: 400; src: local('Inspire-Regular'), url(https://static-assets.bamgrid.com/fonts/inspire/Inspire-Regular.c7d8596d5b575e25ed1bc78c4471d668.woff) format('woff'); } @font-face{ font-family: 'Inspire'; font-style: normal; font-weight: bold; src: local('Inspire-Bold'), url(https://static-assets.bamgrid.com/fonts/inspire/Inspire-Bold.b16fb94fbdeb4ab54a59175c7087e713.woff) format('woff'); } @font-face{ font-family: 'Inspire'; font-style: normal; font-weight: 900; src: local('Inspire-Black'), url(https://static-assets.bamgrid.com/fonts/inspire/Inspire-Black.d1d6e5a8a07e388af86a4e7a8fa5460f.woff) format('woff'); } @font-face { font-family: 'Inspire'; font-style: italic;
+ font-weight: 400; src: local('Inspire-Italic'), url(https://static-assets.bamgrid.com/fonts/inspire/Inspire-Italic.d1a7e30c20a41faccf2df6bc835beb18.woff) format('woff'); } @font-face { font-family: 'Inspire'; font-style: italic; font-weight: bold; src: local('Inspire-BoldItalic'), url(https://static-assets.bamgrid.com/fonts/insp
+... (truncated) ...
+
+--- ANALYSIS ---
+Is job related: False

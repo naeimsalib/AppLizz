@@ -1,0 +1,51 @@
+Subject: Naeim, Your Apple Watch SE is on us & iPad (A16) is here
+From: "T-Mobile" <news@marketing.t-mobile.com>
+Date: Fri, 14 Mar 2025 11:37:04 -0700
+
+--- BODY ---
+
+
+
+<!DOCTYPE html>
+<!-- OUTLOOK 2013 DPI FIX -->
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" lang="en">  
+<head>
+<title>The choice is yours with deals on iPhone & more.</title>
+<!-- ========================== ENABLE DARK MODE =========================== -->
+<meta http-equiv="Content-Type" content="text/html;" charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- ========================== ENABLE DARK MODE =========================== --> 
+<!-- Mobile on Windows Phones -->
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="color-scheme" content="light dark">
+<meta name="supported-color-schemes" content="light dark">
+    
+  <style type="text/css">
+    @media screen {
+        
+    @font-face {
+      font-family: 'TmobileExtraBold';
+      font-style: normal;
+      font-weight: 800;
+      src: url(https://cdn.tmobile.com/content/dam/t-mobile/email/webfonts/TeleNeoWeb-ExtraBold.woff2) format("woff2"), url(https://cdn.tmobile.com/content/dam/t-mobile/email/webfonts/TeleNeoWeb-ExtraBold.woff) format("woff");
+      mso-font-alt: 'Arial';
+    }
+      
+    @font-face {
+      font-family: 'TmobileBold';
+      font-style: normal;
+      font-weight: 600;
+      src: url(https://cdn.tmobile.com/content/dam/t-mobile/email/webfonts/TeleNeoWeb-Bold.woff2) format("woff2"), url(https://cdn.tmobile.com/content/dam/t-mobile/email/webfonts/TeleNeoWeb-Bold.woff) format("woff");
+      mso-font-alt: 'Arial';
+    }
+
+    @font-face {
+      font-family: 'TmobileItalics';
+      font-style: italic;
+      font-weight: normal;
+      src: url(https://cdn.tmobile.com/content/dam/t-mobile/email/webfonts/TeleNeoWeb-RegularItalic.woff2) format("woff2"), url(https://cdn.tmobile.com/content/dam/t-mobile/email/webfonts/TeleNeoWeb-RegularItalic.woff) format("woff");
+      mso-font-alt: 'Arial';
+    }
+        
+    @font-face
+... (truncated) ...

@@ -1,0 +1,45 @@
+Subject: 👋 Welcome to AIApply, Naeim!
+From: AIApply <hello@mail.aiapply.co>
+Date: Tue, 11 Mar 2025 18:01:58 +0000
+
+--- BODY ---
+Let's find you a job
+
+͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏
+  ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏
+  ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏
+  ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏
+  ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏
+  ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏
+  ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­͏   ­
+
+https://aiapply.co/dashboard/job-hub
+
+ 
+Welcome to AIApply [https://aiapply.co/], Naeim!
+ 
+Finding a job can be overwhelming and time-consuming, but AIApply was designed to speed up and simplify this process for you.
+ 
+
+Go To Your Dashboard [https://aiapply.co/dashboard/job-hub]
+
+ 
+We'll help you in a few ways:
+ 
+ * Unlimited Application Kits [https://aiapply.co/dashboard/job-hub] → Craft personalized application kits that blow away
+   recruiters with tailored resumes, cover letters, and applications for each job.
+
+ * AI Resume Builder [https://aiapply.co/dashboard/resume-builder]→ Get tailored resumes that match the job you're looking for.
+
+ * Cover Letter [https://aiapply.co/dashboard/ai-cover-letter-generator] Generator https://aiapply.co/dashboard/resume-builder→
+   Save time making cover letters that fit your past experiences while matching the skills required for the job.
+
+ * Unique Job Board [https://aiapply.co/dashboard/jobs] → 200,000+ unique jobs, remote and in-house, refreshed daily, discover the
+   perfect job match 
+... (truncated) ...
+
+--- ANALYSIS ---
+Is job related: True
+Company: Mail
+Position: Unknown Position
+Status: Applied

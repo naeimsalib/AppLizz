@@ -1,0 +1,22 @@
+Subject: A Notification About Your Amazon Flex Account
+From: no-reply@logistics.amazon.com
+Date: Fri, 14 Mar 2025 09:18:56 +0000
+
+--- BODY ---
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    
+<p>Hello NAEIM EMAD SALIB, </p>
+
+<p>We determined that you have created one or more Amazon Flex accounts. We believe one of these accounts was created mistakenly and have closed that account. Please note that creating multiple accounts with inaccurate personal information is a violation of the Amazon Flex Independent Contractor Terms of Service (the “Agreement”) and any future violations may make you ineligible to participate in the Amazon Flex program.</p>
+ 
+<p>If you believe you have received this email in error, please contact Support at amazonflex-support@amazon.com to detail any concerns with the email address that you signed up with.</p>
+  <img alt="" src="https://jqskvc8s.r.us-east-1.awstrack.me/I0/0100019593f31577-d8321f03-a86b-445a-9189-e9ad82c9977b-000000/iy9xy9Hr8HcpWVvIV3ekVYOQIZ8=417" style="display: none; width: 1px; height: 1px;">
+</body>
+</html>

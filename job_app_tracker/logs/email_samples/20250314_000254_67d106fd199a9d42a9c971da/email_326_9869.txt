@@ -1,0 +1,54 @@
+Subject: Naeim, save 25% on your federal and state tax filings
+From: =?UTF-8?B?U3Bpcml0IFNhdmVycyBDbHVi?= <partners@save.spirit-airlines.com>
+Date: Thu, 13 Mar 2025 15:10:15 +0000
+
+--- BODY ---
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="x-ua-compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="x-apple-disable-message-reformatting">
+<meta name="format-detection" content="telephone=no">
+<meta name="format-detection" content="date=no">
+<meta name="format-detection" content="address=no">
+<meta name="format-detection" content="email=no">
+<meta name="format-detection" content="url=no">
+<title>Spirit Airlines</title>
+<!--[if mso]>
+<style type="text/css">
+body, div, table, td, p, a {font-family:Arial,sans-serif !important;}
+</style>
+<xml>
+  <o:OfficeDocumentSettings>
+    <o:AllowPNG/>
+    <o:PixelsPerInch>96</o:PixelsPerInch>
+  </o:OfficeDocumentSettings>
+</xml>
+<![endif]-->
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style type="text/css">
+body {-webkit-text-size-adjust:100%; text-size-adjust:100%;}
+.ReadMsgBody, .ExternalClass {width:100%;}
+img {-ms-interpolation-mode:bicubic;}
+a[x-apple-data-detectors] {color:inherit !important; text-decoration:none !important; font-size:inherit !important; font-family:inherit !important; font-weight:inherit !important; line-height:inherit !important;}
+@media only screen and (min-width: 800px) {
+.roll_u:hover {text-decoration:underline !important;}
+.roll_nu:hover {text-decoration:none !important;}
+.roll_opac:hover {opacity:0.7 !important;}
+.cta_blue:hover {background-color:#4ca2db !important;}
+}
+@media only screen and (max-width: 619px) {
+.fullwidth {width:100% !important;}
+.mhide {display:none !important;}
+.sidepad {padding-left:20px !important; padding-right:20px !important;}
+.nopad {padding-left:0px !important; padding-right:0px !important;}
+
+... (truncated) ...
+
+--- ANALYSIS ---
+Is job related: True
+Company: Save
+Position: Unknown Position
+Status: Offer

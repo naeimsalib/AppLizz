@@ -1,0 +1,60 @@
+{
+  "session_id": "67d869373c2e0af53b214e4e_1742245700",
+  "user_id": "67d869373c2e0af53b214e4e",
+  "start_time": "2025-03-17T17:08:20.325741",
+  "end_time": "2025-03-17T17:10:49.495166",
+  "total_emails": 10000,
+  "processed_emails": 200,
+  "job_related_emails": 7,
+  "correctly_processed": 157,
+  "errors": {
+    "classification": 0,
+    "status": 41,
+    "company": 0,
+    "position": 4,
+    "total": 43
+  },
+  "status_distribution": {
+    "Applied": 198,
+    "Rejected": 1,
+    "In Progress": 1
+  },
+  "company_distribution": {
+    "Unknown Company": 200
+  },
+  "position_distribution": {
+    "Unknown Position": 196,
+    "candidates who have skills and experience in a lamp stack that more closely fit": 1,
+    "the job cloud engineer": 1,
+    "the jr": 1,
+    "associate software engineer": 1
+  },
+  "fixed_errors": 0,
+  "improvement_suggestions": [
+    {
+      "type": "status_detection",
+      "priority": "high",
+      "description": "Improve status detection accuracy. Currently failing for 41 emails.",
+      "suggestion": "Review status keywords and consider adding context-aware rules for status detection."
+    },
+    {
+      "type": "position_detection",
+      "priority": "medium",
+      "description": "Improve position title extraction. Currently failing for 4 emails.",
+      "suggestion": "Add domain-specific patterns for job titles or integrate an AI-based NER model."
+    },
+    {
+      "type": "general",
+      "priority": "critical",
+      "description": "Overall accuracy is below 90% (78.5%).",
+      "suggestion": "Consider implementing an AI-based parsing solution or retraining the current model with corrected data."
+    }
+  ],
+  "accuracy": {
+    "overall": 0.785,
+    "classification": 1.0,
+    "status": 0.795,
+    "company": 1.0,
+    "position": 0.98
+  }
+}

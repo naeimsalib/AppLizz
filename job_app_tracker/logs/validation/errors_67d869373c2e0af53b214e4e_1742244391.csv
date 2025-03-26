@@ -1,0 +1,242 @@
+Email ID,Subject,Error Type,Expected Value,Actual Value,Error Message,Correction Applied
+1,Your December Affirm Card statement is here,validation,,,'str' object has no attribute 'update',False
+2,Lose weight & feel great: new weight loss by Hers.,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+3,Daily monitor summary for EverydayAlgo,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+4,=?UTF-8?B?SEFQUFkgTkVXIFlFQVIg8J+OiSBVcCB0byA1MCUgT0ZG?=,validation,,,'str' object has no attribute 'update',False
+5,"eBikes, Generators, Flooring, Silver, Clothing & Shoes, Appliances & More!",validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+6,"=?UTF-8?Q?_=E2=9D=8C_Clearance_=E2=8F=B0_FINAL?=
+ =?UTF-8?Q?_HOURS_=E2=8F=B0_Clearance__=E2=9D=8C?=",validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+7,Zero Stress Tire Shopping: Easy Payment Plans Inside!,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+8,Things Recruiters and Hiring Managers Wish You Knew,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+9,Thank you for being a Wyze Subscriber.,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+10,1 More Day! $855 Off A New Honda =?UTF-8?B?4oCT?= Act Fast!,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+11,"Naeim, are you overusing your credit? =?UTF-8?B?8J+Ssw==?=",validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+12,=?utf-8?Q?Re=3A=20Passion=20Product=20Formula=20opening=20tomorrow?=,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+13,ACCEPTED: PAYMENT #1015147749640 - Thank you,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+14,#Kissimmee #OsceolaCounty #CelebratoryGunfire,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+15,"Reminder: If you are age 50+ you should get screened for stroke &
+ cardiovascular disease risks",validation,,,'str' object has no attribute 'update',False
+16,"20% Off Everything! New Year, New Savings =?UTF-8?B?8J+Ohg==?=",validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+17,Your holiday gift can change a child's =?UTF-8?B?ZnV0dXJl4p2k77iP?=,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+18,"=?UTF-8?B?MTUlwq0gwq1vZmbCrSDCrXDCrXLCrQ==?=
+ =?UTF-8?B?ZcKtc2Nywq1pwq0=?=
+ =?UTF-8?B?cHRpwq1vbsKtIGV5wq1lwq1nwq1sYXNzwq1lc8KtIGHCrW5kwq0gc8KtdcKtbsKtZ8KtbMKtYcKtc8Ktc2XCrXPCrQ==?=",validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+19,"=?UTF-8?q?Lucinda_is_1053_Days_Old_Today!_See_Today=E2=80=99s_Glow_Baby_D?=
+ =?UTF-8?q?igest.?=",validation,,,'str' object has no attribute 'update',False
+20,COLE ENGINEERING SERVICES is looking for candidates like you!,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+21,=?utf-8?B?4piVIFRoZSBCZXRhcyBoYXZlIGFycml2ZWQ=?=,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+22,"Ghost Hydration, Power Up Trail Mix, 3M, Gorilla Tape, & MORE Deals Inside!",validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+23,"=?UTF-8?B?VG9kYXkgT05MWSA9IEZsYXNoIFNhbGUhIFVwIA==?=
+ =?UTF-8?B?dG8gNTAlIE9GRiBkZWFscyB3b24ndCBsYXN0IOKPsA==?=",validation,,,'str' object has no attribute 'update',False
+24,=?utf-8?B?8J+SqiBSZXNvbHV0aW9ucyBhcmUgZWFzaWVyIHdpdGggaGVscA==?=,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+25,Clearance: 40-70% off wear-now styles,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+26,=?UTF-8?q?LAST_CALL:_Claim_your_seat_before_10AM!_=F0=9F=9A=A8?=,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+27,SALE! Up to 40% off our best-selling coffee makers,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+28,Your invitation to join me in Onboarding Checklist in Reality AI Lab,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+29,=?utf-8?Q?Your $1000 Credit Limit Card is waiting! Apply today.?=,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+30,=?utf-8?Q?Do_you_love_Your_car_like_a_Pet=3F_Get_the_Repair_Protection_it_Deserves.?=,validation,,,'str' object has no attribute 'update',False
+31,"All our best deals, all in one place",validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+32,Free Delivery On Flowers & More! ($14.99+ Value),validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+33,=?utf-8?Q?See if You Qualify For The Fresh Start Initiative?=  ,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+34,"Your Daily Digest for Thu, 1/2 is ready to view",validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+35,Discover the latest app monetization trends and strategies for 2025,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+36,=?utf-8?B?V2FybSBNZW7igJlzIFN0eWxlcyArIFNob2VzIGZyb20gVG9wIEJyYW5kcw==?=,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+37,=?utf-8?B?QnV5IE9ORSwgZ2V0IE9ORSBmb3IgJDUhIPCfmqg=?=,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+38,=?UTF-8?Q?So._many._Runway._labels._=F0=9F=9B=8D=EF=B8=8F=E2=80=8B?=,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+39,Your balance is below zero,validation,,,'str' object has no attribute 'update',False
+40,"=?UTF-8?Q?=F0=9F=97=9E=EF=B8=8F_Today=27s_top_7_fe?=
+ =?UTF-8?Q?aturing=3A_Police_report_15_dead_and_35_?=
+ =?UTF-8?Q?injured_in_NYE_attack?=",validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+41,=?UTF-8?Q?Action_required_=E2=80=93_Your_AWS_account_is_past_due?=,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+42,"Amazon Web Services Billing Statement Available [Account:
+ 730335240539]",validation,,,'str' object has no attribute 'update',False
+43,Score! Game day deals for the win,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+44,My 2025 Job Search Guide: First 10 Days,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+45,=?utf-8?Q?New=20Year=E2=80=99s=20Passion=20Product=20Formula=20open?=,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+46,Final Hours! 80% Off Zenva Subscription Ends Tonight!,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+47,"=?utf-8?B?SnVzdCBhIGZyaWVuZGx5IHJlbWluZGVyOiBZb3VyIDExIGNvbXBs?=
+	=?utf-8?B?aW1lbnRhcnkgcmVwb3J0cyB2YW5pc2ggdG9tb3Jyb3figKY=?=",validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+48,Sad,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+49,'So beautiful and full of life': What we know about the victims of the New Orleans attack,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+50,"=?UTF-8?B?8J+klSBDYW4gc3RvY2tzIHNuYXAgdGhlaXIgbG9zaW5nIHN0cmVh?=
+ =?UTF-8?B?az8=?=",validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+51,CHEERS to 15% OFF a pet item or service,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+52,EXTENDED: Fun Cards as low as $99.99,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+53,"Naeim, a mistake in her diagnosis leads to a complicated love
+ triangle.",validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+54,"=?utf-8?B?8J+MnyBTdGFydCAyMDI1IFN0cm9uZyDigJMgRXhjbHVzaXZlIFdl?=
+	=?utf-8?B?bGxuZXNzIERpc2NvdW50cyBKdXN0IGZvciBZb3Uh?=",validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+55,=?utf-8?Q?Daily=20Locker=20Room=20Newsletter?=,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+56,"=?UTF-8?B?8J+aqCBMYXN0IENoYW5jZSAtIFByaWNlcyBHbyBVcCBUT01PUlJP?=
+ =?UTF-8?B?Vw==?=",validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+57,Time to Check Your Tires for Safety!,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+58,Accelerate your move to SAP in the cloud,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+59,=?UTF-8?B?RW5kcyB0b2RheSEg4o+wIEVYVFJBIDMwJSBPRkY=?=,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+60,=?utf-8?Q?Happy=20New=20Year=202025=21=20Thank=20you=20for=20supporting=20SwitchBot=21?=,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+61,The Americano: taking the classic Bistro up a notch in 2025.,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+62,"=?UTF-8?B?QvOggIF186CAgWTzoICBZ/OggIFl86CAgXTzoICBLUbzoICBcvOggIE=?=
+ =?UTF-8?B?afOggIFl86CAgW7zoICBZPOggIFs86CAgXnzoICBIPOggIFI86CAgWXzoICBYfOggIFs86CAgXTzoICBaPOggIEg86CAgVBs86CAgWHzoICBbvOggIFz86CAgTrzoICBIPOggIFT86CAgWXzoICBZfOggIEgSPOggIFv86CAgXfzoICBIPOggIFZb3XzoICBIPOggIFD86CAgWHzoICBbvOggIEg86CAgVNh86CAgXbzoICBZfOggIEg86CAgXfzoICBafOggIF086CAgWjzoICBIPOggIFP86CAgWLzoICBYfOggIFt86CAgWHzoICBY2HzoICBcvOggIE=?=
+ =?UTF-8?B?ZfOggIE=?=",validation,,,'str' object has no attribute 'update',False
+63,New Year. Same Fast Cash Options.,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+64,"Naeim, you could have the funds you need in days",validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+65,The first deals of 2025!,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+66,"Unlock Your Welcome Bonus up to $6,600 Today",validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+67,"=?utf-8?Q?Unlock Financial Flexibility: Apply for Up to $2,000 Today!?=  ",validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+68,Enjoy these little luxuries =?UTF-8?B?4pyo?=,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+69,Sunil just messaged you,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+70,"
+ =?UTF-8?Q?Naeim,_Resolve_your_stubborn_debt_=E2=80=93_check_your_options_?=
+ =?UTF-8?Q?now.?=",validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+71,Start 2025 with an =?UTF-8?B?SW1wb3NzaWJsZeKEog==?= Whopper!,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+72,Year-End Excitement?,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+73,"New Year, New You: $28/mo. Membership To Your Favorite Gym",validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+74,Start Strong in 2025 with the New Year's Wellness Event,validation,,,'str' object has no attribute 'update',False
+75,"=?UTF-8?B?8J+RiSBFWFRFTkRFRDogU2F2ZSB1cCB0byA1MCUgb24gVGlja2V0?=
+ =?UTF-8?B?cywgRnVuIENhcmRzLCBhbmQgQW5udWFsIFBhc3Nlcw==?=",validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+76,Dreaming of a new yard this year?,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+77,Message from Newrez,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+78,"=?UTF-8?B?0KHQsHVnaHQg0J5uIEPQsG3QtXLQsDogUnVzc9GW0LAncyBX0LBy?=
+ =?UTF-8?B?c2jRlnBzIETQtXN0ctC+0YPQtWQgQtGDIFVrctCw0ZZuZS4uLg==?=",validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+79,Our New Year offer for get online ends soon,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+80,"=?windows-1252?Q?FL_Residents=97book_early_&_save_more=2C_up_to_35?=
+ =?windows-1252?Q?%!?=",validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+81,=?UTF-8?q?$1_Drink_for_Thirsty_Thursday!_=F0=9F=A5=A4?=,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+82,"=?UTF-8?Q?=E2=80=9Ccloud_support_engineer=E2=80=9D:_NET@WORK_?=
+ =?UTF-8?Q?-_Recruiter_-_Cloud_Support_Engineer?=",validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+83,"Naeim, Kick Off 2025 with $3,000+ Your Outdoor Kitchen!",validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+84,Appointment Reminder,validation,,,'str' object has no attribute 'update',False
+85,=?utf-8?B?VG91Y2hkb3duIPCfj4ggR3JlYXQgQ2xpcHMgVGVhbXMgVXAgd2l0aCB0aGUgQ29sbGVnZSBGb290YmFsbCBQbGF5b2ZmIQ==?= ,validation,,,'str' object has no attribute 'update',False
+86,"Naeim, your application was sent to INSPYR Solutions",validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+87,Discover decades of Disney memories.,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+88,You've been recommended - APPLY today!,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+89,=?UTF-8?Q?Up_to_40%_Off_=F0=9F=94=B8_Soak_Up_Bath_Style=E2=84=A2?=,validation,,,'str' object has no attribute 'update',False
+90,Don't forget! Let us know what you think.,validation,,,'str' object has no attribute 'update',False
+91,2025 home equity forecast.,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+92,"=?UTF-8?Q?=E2=80=9Csoftware_engineer=E2=80=9D:_AutoReel_-_?=
+ =?UTF-8?Q?Software_Engineer_Intern_and_more?=",validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+93,Automatic Payment Confirmation A2501020429_MA5ZA5,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+94,Update: Jacqueline Humphries (27.6% SSA | Silver screen),validation,,,'str' object has no attribute 'update',False
+95,"Naeim - These updated 4944 Winchell Rd mortgage and equity
+ scenarios are a fit for you",validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+96,Automatic Payment Confirmation A2501020446_MT6UV5,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+97,"=?UTF-8?B?8J+StQ==?= Let's start the new year by talking about the ""B
+ =?UTF-8?B?d29yZC7igJ0=?= (It rhymes with schmudget.)",validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+98,=?UTF-8?B?VXAgdG8gNDAlIE9mZiBhZGlkYXMg8J+RnyBMZXQncyBnbyE=?=,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+99,Not sure if video shows.,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+100,"=?UTF-8?Q?Naeim,_don=E2=80=99t_forget_to_complete_?=
+ =?UTF-8?Q?your_application_to_Hack_The_Box?=",validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+101,Holiday Sale EXTENDED: Save up to 55%,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+102,Resume Your Journey on the Premier Crypto Platform,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+103,Lock in your price for 2025 & save on Teko's coverage,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+104,10% OFF + pick up today!,validation,,,'str' object has no attribute 'update',False
+105,"Naeim, ring in the new year with bonus points!",validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+106,"Unwrap the scoop: Top Pet Tips, Trends, and Must-Have Deals!",validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+107,Home equity is up. Calculate Your Savings from Your Home Equity,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+108,75% OFF Sale on Carpet & Flooring,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+109,"=?UTF-8?B?V2FudCBsb3cgcHJpY2VzIG9uIFRla2/igJlzIGV2ZXJ5ZGF5IGVz?=
+ =?UTF-8?B?c2VudGlhbHM/IPCfkrDwn5C2?=",validation,,,'str' object has no attribute 'update',False
+110,01/02/25Cheap Car Insurance,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+111,=?utf-8?Q?Already=2016=20Spots=20Gone=21=20=2D=20Amazon=20FBA=20Program?=,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+112,=?utf-8?B?SW5zaWRlOiBZb3VyIEJvdHRsZSBXYXJtaW5nIFNlY3JldCBXZWFwb24g8J+kqyA=?=,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+113,"Hey Naeim, coupons are waiting",validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+114,ABSTRACT WALL DECOR. IS. HERE.,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+115,"Get Up to $3,000 in Bank Bonuses to Ring in the New Year",validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+116,"Naeim, your balances went up",validation,,,'str' object has no attribute 'update',False
+117,Tick tock: Time is running out to earn 100K Bonus Points. ,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+118,Thank you for your interest in EBG!,validation,,,'str' object has no attribute 'update',False
+119,"Naeim, your application was sent to Paladin Consulting",validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+120,Puppy Biting Out of Control?,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+121,"=?UTF-8?Q?=E2=80=9Csoftware_engineer=E2=80=9D:_INSPYR_Solutions_?=
+ =?UTF-8?Q?-_Developer/Software_Engineer_and_more?=",validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+122,RapidAPI - Test 'API Healthcheck' failed 211 consecutive times.,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+123,"=?UTF-8?B?4pqh77iP?= Hurry, naeim! $400 off ends at midnight",validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+124,Want to save $249 instantly on Stock Advisor?,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+125,Your application was viewed by INSPYR Solutions,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+126,"Insure Your Pet Today, Up to 90% Off Vet Bills",validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+127,Well this is a mystery,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+128,Financial Market Update,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+129,"
+ =?UTF-8?B?RklOQUwgSE9VUlMg8J+aqCBVcCB0byA1MCUgb2ZmIEZsYXNoIFNhbGU=?=",validation,,,'str' object has no attribute 'update',False
+130,"Continue to apply for the job Cloud Engineer - Public Sector,
+ Operations",validation,,,'str' object has no attribute 'update',False
+131,"Naeim, Let's Get a Cash Offer for Your Home in KISSIMMEE",validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+132,Top 5 Must-Read Insight Articles of 2024,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+133,20 companies hiring,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+134,"Youvip Shower Caddy, Shower Organizers 5 Pack, Rustproof Bathroom
+ Shower Shelves for Inside Shower, Adhesive Shower Caddy - $13.18",validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+135,Action required: Your dog is not pleased...,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+136,Alert: Found dog reported near you,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+137,Reveal the =?UTF-8?B?RGF54oCZcw==?= Best Deals: Check Them Out Now!,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+138,My husband stopped into the 7 11 to report  $175.,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+139,Your FREE 2025 Preschool Card Is Waiting!,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+140,=?UTF-8?B?4oCL4oGf4oCOTmFlaW0gLSBJbmZvcm1hdGlvbiBSZWdhcmRpbmcgR2xvYmUgTGlmZSBPZmZlcg==?=,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+141,=?UTF-8?B?4oCt4oCL4oCMJDAuNTAvZGF5IOKAkyAkMjUwLDAwMCBDb3ZlcmFnZSDigJMgRmlkZWxpdHkgTGlmZQ==?=,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+142,=?UTF-8?Q?From_bar_to_barre:_Where_we=E2=80=99re_going_this_Dry_January?=,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+143,Fundrise secures $125M loan to expand industrial portfolio,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+144,Daily monitor summary for EverydayAlgo,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+145,The Gift That Keeps on Giving =?UTF-8?B?8J+OgQ==?=,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+146,"Your new credit card is waiting for you, Naeim.",validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+147,Rem: Your pre-app payment #01122025,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+148,Trump admits he wants to nuke our economy ,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+149,"Naeim, Your Next Car Insurance Savings Are Just a Click Away.",validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+150,"New jobs similar to Cloud Engineer - Public Sector, Operations at
+ BDO USA",validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+151,=?UTF-8?Q?_=F0=9F=8E=89_The_NEW_YEAR_SUPER_SALE_is_ON?=,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+152,Rem: Your pre-app payment #01122025,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+153,"Flexible Payments, Happy Drivers: Tire Agent Reviews",validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+154,Payment Information,validation,,,'str' object has no attribute 'update',False
+155,Still thinking about it?,validation,,,'str' object has no attribute 'update',False
+156,"Naeim, check out Francelene B. and other great, local housekeepers.",validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+157,Discount coupons available for your car oil change.,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+158,Your Monthly Vital Care Rewards Statement,validation,,,'str' object has no attribute 'update',False
+159,January deposit,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+160,LeetCode Weekly Digest,validation,,,'str' object has no attribute 'update',False
+161,Your credit score changed...,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+162,=?utf-8?Q?=E2=80=9CWhat=E2=80=A6=20the=E2=80=A6=20f***=21=21=21=21=21=21=21=E2=80=9D?=,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+163,Dr.,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+164,"=?UTF-8?q?Why_sleep_when_you_can_feast=3F_BOGO_inside!_=F0=9F=8D=94?=
+ =?UTF-8?q?=F0=9F=8D=94?=",validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+165,FREE GIFT With $24.99 In-Store Purchase! Details Inside,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+166,ITI Engineering is looking for candidates like you!,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+167,Get funds from your home equity,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+168,How to Find Support When Caring for a Spouse with Dementia - ASC Blog,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+169,"=?UTF-8?B?QcKtcmUgwq15wq1vwq11wq0gYsKtZcKtaMKtaW5kIG/CrW4gwq0=?=
+ =?UTF-8?B?ecKtb3Vywq0=?=
+ =?UTF-8?B?IHDCrWF5bcKtZcKtbnTCrXPCrT/CrQ==?=",validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+170,=?utf-8?Q?Daily=20Locker=20Room=20Newsletter?=,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+171,=?utf-8?B?4piVIEdvaW5nIG92ZXJib2FyZA==?=,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+172,"=?utf-8?B?MjAlIE9mZiBhbnkgc3ViIPCfmYwgWW91IGRlc2VydmUgeW91cg==?=
+ =?utf-8?B?IGRlbGljaW91cyBTdWJ3YXnCriBmYXZlLCBOYWVpbQ==?=",validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+173,=?UTF-8?Q?_Don't Miss Out: 55% Off Language Learning Special_?=,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+174,Up to 70% off Winter Clearance continues!,validation,,,'str' object has no attribute 'update',False
+175,=?UTF-8?B?8J+TpQ==?= Transactions need review in Monarch,validation,,,'str' object has no attribute 'update',False
+176,Thank you for your interest in MetroStar - update on your application,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+177,DEAL ALERT! Save 35% on your 1st Auto-Delivery order,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+178,Save $14.99+ on Flowers & Gifts with Free Delivery,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+179,"=?UTF-8?Q?___Get access to Ozempic��, Wegovy�� and other weight loss medications_?=",validation,,,'str' object has no attribute 'update',False
+180,"Your Daily Digest for Fri, 1/3 is ready to view",validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+181,"Mystery shrouds Las Vegas Cybertruck bomber's motives, authorities say",validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+182,"Your review is here, Naeim",validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+183,Jr. Software Engineer - Thanks for applying at TextExpander,validation,,,'str' object has no attribute 'update',False
+184,Save NOW: Up to 50% Off Hoodies + MORE,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+185,"=?UTF-8?Q?=F0=9F=97=9E=EF=B8=8F_Today=27s_top_8_fe?=
+ =?UTF-8?Q?aturing=3A_Investigation_continues_for_l?=
+ =?UTF-8?Q?inks_between_New_Orleans_attack_and_Trum?=
+ =?UTF-8?Q?p_Hotel_bombing?=",validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+186,[Tip] Quick Searches in TextExpander,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+187,=?UTF-8?B?TmV3IFllYXIsIE5ldyBUYW5rIPCfkKAgNTAlIE9GRg==?=,validation,,,'str' object has no attribute 'update',False
+188,=?UTF-8?Q?_FedEx Apology: Compensation Offered for Your Missing Package_?=,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+189,20-30% off new arrivals for a new year & new wardrobe,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+190,Your latest Affirm Loans Statement is here,validation,,,'str' object has no attribute 'update',False
+191,Receipt from SNiP-it of Central Florida,validation,,,'str' object has no attribute 'update',False
+192,Information from your recent visit - SNiP-it of Central Florida,validation,,,'str' object has no attribute 'update',False
+193,"MCA CONNECT, LLC is hiring a Associate Software Engineer",validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+194,"Last chance to earn a $400 statement credit + 40,000 bonus points.",validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+195,"=?UTF-8?B?8J+kqSAzIFRoZW1lcywgcXVlc3Rpb25zIGFuZCBpZGVhcyBmb3Ig?=
+ =?UTF-8?B?MjAyNQ==?=",validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+196,Final Day!,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+197,"=?utf-8?B?8J+OiSA1MCUgT0ZGIFByaW50cywgUG9zdGVycywgJiBFbmxhcg==?=
+ =?utf-8?B?Z2VtZW50cyDigJMgTGltaXRlZCBUaW1lIE9ubHk=?=",validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+198,Received notification that,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+199,Sale now on: Book to save 25%+,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False
+200,LAST CHANCE. 80% Off Ends Tonight =?UTF-8?Q?=E2=80=93=20Act=20Now!?=,validation,,,type object 'EmailService' has no attribute 'APPLICATION_KEYWORDS',False

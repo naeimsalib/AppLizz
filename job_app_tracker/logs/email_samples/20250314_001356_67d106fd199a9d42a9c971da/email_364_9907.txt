@@ -1,0 +1,39 @@
+Subject: Quarterly Interest Statement from Climb Credit
+From: "Climb Credit" <noreply@youronlineaccount.com>
+Date: Thu, 13 Mar 2025 18:28:43 +0000
+
+--- BODY ---
+<html>
+<head>
+    <title>Important Message from Climb Credit</title>
+    <meta charset="utf-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body style="font-size:16px; font-family:system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, Liberation Sans, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji">
+    <table cellspacing="8" cellpadding="0" style="width:100%; max-width:695px;">
+        <tr>
+            <td style="padding:5px;">
+                <img src="https://ClimbCredit.youronlineaccount.com/res/emlhd52.png" height="35">
+            </td>
+        </tr>
+        <tr>
+            <td style="padding:5px; border-top: solid 3px #E5E4E2">
+                <p>Hello NAEIM,</p>
+                <p>
+                	There is currently no payment due on your loan(s) at this time.
+                    We want to keep you informed on the amount of outstanding interest on your loan(s), which may capitalize in accordance with your agreement.
+                    If you choose to make payments during this time when payments are not required,
+                    it will reduce the amount of interest added to your principal loan balance at repayment (capitalization).
+                </p>
+                <p>
+                    You can view complete account details by <a href="https://link.youronlineaccount.com/click/6knqulWw0W5b.XleXg32fkA57.v7eonw6U_jo/LIVhpUn7/3s/ClimbCredit.youronlineaccount.com/">logging into</a> your online account.
+                </p>
+                <p>
+                    Below is the outstanding interest balance and current rate as of the date of this message.
+                </p>
+                <table style="width:50%; text-align:left; font-size:14px;"><tr><th align="left">Loan #</th><th align="left">Lender</th><th align="left">Principal Balance</th><th align="left">Outstanding Interest</th><th align="left">Interest Rate</th></tr
+... (truncated) ...
+
+--- ANALYSIS ---
+Is job related: False

@@ -1,0 +1,22 @@
+Subject: Welcome to ngrok
+From: ngrok <team@m.ngrok.com>
+Date: Thu, 13 Mar 2025 20:15:24 -0700
+
+--- BODY ---
+Hello Naeim Salib,
+
+ngrok allows you to create secure ingress to any app, device or service without spending hours learning arcane networking technologies. You can get started with a single command or a single line of code.
+
+ngrok’s platform is built around 3 main capabilities that connect the world to your work. Those capabilities have many different options depending on what you’re building, so take a moment to review them.
+
+1. Connect: You can establish ingress in a few ways, depending on what you’re trying to solve:
+
+- If you’re looking for a quick way to get started and see how ngrok works you can download an agent onto your machine or a device like a raspberry pi (that’s what our getting started documentation (https://d2v8tf04.na1.hubspotlinks.com/Ctc/5F+113/d2v8tf04/VVR1fd96Vjq-N2Sd2nhHzVm8W70RWGB5t6rWGN4Mwsg23pyd0W7Y8-PT6lZ3kMW759XmX4jsHcCW4HcTt-2zLcyRW8rPlTc727Z6-N4pdLfSbgBYSW73YLMr1M7qShW6tRh2P455TL7W65Fs5M6x0m9cW7FstrS1MXv3DW7x50YW2H7pj2W4Td_BK6_cSCwW6rzXm_2-z5S6W8GTlzS6GQ4VlW7bt8qV6n2SC-W2tG-f_9lb6pKW6W9j7V95T9cNW37Jb0n38MwMLVdSKzX8ZMvnLW3ggZzj3t5ck3N8cVCL0H-145VD8scw4DmlyhVwQjNL96Ft4nW2tMN8F6B1wB7N2cGBf6P6hl2W2j4j0k6V3XMQW61h2Jb8cwn9DW5VxF-P4sk78lf5XcBJz04 ) will teach you to use).
+- If you want to have ingress baked into your app check out our growing collection of language-native libraries (ngrok-go (https://d2v8tf04.na1.hubspotlinks.com/Ctc/5F+113/d2v8tf04/VVR1fd96Vjq-N2Sd2nhHzVm8W70RWGB5t6rWGN4MwsfM3pyd0W7lCdLW6lZ3prVT1M9h6F4KHDW5mtYZs4Bk_YPW6_8Jb71bMvn8W2965Gs47wfGRN1xwsxpy1LPBW5cHfN152r43pW3FgkY97XfVKWW1VJCLS81xVLQN3C8msDlL-HXW8wW-L53GRqGhW5dz9104dvCfsW2vfn5-5csVZnW33LbL28SNvp2W15kD498hg2jBN7v67W2yFkzjW4YGDkw6-N1HRW2k-Z-w1PgFPKW5V_LVc66-yXpW1p8F7d63hG11W2wMdLK8KcTRKW5V7TxP15CY81VXbSvQ1xHPnJW4Vnf6548L83lN3VJg76xQh4Pf5Ssb5v04 ) , ngrok-rust (https://d2v8tf04.na1.hubspotlinks.com/Ctc/5F+113/d2v8tf04/VVR1fd96Vjq-N2Sd2nhHzVm8W70RWGB5t6rWGN4MwsfM3pyd0W7lCdLW6lZ3mrW2JPqPT6z4sZpW60c6NV2hnkwrW1Rv-8m3zR5HdW8nr1Dp97z2h4W630_-v96HC5TW45YC-K7GzcqSVQ9Y
+... (truncated) ...
+
+--- ANALYSIS ---
+Is job related: True
+Company: M
+Position: Unknown Position
+Status: Applied

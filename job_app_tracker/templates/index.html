@@ -30,10 +30,13 @@ block head %} {{ super() }}
     color: #374151;
   }
   .text-accent {
-    color: #1e40af;
+    color: #f8f9fa;
   }
   .bg-light {
     background-color: #f3f4f6;
+  }
+  .bg-gray-light {
+    background-color: #2d3748;
   }
 </style>
 {% endblock %} {% block content %}
@@ -150,12 +153,12 @@ block head %} {{ super() }}
 </div>
 
 <!-- CTA Section -->
-<div class="bg-white py-16 px-4 sm:px-6 lg:px-8">
+<div class="bg-gray-light py-16 px-4 sm:px-6 lg:px-8">
   <div class="max-w-7xl mx-auto text-center">
     <h2 class="text-3xl font-extrabold text-accent sm:text-4xl">
       Ready to Start Your Job Search Journey?
     </h2>
-    <p class="mt-4 text-xl text-secondary">
+    <p class="mt-4 text-xl text-gray-300">
       Join thousands of job seekers who are already using Applizz to land their
       dream jobs.
     </p>

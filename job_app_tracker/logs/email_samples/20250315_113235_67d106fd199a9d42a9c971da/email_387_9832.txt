@@ -1,0 +1,40 @@
+Subject: Finish your AgileEngine job application with a short online test
+From: AgileEngine Careers <careers@agileengine-contact.com>
+Date: Fri, 14 Mar 2025 14:00:49 +0000
+
+--- BODY ---
+<html><head>
+    <meta content="width=device-width" name="viewport">
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <title>
+      Finish your AgileEngine job application with a short online test
+    </title>
+    
+  </head>
+
+  <body style="margin: 0;padding: 0;font-family: 'Inter', Helvetica, Arial, sans-serif;font-size: 16px;line-height: 1.45;color: #333">
+    <div class="content" style="background: #F8F8F8; color: #333; padding: 24px 0;">
+      <table cellpadding="0" cellspacing="0" style="width: 100%;max-width: 500px; margin: 0 auto;">
+        <tbody>
+          <tr>
+            <td style="font-family: 'Inter', Helvetica, Arial, sans-serif;font-size: 16px;line-height: 1.45;color: #333;">
+              <div class="message" style="
+                  margin: 0 0 8px;
+                  background: white;
+                  padding: 8px 32px 16px;
+                  border-radius: 8px;
+                  border: 1px solid #e6e7ed;
+                ">
+                  <p style="font-weight: bold;">
+                      Hi 
+                      Naeim
+                    <span style="font-size: 140%;">👋</span>
+                  </p>
+                  <p>
+                    Your application is looking absolutely amazing, and we're itching to offer you an opportunity that aligns perfectly with your skills and goals.
+                  </p>
+                  <p>
+                    To make it happen, we need to assess your skills objectively with a short test. 
+                  </p>
+                  <a class="ae-custom-button-primary ae-custom-button-primary-lg" href="https://launchpod.agileengine.com/api/auth/confirm-login?token=aX3gCATXOaNm5EZv5uS-g54H6Kh-sbTo1xpMq7-cqE6PBZR9Fq&amp;utm_medium=CompleteTestTaskReminderEmail" style="margin-top: 16px;margin-bottom: 16px;text-decoration: none;cursor: pointer;display: inline-block;justify-content: center;position: relative;padding: 1rem 2rem;border-radius: 4px;backgro
+... (truncated) ...

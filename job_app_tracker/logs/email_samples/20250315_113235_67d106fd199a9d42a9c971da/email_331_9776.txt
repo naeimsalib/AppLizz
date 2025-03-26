@@ -1,0 +1,7 @@
+Subject: Multi-factor authentication device added for ngrok.com
+From: "ngrok" <contact@ngrok.com>
+Date: Fri, 14 Mar 2025 03:10:54 +0000
+
+--- BODY ---
+
+This is a courtesy notification that you have added a multi-factor authentication device for your account naeimsalib@yahoo.com on ngrok.com.

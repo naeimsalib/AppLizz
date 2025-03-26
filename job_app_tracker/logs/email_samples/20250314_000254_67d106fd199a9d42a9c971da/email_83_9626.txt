@@ -1,0 +1,9 @@
+Subject: We've Saved Your Shopping Cart For You
+From: "Costco Wholesale" <Costco@digital.costco.com>
+Date: Tue, 11 Mar 2025 18:57:41 +0000
+
+--- BODY ---
+
+
+--- ANALYSIS ---
+Is job related: False

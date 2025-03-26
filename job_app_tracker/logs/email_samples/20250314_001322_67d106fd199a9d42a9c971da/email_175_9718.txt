@@ -1,0 +1,51 @@
+Subject: Issue 268: Secure coding
+From: Stack Overflow <do-not-reply@stackoverflow.email>
+Date: Wed, 12 Mar 2025 14:10:45 +0000 (UTC)
+
+--- BODY ---
+Tiny translation transformers, reversing SHA-256, and progress bars ‌ ‌ ‌ ‌ ‌ 
+ <https://stackoverflow.com/> 
+
+
+
+
+ 12 March 
+
+ As you read this, your humble narrator will be at the HumanX conference 
+talking to leaders in the world of AI. Whether we like it or not, AI is 
+becoming a key part of the technological landscape. This week, we feature two 
+conversations with people building real AI solutions: optimizing models for 
+edge devices and using specialty models for translation and beyond.
+
+We do have other non-AI material for you. The podcast welcomed a blog 
+contributor for a conversation on secure coding, what it takes to secure a 
+Canadian election, and the legal ramifications of being a lousy CISO. Plus, our 
+Teams product has shiny new features and we're excited to tell you about them.
+
+Never fear my intrepid knowledge explorers, there are plenty of goodies from 
+the Stack Exchange network and beyond! Is the Earth dodging the Moon? Can you 
+learn HTML and CSS from a game? Can a catch-all email domain be abused by bad 
+actors? Can SQLite be abused to handle concurrency? And more.
+
+
+
+ From the blog 
+
+How can AI perform on the edge? 
+<https://stackoverflow.blog/2025/03/05/how-can-ai-perform-on-the-edge/?utm_source=iterable&utm_medium=email&utm_campaign=the-overflow-newsletter>
+promotion
+What are the capabilities, constraints, and benefits of running AI models on 
+edge devices?
+
+Boosting collaboration and control: New features for Stack Overflow for Teams 
+<https://stackoverflow.blog/2025/03/04/boosting-collaboration-and-control-new-features-for-stack-overflow-for-teams/?utm_source=iterable&utm_medium=email&utm_campaign=the-overflow-newsletter>
+stackoverflow.blog
+Our latest Enterprise release brings exciting new features designed to enhance 
+collaboration, streamline user management, and expand API capabilities.
+
+Secure coding beyond just memory safety 
+<https://stackoverflow.blog/2025/03/04/secure-coding-beyond-just-memo
+... (truncated) ...
+
+--- ANALYSIS ---
+Is job related: False

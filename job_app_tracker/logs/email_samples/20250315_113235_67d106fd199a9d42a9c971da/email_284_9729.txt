@@ -1,0 +1,65 @@
+Subject: 📊 Naeim, Your Weekly Update: Scorching Hot Surveys + Top Users
+From: "ZoomBucks.com" <info@mail.zoombucks.com>
+Date: Thu, 13 Mar 2025 22:10:53 +0000
+
+--- BODY ---
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      @media screen and (max-width: 850px) {
+        .mobile-font {
+             font-size: 18px !important;
+        }
+      }
+    </style>
+  </head>
+  <body
+    style="
+      margin: 0;
+      padding: 0;
+      background-color: #cccccc;
+      font-family: Inter, Poppins, Roboto, Arial;
+      font-weight: 400;
+      color: #0d2e46;">
+  <span style="display:none !important;" class="preheader">See your ZoomBucks weekly earnings, and see users earning hundreds monthly.</span>
+    <center
+      style="
+        width: 100%;
+        table-layout: fixed;
+        background-color: #cccccc;
+        padding: 20px 0 60px;
+      "
+    >
+      <table
+        width="100%"
+        style="
+          background-color: #ffffff;
+          margin: 0 auto;
+          max-width: 600px;
+          min-width: 600px;
+          border-spacing: 0;
+        "
+      >
+        <!-- HEADER SECTION -->
+        <tr>
+          <td style="background-color: #0b263a; padding: 
+... (truncated) ...

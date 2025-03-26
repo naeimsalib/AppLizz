@@ -1,0 +1,16 @@
+Subject: Verify email address for ngrok.com
+From: "ngrok" <no-reply@ngrok.com>
+Date: Fri, 14 Mar 2025 03:10:02 +0000
+
+--- BODY ---
+
+Please verify your email address.
+
+Use the following link to confirm your email address:
+https://dashboard.ngrok.com/email/confirmation?code=iF74kvGittFQYznAkrUts1&signup=true
+
+If you did not sign up for ngrok, please ignore this email. 
+
+This is an automated message. Please do NOT reply to this email.
+
+Thanks!

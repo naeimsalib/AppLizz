@@ -1,0 +1,58 @@
+{
+  "session_id": "67d869373c2e0af53b214e4e_1742245509",
+  "timestamp": "2025-03-17T17:07:50.894022",
+  "summary_file": "job_app_tracker/logs/validation/summary_67d869373c2e0af53b214e4e_1742245509.json",
+  "suggested_improvements": [
+    {
+      "type": "status_algorithm",
+      "problem": "Status detection accuracy is below 90% (79.5%)",
+      "solution": "Consider implementing context-aware status detection or machine learning approach"
+    },
+    {
+      "type": "position_pattern",
+      "problem": "Missing pattern for position title extraction",
+      "solution": "Add new pattern: (?:for|about)\\s+the\\s+([A-Za-z0-9\\s]+(?:position|role|job|opportunity))"
+    },
+    {
+      "type": "position_pattern",
+      "problem": "Missing pattern for position title extraction",
+      "solution": "Add new pattern: (?:for|about)\\s+our\\s+([A-Za-z0-9\\s]+(?:position|role|job|opportunity))"
+    },
+    {
+      "type": "position_pattern",
+      "problem": "Missing pattern for position title extraction",
+      "solution": "Add new pattern: (?:regarding|about|for)\\s+(?:the|your)\\s+(?:application|candidacy|interest)\\s+for\\s+(?:the|our)\\s+([A-Za-z0-9\\s]+)"
+    },
+    {
+      "type": "position_pattern",
+      "problem": "Missing pattern for position title extraction",
+      "solution": "Add new pattern: (?:regarding|about|for)\\s+(?:the|your)\\s+([A-Za-z0-9\\s]+)\\s+(?:application|candidacy|interest)"
+    },
+    {
+      "type": "position_pattern",
+      "problem": "Missing pattern for position title extraction",
+      "solution": "Add new pattern: (?:position|role|job|opportunity)(?:\\s+as)?\\s+(?:a|an)\\s+([A-Za-z0-9\\s]+)"
+    },
+    {
+      "type": "critical",
+      "problem": "Overall accuracy is critically low (79.5%)",
+      "solution": "Consider implementing machine learning-based email parsing"
+    }
+  ],
+  "applied_improvements": [],
+  "additional_keywords": {
+    "status": {},
+    "company": [],
+    "position": []
+  },
+  "revised_patterns": {
+    "company": [],
+    "position": [
+      "(?:for|about)\\s+the\\s+([A-Za-z0-9\\s]+(?:position|role|job|opportunity))",
+      "(?:for|about)\\s+our\\s+([A-Za-z0-9\\s]+(?:position|role|job|opportunity))",
+      "(?:regarding|about|for)\\s+(?:the|your)\\s+(?:application|candidacy|interest)\\s+for\\s+(?:the|our)\\s+([A-Za-z0-9\\s]+)",
+      "(?:regarding|about|for)\\s+(?:the|your)\\s+([A-Za-z0-9\\s]+)\\s+(?:application|candidacy|interest)",
+      "(?:position|role|job|opportunity)(?:\\s+as)?\\s+(?:a|an)\\s+([A-Za-z0-9\\s]+)"
+    ]
+  }
+}

@@ -1,1 +1,0 @@
-# Stub email service

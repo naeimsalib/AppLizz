@@ -1,0 +1,31 @@
+Subject: Toho Unsuccessful Payment
+From: Toho Payment Portal <donotreply@schedulepayment.com>
+Date: Fri, 14 Mar 2025 22:19:36 +0000
+
+--- BODY ---
+<HTML><img alt=“banner” src="https://schedulepayment.com/Images/Toho/Logo_email.png"> <BR><BR/>
+
+Dear   NAEIM SALIB,<BR><BR/>
+
+This email is to confirm that an attempted payment on 03/14/2025 through Electronic Bill Presentment & Payment for your Toho account number 002707049-033298509 has failed.<BR><BR/>
+
+The payment of $184.10  that was made on 03/14/2025 with confirmation number TH0239J3 has been declined and we have received a final return.   The funding source that we attempted to [debit [or] charge] for this payment is your funding account number ending VISA_3179.  <BR><BR/>
+
+Please click here (https://schedulepayment.com/toho) to use another funding source or visit Ways to Pay on www.tohowater.com for other payment methods.<BR><BR/>
+
+This is an automated message. Please do not respond to this email. <BR><BR/>
+
+Your Toho Water Authority Team
+<BR><img height=8 width=1000 src="https://schedulepayment.com/Images/cor/corbar.png"> <BR><BR>
+
+
+About This Message: <BR><BR/>
+
+You received this email to confirm the activity described above on your Toho account.<BR><BR/>
+
+Please do not reply to this message with account-related questions. If you have a question, please contact one of our Customer Service representatives:  <BR><BR/> 
+Phone: 407-944-5000  <BR> 
+Email: customerservice@tohowater.com  <BR> 
+
+
+</HTML><img alt="" src="https://gzx3xr67.r.us-east-1.awstrack.me/I0/0100019596bdcced-5a6e0556-4189-4a58-9124-dd0f74b11e8c-000000/JlBWwpKzmhskafWsucMEsVu5-zE=417" style="display: none; width: 1px; height: 1px;">

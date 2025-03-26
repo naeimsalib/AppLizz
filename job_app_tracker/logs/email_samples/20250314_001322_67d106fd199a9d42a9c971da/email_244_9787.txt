@@ -1,0 +1,28 @@
+Subject: RSVP now for Parenthood Unfiltered (psst... surprise giveaways inside!)
+From: Nanit <hello@email.nanit.com>
+Date: Wed, 12 Mar 2025 23:08:27 +0000
+
+--- BODY ---
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:v="urn:schemas-microsoft-com:vml">
+ <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Nanit</title>
+    <meta name="format-detection" content="telephone=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=yes" name="viewport">
+        
+    <style type="text/css">
+    @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;500;700;900&display=swap');
+    </style>
+    
+    <style type="text/css">
+      @font-face{src:url(https://www.nanit.com/assets/fonts/BentonSans-Book.woff2) format("woff2"),url(https://www.nanit.com/assets/fonts/BentonSans-Book.woff) format("woff");font-display:swap;font-family:BentonSans;font-style:normal;font-weight:400}
+      @font-face{src:url(https://www.nanit.com/assets/fonts/BentonSans-Regular.woff2) format("woff2"),url(https://www.nanit.com/assets/fonts/BentonSans-Regular.woff) format("woff");font-display:swap;font-family:BentonSans;font-style:normal;font-weight:500}
+      @font-face{src:url(https://www.nanit.com/assets/fonts/BentonSans-Bold.woff2) format("woff2"),url(https://www.nanit.com/assets/fonts/BentonSans-Bold.woff) format("woff");font-display:swap;font-family:BentonSans;font-style:normal;font-weight:700}
+      @font-face{src:url(https://www.nanit.com/assets/fonts/BentonSans-Light.woff2) format("woff2"),url(https://www.nanit.com/assets/fonts/BentonSans-Light.woff) format("woff");font-display:swap;font-family:BentonSans;font-style:normal;font-weight:300}
+      @font-face{src:url(https://www.nanit.com/assets/fonts/BentonSans-Thin.woff2) format("woff2"),url(https://www.nanit.com/assets/fonts/BentonSans-Thin.woff) format("woff");font-display:swap;font-family:BentonSans;font-style:normal;font-weight:100}
+      @font-fa
+... (truncated) ...
+
+--- ANALYSIS ---
+Is job related: False

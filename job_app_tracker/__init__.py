@@ -1,10 +1,16 @@
+import os
 from flask import Flask, request
 from flask_login import LoginManager
-import os
 from flask_cors import CORS
 from flask_wtf.csrf import CSRFProtect
 import logging
 from logging.handlers import RotatingFileHandler
+from .config.mongodb import init_mongodb
+from .models.user import User
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 # Initialize extensions
 login_manager = LoginManager()
@@ -50,8 +56,7 @@ def create_app(test_config=None):
         os.makedirs(app.config['UPLOAD_FOLDER'])
     
     # Initialize MongoDB with connection pooling
-    from job_app_tracker.config.mongodb import init_db
-    init_db(app)
+    init_mongodb(app)
     
     # Initialize extensions
     login_manager.init_app(app)
@@ -62,15 +67,13 @@ def create_app(test_config=None):
     setup_logging(app)
     
     # Register blueprints
-    from job_app_tracker.auth.routes import auth_bp
-    from job_app_tracker.main.routes import main
+    from .main.routes import main
+    from .auth.routes import auth
     
-    app.register_blueprint(auth_bp, url_prefix='/auth')
-    app.register_blueprint(main, url_prefix='')
+    app.register_blueprint(main)
+    app.register_blueprint(auth, url_prefix='/auth')
     
     # User loader for Flask-Login
-    from job_app_tracker.models.user import User
-    
     @login_manager.user_loader
     def load_user(user_id):
         return User.get_by_id(user_id)

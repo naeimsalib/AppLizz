@@ -3,64 +3,39 @@ from flask_pymongo import PyMongo
 from pymongo.errors import ConnectionFailure, OperationFailure
 import logging
 import certifi
-from pymongo import MongoClient
 
 # Create a global PyMongo instance
 mongo = PyMongo()
-_mongo_client = None
 
-def get_mongo_client(app):
-    """Get or create MongoDB client with connection pooling"""
-    global _mongo_client
-    if _mongo_client is None:
-        options = {
-            'maxPoolSize': 50,
-            'minPoolSize': 10,
-            'maxIdleTimeMS': 30000,
-            'retryWrites': True
-        }
-        
-        is_local = 'localhost' in app.config['MONGO_URI'] or '127.0.0.1' in app.config['MONGO_URI']
-        if not is_local:
-            options['tlsCAFile'] = certifi.where()
-        
-        _mongo_client = MongoClient(app.config['MONGO_URI'], **options)
-    return _mongo_client
-
-def init_db(app):
-    """Initialize MongoDB connection"""
+# Initialize MongoDB with the URI from environment variables
+def init_mongodb(app):
     try:
-        # Use environment variable for connection URI
-        app.config['MONGO_URI'] = app.config.get('MONGODB_URI')
-        
-        # Initialize connection with pooling
-        client = get_mongo_client(app)
-        
-        # Test connection
-        client.admin.command('ping')
-        logging.info("MongoDB connection successful")
+        # Get MongoDB URI and add SSL certificate path
+        uri = os.getenv("MONGODB_URI")
+        if "?" in uri:
+            uri += "&tlsCAFile=" + certifi.where()
+        else:
+            uri += "?tlsCAFile=" + certifi.where()
+            
+        app.config["MONGO_URI"] = uri
         
         # Initialize PyMongo
-        is_local = 'localhost' in app.config['MONGO_URI'] or '127.0.0.1' in app.config['MONGO_URI']
-        if is_local:
-            mongo.init_app(app)
-        else:
-            mongo.init_app(app, tlsCAFile=certifi.where())
+        mongo.init_app(app)
         
-        # Create indexes if they don't exist
-        try:
-            # Create indexes for users collection
-            mongo.db.users.create_index('email', unique=True)
-            mongo.db.users.create_index('username', unique=True)
+        # Test connection
+        with app.app_context():
+            mongo.db.command('ping')
             
-            # Create indexes for applications collection
-            mongo.db.applications.create_index('user_id')
-            mongo.db.applications.create_index([('user_id', 1), ('status', 1)])
-            mongo.db.applications.create_index([('user_id', 1), ('date_applied', -1)])
-            
-            logging.info("MongoDB indexes created successfully")
-        except OperationFailure as e:
-            logging.warning(f"Error creating indexes: {str(e)}")
+            # Create indexes if they don't exist
+            try:
+                # Create case-insensitive unique index for email
+                mongo.db.users.create_index([("email", 1)], unique=True, collation={'locale': 'en', 'strength': 2})
+                
+                # Create other indexes
+                mongo.db.applications.create_index([("user_id", 1), ("date_applied", -1)])
+                logging.info("MongoDB indexes created successfully")
+            except OperationFailure as e:
+                logging.warning(f"Error creating indexes: {str(e)}")
         
         return mongo
     except ConnectionFailure as e:

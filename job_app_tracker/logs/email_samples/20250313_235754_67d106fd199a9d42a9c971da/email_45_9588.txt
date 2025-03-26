@@ -1,0 +1,54 @@
+Subject: Buffalo Wild Wings Rewards: now with MORE rewards & perks
+From: "Buffalo Wild Wings" <reply@emailinfo.buffalowildwings.com>
+Date: Tue, 11 Mar 2025 08:13:42 -0600
+
+--- BODY ---
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    
+    
+    <style type="text/css">
+/**Template CSS**/
+  
+/*Font Settings*/
+
+@font-face {
+    font-family: 'Barlow Black';
+    src: url('https://www.buffalowildwings.com/brands/bww/fonts/barlow-black.eot');
+    src: url('https://www.buffalowildwings.com/brands/bww/fonts/barlow-black.eot?#iefix') format('embedded-opentype'),
+        url('https://www.buffalowildwings.com/brands/bww/fonts/barlow-black.woff2') format('woff2'),
+        url('https://www.buffalowildwings.com/brands/bww/fonts/barlow-black.woff') format('woff'),
+        url('https://www.buffalowildwings.com/brands/bww/fonts/barlow-black.ttf') format('truetype');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+    mso-font-alt: Arial, sans-serif;
+    mso-generic-font-family: swiss;
+}
+
+@font-face {
+    font-family: 'Barlow Extra Bold';
+    src: url('https://www.buffalowildwings.com/brands/bww/fonts/barlow-extra-bold.eot');
+    src: url('https://www.buffalowildwings.com/brands/bww/fonts/barlow-extra-bold.eot?#iefix') format('embedded-opentype'),
+        url('https://www.buffalowildwings.com/brands/bww/fonts/barlow-extra-bold.woff2') format('woff2'),
+        url('https://www.buffalowildwings.com/brands/bww/fonts/barlow-extra-bold.woff') format('woff'),
+        url('https://www.buffalowildwings.com/brands/bww/fonts/barlow-extra-bold.ttf') format('truetype');
+    font-weight: 800;
+    font-style: normal;
+    font-display: swap;
+    mso-font-alt: Arial, sans-serif;
+    mso-generic-font-family: swiss;
+}
+
+@font-face {
+    font-family: 'Barlow Bold';
+    src: url('https://www.buffalowildwings.com/brands/bww/fonts/barlow-bold.eot');
+    src: url('/brands/bww/fonts/barlow-bold.eot?#iefix')
+... (truncated) ...
+
+--- ANALYSIS ---
+Is job related: False

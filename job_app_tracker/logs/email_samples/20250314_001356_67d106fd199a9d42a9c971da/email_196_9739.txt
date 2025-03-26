@@ -1,0 +1,65 @@
+Subject: Psst…your March offers are waiting…
+From: "Circle K" <innercircle@em.circlek.com>
+Date: Wed, 12 Mar 2025 12:40:33 -0400
+
+--- BODY ---
+
+
+
+
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
+<head>
+  <meta charset="UTF-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!--[if mso]>
+      <noscript>
+      <xml>
+      <o:OfficeDocumentSettings>
+        <o:AllowPNG/>
+        <o:PixelsPerInch>96</o:PixelsPerInch>
+      </o:OfficeDocumentSettings>
+      </xml>
+      </noscript>
+  <![endif]-->
+  <title>Circle K</title>
+  <link rel="stylesheet" type="text/css" href="https://res2.em.circlek.com/res/tracking/ckstylesheet.css" />
+  <style type="text/css">
+    /* Gmail dark mode */
+    u + .body .primary .gmail-blend-screen, u + .body .tertiary .gmail-blend-screen { background:#000; mix-blend-mode:screen; }
+    u + .body .primary .gmail-blend-difference, u + .body .tertiary .gmail-blend-difference { background:#000; mix-blend-mode:difference; }
+    u + .body .primary .gmail-blend-screen:hover, u + .body .primary .gmail-blend-difference:hover { background:transparent; mix-blend-mode:normal; }/*For correct hover color*/
+    /* /Gmail dark mode */
+    body {
+      background-color:#f3f3f3;
+      margin:0;
+      padding:0;
+      width:100%;
+      -webkit-text-size-adjust:100%;
+      -ms-text-size-adjust:100%;
+      mso-margin-top-alt:0; mso-margin-bottom-alt:0; mso-padding-alt: 0 0 0 0;
+      line-height: 100% !important;
+    }
+    table,td {
+      border-collapse:collapse !important;
+      mso-table-lspace:0pt;
+      mso-table-rspace:0pt;
+    }
+    a {
+      color:#737373;
+    }
+    a:hover{
+      color: #da291c !important;
+    }
+    a.primary:visited,
+    a.primary.primary a:not(:hover){
+    background-color:#ed8b00 !important;
+    color: #ffffff !important;
+    }
+    a.secondary:visited
+... (truncated) ...
+
+--- ANALYSIS ---
+Is job related: False

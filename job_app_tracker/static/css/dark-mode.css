@@ -315,8 +315,8 @@ tr:hover {
 }
 
 .dark-mode .status-applied {
-  background-color: rgba(96, 165, 250, 0.2);
-  color: #93c5fd;
+  background-color: rgba(79, 70, 229, 0.2) !important;
+  color: #e0e7ff !important;
 }
 
 .status-interview {
@@ -325,8 +325,8 @@ tr:hover {
 }
 
 .dark-mode .status-interview {
-  background-color: rgba(251, 191, 36, 0.2);
-  color: #fcd34d;
+  background-color: rgba(96, 165, 250, 0.2) !important;
+  color: #dbeafe !important;
 }
 
 .status-offer {
@@ -335,8 +335,8 @@ tr:hover {
 }
 
 .dark-mode .status-offer {
-  background-color: rgba(52, 211, 153, 0.2);
-  color: #6ee7b7;
+  background-color: rgba(52, 211, 153, 0.2) !important;
+  color: #d1fae5 !important;
 }
 
 .status-rejected {
@@ -345,8 +345,8 @@ tr:hover {
 }
 
 .dark-mode .status-rejected {
-  background-color: rgba(248, 113, 113, 0.2);
-  color: #fca5a5;
+  background-color: rgba(248, 113, 113, 0.2) !important;
+  color: #fee2e2 !important;
 }
 
 /* Notes and documents */
@@ -622,4 +622,32 @@ input:checked + .theme-slider:after {
   content: '🌙';
   left: 30px;
   opacity: 1;
+}
+
+/* Chart legend text color in dark mode */
+.dark-mode .chart-container {
+  color: var(--text-primary) !important;
+}
+
+.dark-mode canvas {
+  background-color: var(--bg-secondary);
+}
+
+.dark-mode .chart-container .chartjs-legend {
+  color: var(--text-primary) !important;
+}
+
+/* Ensure all chart text is visible in dark mode */
+.dark-mode .chart-container span,
+.dark-mode .chart-container text {
+  color: var(--text-primary) !important;
+  fill: var(--text-primary) !important;
+}
+
+/* Status legend text in dark mode */
+.dark-mode .text-gray-700,
+.dark-mode .text-gray-800,
+.dark-mode .text-gray-900,
+.dark-mode .text-gray-600 {
+  color: var(--text-primary) !important;
 } 

@@ -1,0 +1,86 @@
+Subject: Naeim, "Dog" needs updating
+From: Nextdoor <no-reply@rs.email.nextdoor.com>
+Date: Fri, 14 Mar 2025 03:11:05 +0000 (UTC)
+
+--- BODY ---
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="initial-scale=1.0" />
+    <style type="text/css">
+      html {margin:0;padding:0;}
+      body {margin:0;padding:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;}
+      table {border-collapse:collapse;}
+      table td {border-collapse:collapse;}
+      img {outline:none;text-decoration:none;-ms-interpolation-mode:bicubic;display:block;}
+      a img {border:0;}
+      .text_wrapper img { display: inline;}</style><!--[if (mso)|(mso 16)]>
+  <style type="text/css">
+    a {text-decoration: none;}
+  </style>
+  <![endif]-->
+  <style type="text/css">
+    .weekly-digest-html {
+      font-family:system-ui,-apple-system,SFUIText,BlinkMacSystemFont,"HelveticaNeue",'Helvetica Neue',Helvetica,'Roboto','Segoe UI',Arial,sans-serif;
+      text-rendering:optimizeLegibility;
+      -webkit-font-smoothing:antialiased;
+      max-width:518px;
+    }
+    .preheader {display:none !important;mso-hide:all;}
+
+    .text_wrapper img {
+      display: inline;
+    }
+
+    .weekly-digest-post-photo-container {
+      width:98px;
+    }
+    .weekly-digest-post-photo {
+      width:98px;
+      height:98px;
+    }
+    .dual-photo-container {
+      width: 240px;
+    }
+    .dual-photo {
+      width: 240px;
+      height: 150px;
+    }
+    .dual-sponsor-subject{
+      font-size: 15px;
+    }
+    .gray-sidebar-padded {
+      padding-right: 20px;
+      padding-left: 20px;
+    }
+    .gray-sidebar {
+      background: #f3f3f3;
+    }
+
+    @media only screen and (max-width: 480px) {
+      .weekly-digest-html {
+        max-width:336px !important;
+      }
+      .weekly-digest-post-photo-container {
+        width:78px;
+      }
+      .weekly-digest-post-photo
+... (truncated) ...
+
+--- ANALYSIS ---
+Is job related: False

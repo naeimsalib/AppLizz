@@ -1,13 +1,9 @@
 from job_app_tracker.config.mongodb import mongo
 from bson.objectid import ObjectId
 from datetime import datetime
-import logging
 
 class Application:
     def __init__(self, app_data):
-        if not app_data:
-            raise ValueError("Application data cannot be None")
-            
         self.id = str(app_data.get('_id', ''))
         self.user_id = app_data.get('user_id')
         self.company = app_data.get('company')
@@ -19,7 +15,7 @@ class Application:
         self.company_logo = app_data.get('company_logo')
         self.notes = app_data.get('notes', '')
         
-        # Fields for enhanced functionality
+        # New fields for enhanced functionality
         self.notes_list = app_data.get('notes_list', [])
         self.documents = app_data.get('documents', [])
         self.contacts = app_data.get('contacts', [])
@@ -27,7 +23,8 @@ class Application:
         self.salary_info = app_data.get('salary_info', {})
         self.created_at = app_data.get('created_at')
         self.updated_at = app_data.get('updated_at')
-        self.source = app_data.get('source', 'manual')
+        self.source = app_data.get('source', 'manual')  # manual, email, etc.
+        self.email_ids = app_data.get('email_ids', [])  # IDs of related emails
         self.tags = app_data.get('tags', [])
     
     @staticmethod
@@ -46,10 +43,6 @@ class Application:
     @staticmethod
     def get_all_for_user(user_id, filters=None, sort=None):
         """Get all applications for a user with optional filtering and sorting"""
-        if not user_id:
-            logging.error("get_all_for_user called with empty user_id")
-            return []
-            
         query = {'user_id': str(user_id)}
         
         # Apply additional filters if provided
@@ -60,24 +53,8 @@ class Application:
         # Default sort by date applied descending
         sort_params = sort if sort else [('date_applied', -1)]
         
-        try:
-            apps_cursor = mongo.db.applications.find(query).sort(sort_params)
-            applications = []
-            
-            for app_data in apps_cursor:
-                try:
-                    app = Application(app_data)
-                    applications.append(app)
-                except Exception as e:
-                    logging.error(f"Error creating Application object: {str(e)}")
-                    continue
-            
-            logging.info(f"Retrieved {len(applications)} applications for user {user_id}")
-            return applications
-            
-        except Exception as e:
-            logging.error(f"Error retrieving applications: {str(e)}")
-            return []
+        apps_data = mongo.db.applications.find(query).sort(sort_params)
+        return [Application(app) for app in apps_data]
     
     @staticmethod
     def create(app_data):
@@ -303,6 +280,45 @@ class Application:
         
         return True
     
+    def edit_interview(self, interview_id, date, interview_type, notes=None):
+        """Edit an existing interview"""
+        # Find the interview in the local list
+        interview_index = None
+        for i, interview in enumerate(self.interviews):
+            if interview.get('id') == interview_id:
+                interview_index = i
+                break
+                
+        if interview_index is None:
+            raise ValueError("Interview not found")
+            
+        # Create updated interview data
+        updated_interview = {
+            'id': interview_id,
+            'date': date,
+            'type': interview_type,
+            'notes': notes,
+            'created_at': self.interviews[interview_index]['created_at'],
+            'updated_at': datetime.now()
+        }
+        
+        # Update in MongoDB using array filters to target the specific interview
+        mongo.db.applications.update_one(
+            {'_id': ObjectId(self.id), 'interviews.id': interview_id},
+            {
+                '$set': {
+                    'interviews.$': updated_interview,
+                    'updated_at': datetime.now()
+                }
+            }
+        )
+        
+        # Update local attributes
+        self.interviews[interview_index] = updated_interview
+        self.updated_at = updated_interview['updated_at']
+        
+        return updated_interview
+    
     def delete(self):
         """Delete the application"""
         result = mongo.db.applications.delete_one({'_id': ObjectId(self.id)})
@@ -329,5 +345,6 @@ class Application:
             'created_at': self.created_at,
             'updated_at': self.updated_at,
             'source': self.source,
+            'email_ids': self.email_ids,
             'tags': self.tags
         } 
