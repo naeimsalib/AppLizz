@@ -1,164 +1,170 @@
 {% extends "base.html" %} {% block title %}Welcome to Applizz{% endblock %} {%
-block content %}
-<div class="bg-gradient-to-b from-blue-50 to-white">
-  <!-- Hero Section -->
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16 text-center">
-    <h1
-      class="text-4xl sm:text-5xl md:text-6xl font-extrabold text-gray-900 tracking-tight"
-    >
-      <span class="block">Track Your Job Applications</span>
-      <span class="block text-blue-600">Stay Organized</span>
+block head %} {{ super() }}
+<style>
+  /* Custom styles for better visibility */
+  .hero-section {
+    background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+    color: white;
+  }
+
+  .feature-card {
+    background: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+  }
+
+  .feature-card:hover {
+    transform: translateY(-4px);
+  }
+
+  .feature-icon {
+    color: #3b82f6;
+    font-size: 2rem;
+  }
+
+  .text-primary {
+    color: #2563eb;
+  }
+  .text-secondary {
+    color: #374151;
+  }
+  .text-accent {
+    color: #1e40af;
+  }
+  .bg-light {
+    background-color: #f3f4f6;
+  }
+</style>
+{% endblock %} {% block content %}
+<!-- Hero Section -->
+<div class="hero-section py-16 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-7xl mx-auto text-center">
+    <h1 class="text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl">
+      Track Your Job Applications with Ease
     </h1>
-    <p class="mt-6 max-w-2xl mx-auto text-xl text-gray-500">
-      Applizz helps you keep track of every job application and interview. Never
-      miss an opportunity again.
+    <p class="mt-6 max-w-2xl mx-auto text-xl">
+      Organize, monitor, and optimize your job search journey with our intuitive
+      tracking system.
     </p>
-    <div class="mt-10 flex flex-col sm:flex-row justify-center gap-4">
+    <div class="mt-10">
       <a
         href="{{ url_for('auth.register') }}"
-        class="rounded-md shadow px-8 py-3 bg-blue-600 text-white font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+        class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 shadow-lg"
       >
-        Sign Up Free
-      </a>
-      <a
-        href="{{ url_for('auth.login') }}"
-        class="rounded-md shadow px-8 py-3 border border-gray-300 bg-white text-gray-700 font-medium hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-      >
-        Log In
+        Get Started
       </a>
     </div>
   </div>
+</div>
 
-  <!-- Features Section -->
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+<!-- Features Section -->
+<div class="bg-light py-16 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-7xl mx-auto">
     <div class="text-center">
-      <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">
-        Features
+      <h2 class="text-3xl font-extrabold text-primary sm:text-4xl">
+        Features that Make Job Hunting Easier
       </h2>
-      <p class="mt-4 max-w-2xl mx-auto text-xl text-gray-500">
-        Everything you need to organize your job search.
+      <p class="mt-4 text-xl text-secondary">
+        Everything you need to manage your job applications effectively
       </p>
     </div>
 
-    <div class="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-      <!-- Feature 1 -->
-      <div
-        class="bg-white rounded-lg shadow-md p-6 flex flex-col items-center text-center"
-      >
-        <div
-          class="h-12 w-12 bg-blue-100 rounded-md flex items-center justify-center text-blue-600 mb-4"
-        >
-          <i class="fas fa-tasks text-xl"></i>
+    <div class="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+      <!-- Application Tracking -->
+      <div class="feature-card p-6">
+        <div class="mb-4">
+          <i class="fas fa-tasks feature-icon"></i>
         </div>
-        <h3 class="text-lg font-medium text-gray-900 mb-2">
+        <h3 class="text-xl font-bold text-primary mb-2">
           Application Tracking
         </h3>
-        <p class="text-gray-500">
-          Keep all your applications organized with status updates, dates, and
-          details.
+        <p class="text-secondary">
+          Keep track of all your job applications in one place with detailed
+          status updates.
         </p>
       </div>
 
-      <!-- Feature 2 -->
-      <div
-        class="bg-white rounded-lg shadow-md p-6 flex flex-col items-center text-center"
-      >
-        <div
-          class="h-12 w-12 bg-blue-100 rounded-md flex items-center justify-center text-blue-600 mb-4"
-        >
-          <i class="fas fa-chart-line text-xl"></i>
+      <!-- Interview Management -->
+      <div class="feature-card p-6">
+        <div class="mb-4">
+          <i class="fas fa-calendar-check feature-icon"></i>
         </div>
-        <h3 class="text-lg font-medium text-gray-900 mb-2">Visual Dashboard</h3>
-        <p class="text-gray-500">
-          Get insights into your job search with visual stats and progress
-          tracking.
-        </p>
-      </div>
-
-      <!-- Feature 3 -->
-      <div
-        class="bg-white rounded-lg shadow-md p-6 flex flex-col items-center text-center"
-      >
-        <div
-          class="h-12 w-12 bg-blue-100 rounded-md flex items-center justify-center text-blue-600 mb-4"
-        >
-          <i class="fas fa-calendar-alt text-xl"></i>
-        </div>
-        <h3 class="text-lg font-medium text-gray-900 mb-2">
+        <h3 class="text-xl font-bold text-primary mb-2">
           Interview Management
         </h3>
-        <p class="text-gray-500">
-          Schedule and track interviews, take notes, and never miss a deadline.
+        <p class="text-secondary">
+          Schedule and prepare for interviews with our built-in calendar and
+          reminder system.
         </p>
       </div>
 
-      <!-- Feature 4 -->
-      <div
-        class="bg-white rounded-lg shadow-md p-6 flex flex-col items-center text-center"
-      >
-        <div
-          class="h-12 w-12 bg-blue-100 rounded-md flex items-center justify-center text-blue-600 mb-4"
-        >
-          <i class="fas fa-file-alt text-xl"></i>
+      <!-- Document Storage -->
+      <div class="feature-card p-6">
+        <div class="mb-4">
+          <i class="fas fa-file-alt feature-icon"></i>
         </div>
-        <h3 class="text-lg font-medium text-gray-900 mb-2">Document Storage</h3>
-        <p class="text-gray-500">
-          Store resumes, cover letters, and other documents for each
-          application.
+        <h3 class="text-xl font-bold text-primary mb-2">Document Storage</h3>
+        <p class="text-secondary">
+          Store and organize your resumes, cover letters, and other important
+          documents.
         </p>
       </div>
 
-      <!-- Feature 5 -->
-      <div
-        class="bg-white rounded-lg shadow-md p-6 flex flex-col items-center text-center"
-      >
-        <div
-          class="h-12 w-12 bg-blue-100 rounded-md flex items-center justify-center text-blue-600 mb-4"
-        >
-          <i class="fas fa-sticky-note text-xl"></i>
+      <!-- Progress Analytics -->
+      <div class="feature-card p-6">
+        <div class="mb-4">
+          <i class="fas fa-chart-line feature-icon"></i>
         </div>
-        <h3 class="text-lg font-medium text-gray-900 mb-2">Note Taking</h3>
-        <p class="text-gray-500">
-          Add detailed notes to each application to keep track of important
-          details.
+        <h3 class="text-xl font-bold text-primary mb-2">Progress Analytics</h3>
+        <p class="text-secondary">
+          Visualize your job search progress with intuitive charts and
+          statistics.
         </p>
       </div>
 
-      <!-- Feature 6 -->
-      <div
-        class="bg-white rounded-lg shadow-md p-6 flex flex-col items-center text-center"
-      >
-        <div
-          class="h-12 w-12 bg-blue-100 rounded-md flex items-center justify-center text-blue-600 mb-4"
-        >
-          <i class="fas fa-bell text-xl"></i>
+      <!-- Notes & Comments -->
+      <div class="feature-card p-6">
+        <div class="mb-4">
+          <i class="fas fa-sticky-note feature-icon"></i>
         </div>
-        <h3 class="text-lg font-medium text-gray-900 mb-2">
-          Deadline Reminders
-        </h3>
-        <p class="text-gray-500">
-          Get notified about upcoming deadlines and interview dates.
+        <h3 class="text-xl font-bold text-primary mb-2">Notes & Comments</h3>
+        <p class="text-secondary">
+          Add detailed notes and comments to keep track of important
+          information.
+        </p>
+      </div>
+
+      <!-- Status Updates -->
+      <div class="feature-card p-6">
+        <div class="mb-4">
+          <i class="fas fa-bell feature-icon"></i>
+        </div>
+        <h3 class="text-xl font-bold text-primary mb-2">Status Updates</h3>
+        <p class="text-secondary">
+          Get notified about application status changes and upcoming deadlines.
         </p>
       </div>
     </div>
   </div>
+</div>
 
-  <!-- CTA Section -->
-  <div class="bg-blue-700">
-    <div
-      class="max-w-2xl mx-auto text-center py-16 px-4 sm:py-20 sm:px-6 lg:px-8"
-    >
-      <h2 class="text-3xl font-extrabold text-white sm:text-4xl">
-        Ready to get started?
-      </h2>
-      <p class="mt-4 text-lg leading-6 text-blue-200">
-        Sign up today and take control of your job search.
-      </p>
+<!-- CTA Section -->
+<div class="bg-white py-16 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-7xl mx-auto text-center">
+    <h2 class="text-3xl font-extrabold text-accent sm:text-4xl">
+      Ready to Start Your Job Search Journey?
+    </h2>
+    <p class="mt-4 text-xl text-secondary">
+      Join thousands of job seekers who are already using Applizz to land their
+      dream jobs.
+    </p>
+    <div class="mt-8">
       <a
         href="{{ url_for('auth.register') }}"
-        class="mt-8 w-full inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-blue-600 bg-white hover:bg-blue-50 sm:w-auto"
+        class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 shadow-lg"
       >
-        Sign up free
+        Sign Up Now
       </a>
     </div>
   </div>

@@ -6,9 +6,9 @@ from datetime import datetime
 
 class User(UserMixin):
     def __init__(self, user_data):
-        self.id = str(user_data.get('_id'))
-        self.username = user_data.get('username')
+        self._id = user_data.get('_id')
         self.email = user_data.get('email')
+        self.username = user_data.get('username')
         self.password_hash = user_data.get('password_hash')
         self.first_name = user_data.get('first_name')
         self.last_name = user_data.get('last_name')
@@ -27,11 +27,14 @@ class User(UserMixin):
     def is_active(self, value):
         self._is_active = value
         # Update in database
-        if hasattr(self, 'id') and self.id:
+        if hasattr(self, '_id') and self._id:
             mongo.db.users.update_one(
-                {"_id": ObjectId(self.id)},
+                {"_id": ObjectId(self._id)},
                 {"$set": {"is_active": value}}
             )
+
+    def get_id(self):
+        return str(self._id)
 
     @staticmethod
     def create_user(username, email, password, first_name=None, last_name=None):
@@ -73,14 +76,14 @@ class User(UserMixin):
     
     @staticmethod
     def get_by_id(user_id):
-        """Get user by ID"""
+        """Find user by ID"""
+        if not user_id:
+            return None
         try:
-            user_data = mongo.db.users.find_one({"_id": ObjectId(user_id)})
-            if user_data:
-                return User(user_data)
+            user_data = mongo.db.users.find_one({'_id': ObjectId(user_id)})
+            return User(user_data) if user_data else None
         except:
-            pass
-        return None
+            return None
     
     @staticmethod
     def get_by_username(username):
@@ -92,21 +95,24 @@ class User(UserMixin):
     
     @staticmethod
     def get_by_email(email):
-        """Get user by email"""
-        user_data = mongo.db.users.find_one({"email": email})
-        if user_data:
-            return User(user_data)
-        return None
+        """Find user by email (case-insensitive)"""
+        if not email:
+            return None
+        user_data = mongo.db.users.find_one(
+            {'email': email.lower()},
+            collation={'locale': 'en', 'strength': 2}
+        )
+        return User(user_data) if user_data else None
     
     def check_password(self, password):
-        """Check password"""
+        """Check password against hash"""
         return check_password_hash(self.password_hash, password)
     
     def update_password(self, new_password):
         """Update password"""
         password_hash = generate_password_hash(new_password)
         mongo.db.users.update_one(
-            {"_id": ObjectId(self.id)},
+            {"_id": ObjectId(self._id)},
             {"$set": {"password_hash": password_hash}}
         )
         self.password_hash = password_hash
@@ -127,7 +133,7 @@ class User(UserMixin):
         
         if updates:
             mongo.db.users.update_one(
-                {"_id": ObjectId(self.id)},
+                {"_id": ObjectId(self._id)},
                 {"$set": updates}
             )
             
@@ -165,7 +171,7 @@ class User(UserMixin):
         
         if updates:
             mongo.db.users.update_one(
-                {"_id": ObjectId(self.id)},
+                {"_id": ObjectId(self._id)},
                 {"$set": updates}
             )
             
@@ -185,10 +191,11 @@ class User(UserMixin):
         return False
     
     def save(self):
-        """Save user data to database."""
-        updates = {
+        """Save or update user"""
+        user_data = {
+            'email': self.email.lower(),  # Store email in lowercase
             'username': self.username,
-            'email': self.email,
+            'password_hash': self.password_hash,
             'first_name': self.first_name,
             'last_name': self.last_name,
             'is_active': self._is_active,
@@ -196,16 +203,20 @@ class User(UserMixin):
             'subscription': self.subscription
         }
         
-        mongo.db.users.update_one(
-            {'_id': ObjectId(self.id)},
-            {'$set': updates}
-        )
+        if self._id:
+            mongo.db.users.update_one(
+                {'_id': self._id},
+                {'$set': user_data}
+            )
+        else:
+            result = mongo.db.users.insert_one(user_data)
+            self._id = result.inserted_id
         return True
     
     def to_dict(self):
         """Convert user to dictionary"""
         return {
-            "id": self.id,
+            "id": self._id,
             "username": self.username,
             "email": self.email,
             "first_name": self.first_name,

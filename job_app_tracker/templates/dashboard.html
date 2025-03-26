@@ -22,6 +22,66 @@ block head %} {{ super() }}
   .ease-in-out {
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   }
+
+  /* Status colors with better contrast */
+  .status-Applied {
+    background-color: #4f46e5;
+    color: white;
+  }
+  .status-Interview {
+    background-color: #059669;
+    color: white;
+  }
+  .status-Offer {
+    background-color: #047857;
+    color: white;
+  }
+  .status-Rejected {
+    background-color: #dc2626;
+    color: white;
+  }
+  .status-Withdrawn {
+    background-color: #6b7280;
+    color: white;
+  }
+  .status-In-Progress {
+    background-color: #2563eb;
+    color: white;
+  }
+
+  /* Card hover effects */
+  .application-card {
+    transition: all 0.3s ease;
+    border: 1px solid #e5e7eb;
+  }
+
+  .application-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+      0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
+
+  /* Improved text contrast */
+  .text-dark {
+    color: #111827;
+  }
+  .text-medium {
+    color: #374151;
+  }
+  .text-light {
+    color: #6b7280;
+  }
+
+  /* Background colors */
+  .bg-card {
+    background-color: white;
+  }
+  .bg-highlight {
+    background-color: #f3f4f6;
+  }
+  .bg-accent {
+    background-color: #eef2ff;
+  }
 </style>
 {% endblock %} {% block content %}
 <div class="page-enter">
@@ -29,7 +89,7 @@ block head %} {{ super() }}
   <div class="md:flex md:items-center md:justify-between mb-8">
     <div class="flex-1 min-w-0">
       <h2
-        class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate"
+        class="text-2xl font-bold leading-7 text-dark sm:text-3xl sm:truncate"
       >
         Dashboard
       </h2>
@@ -49,19 +109,19 @@ block head %} {{ super() }}
   <!-- Stats Grid -->
   <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4 mb-8">
     <!-- Total Applications -->
-    <div class="bg-white overflow-hidden shadow rounded-lg">
+    <div class="bg-card overflow-hidden shadow rounded-lg">
       <div class="p-5">
         <div class="flex items-center">
           <div class="flex-shrink-0">
-            <i class="fas fa-briefcase text-gray-400 text-3xl"></i>
+            <i class="fas fa-briefcase text-blue-500 text-3xl"></i>
           </div>
           <div class="ml-5 w-0 flex-1">
             <dl>
-              <dt class="text-sm font-medium text-gray-500 truncate">
+              <dt class="text-sm font-medium text-medium truncate">
                 Total Applications
               </dt>
               <dd class="flex items-baseline">
-                <div class="text-2xl font-semibold text-gray-900">
+                <div class="text-2xl font-semibold text-dark">
                   {{ total_applications }}
                 </div>
               </dd>
@@ -72,19 +132,19 @@ block head %} {{ super() }}
     </div>
 
     <!-- In Progress -->
-    <div class="bg-white overflow-hidden shadow rounded-lg">
+    <div class="bg-card overflow-hidden shadow rounded-lg">
       <div class="p-5">
         <div class="flex items-center">
           <div class="flex-shrink-0">
-            <i class="fas fa-hourglass-half text-gray-400 text-3xl"></i>
+            <i class="fas fa-hourglass-half text-yellow-500 text-3xl"></i>
           </div>
           <div class="ml-5 w-0 flex-1">
             <dl>
-              <dt class="text-sm font-medium text-gray-500 truncate">
+              <dt class="text-sm font-medium text-medium truncate">
                 In Progress
               </dt>
               <dd class="flex items-baseline">
-                <div class="text-2xl font-semibold text-gray-900">
+                <div class="text-2xl font-semibold text-dark">
                   {{ active_applications }}
                 </div>
               </dd>
@@ -95,19 +155,19 @@ block head %} {{ super() }}
     </div>
 
     <!-- Interviews -->
-    <div class="bg-white overflow-hidden shadow rounded-lg">
+    <div class="bg-card overflow-hidden shadow rounded-lg">
       <div class="p-5">
         <div class="flex items-center">
           <div class="flex-shrink-0">
-            <i class="fas fa-user-tie text-gray-400 text-3xl"></i>
+            <i class="fas fa-user-tie text-green-500 text-3xl"></i>
           </div>
           <div class="ml-5 w-0 flex-1">
             <dl>
-              <dt class="text-sm font-medium text-gray-500 truncate">
+              <dt class="text-sm font-medium text-medium truncate">
                 Interviews
               </dt>
               <dd class="flex items-baseline">
-                <div class="text-2xl font-semibold text-gray-900">
+                <div class="text-2xl font-semibold text-dark">
                   {{ status_counts.Interview }}
                 </div>
               </dd>
@@ -118,17 +178,17 @@ block head %} {{ super() }}
     </div>
 
     <!-- Offers -->
-    <div class="bg-white overflow-hidden shadow rounded-lg">
+    <div class="bg-card overflow-hidden shadow rounded-lg">
       <div class="p-5">
         <div class="flex items-center">
           <div class="flex-shrink-0">
-            <i class="fas fa-check-circle text-gray-400 text-3xl"></i>
+            <i class="fas fa-check-circle text-green-600 text-3xl"></i>
           </div>
           <div class="ml-5 w-0 flex-1">
             <dl>
-              <dt class="text-sm font-medium text-gray-500 truncate">Offers</dt>
+              <dt class="text-sm font-medium text-medium truncate">Offers</dt>
               <dd class="flex items-baseline">
-                <div class="text-2xl font-semibold text-gray-900">
+                <div class="text-2xl font-semibold text-dark">
                   {{ status_counts.Offer }}
                 </div>
               </dd>

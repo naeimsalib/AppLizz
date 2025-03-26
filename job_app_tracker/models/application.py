@@ -1,9 +1,13 @@
 from job_app_tracker.config.mongodb import mongo
 from bson.objectid import ObjectId
 from datetime import datetime
+import logging
 
 class Application:
     def __init__(self, app_data):
+        if not app_data:
+            raise ValueError("Application data cannot be None")
+            
         self.id = str(app_data.get('_id', ''))
         self.user_id = app_data.get('user_id')
         self.company = app_data.get('company')
@@ -23,7 +27,7 @@ class Application:
         self.salary_info = app_data.get('salary_info', {})
         self.created_at = app_data.get('created_at')
         self.updated_at = app_data.get('updated_at')
-        self.source = app_data.get('source', 'manual')  # manual entry source
+        self.source = app_data.get('source', 'manual')
         self.tags = app_data.get('tags', [])
     
     @staticmethod
@@ -42,6 +46,10 @@ class Application:
     @staticmethod
     def get_all_for_user(user_id, filters=None, sort=None):
         """Get all applications for a user with optional filtering and sorting"""
+        if not user_id:
+            logging.error("get_all_for_user called with empty user_id")
+            return []
+            
         query = {'user_id': str(user_id)}
         
         # Apply additional filters if provided
@@ -52,8 +60,24 @@ class Application:
         # Default sort by date applied descending
         sort_params = sort if sort else [('date_applied', -1)]
         
-        apps_data = mongo.db.applications.find(query).sort(sort_params)
-        return [Application(app) for app in apps_data]
+        try:
+            apps_cursor = mongo.db.applications.find(query).sort(sort_params)
+            applications = []
+            
+            for app_data in apps_cursor:
+                try:
+                    app = Application(app_data)
+                    applications.append(app)
+                except Exception as e:
+                    logging.error(f"Error creating Application object: {str(e)}")
+                    continue
+            
+            logging.info(f"Retrieved {len(applications)} applications for user {user_id}")
+            return applications
+            
+        except Exception as e:
+            logging.error(f"Error retrieving applications: {str(e)}")
+            return []
     
     @staticmethod
     def create(app_data):
