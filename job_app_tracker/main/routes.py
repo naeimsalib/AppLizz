@@ -81,15 +81,78 @@ def dashboard():
         if app.get('status') == 'Interview'
     ]
     
-    # Generate timeline data (last 4 weeks)
-    timeline_labels = []
-    timeline_values = []
+    # Get time range from query parameters
+    time_range = request.args.get('time_range', '28')  # Default to 28 days
+    days_to_show = int(time_range)
     
-    for i in range(27, -1, -1):  # 28 days
-        date = today - timedelta(days=i)
-        timeline_labels.append(date.strftime('%Y-%m-%d'))
-        timeline_values.append(sum(1 for app in applications 
-                                 if app.get('date_applied') and app.get('date_applied').date() == date.date()))
+    # Generate timeline data for the selected time range
+    timeline_data = []
+    for i in range(days_to_show - 1, -1, -1):  # Start from days_to_show-1 days ago and go up to today
+        date = datetime.utcnow() - timedelta(days=i)
+        start_of_day = datetime.combine(date.date(), datetime.min.time())
+        end_of_day = datetime.combine(date.date(), datetime.max.time())
+        
+        # Count applications for each status on this day
+        status_counts = {
+            'Applied': 0,
+            'In Progress': 0,
+            'Interview': 0,
+            'Offer': 0,
+            'Rejected': 0,
+            'Withdrawn': 0,
+            'Wishlist': 0
+        }
+        
+        for app in applications:
+            # Convert date_applied to datetime if it's a string
+            date_applied = app.get('date_applied')
+            if isinstance(date_applied, str):
+                try:
+                    date_applied = datetime.fromisoformat(date_applied.replace('Z', '+00:00'))
+                except ValueError:
+                    continue
+            
+            if date_applied and start_of_day <= date_applied <= end_of_day:
+                status = app.get('status', 'Applied')
+                if status in status_counts:
+                    status_counts[status] += 1
+        
+        timeline_data.append({
+            'date': date.strftime('%Y-%m-%d'),
+            'counts': status_counts
+        })
+    
+    # Calculate success rate
+    success_rate = {
+        'total': total_applications,
+        'successful': sum(1 for app in applications if app.get('status') in ['Offer', 'Interview']),
+        'rejected': sum(1 for app in applications if app.get('status') == 'Rejected')
+    }
+    success_rate['percentage'] = (success_rate['successful'] / success_rate['total'] * 100) if success_rate['total'] > 0 else 0
+    
+    # Calculate velocity metrics
+    def calculate_velocity_metrics(applications):
+        if not applications:
+            return None
+            
+        # Calculate average time between applications
+        dates = sorted([app.get('date_applied') for app in applications if app.get('date_applied')])
+        if len(dates) < 2:
+            return None
+            
+        time_diffs = [(dates[i] - dates[i-1]).days for i in range(1, len(dates))]
+        avg_time_between = sum(time_diffs) / len(time_diffs)
+        
+        # Calculate applications per week
+        weeks = (max(dates) - min(dates)).days / 7
+        apps_per_week = len(applications) / weeks if weeks > 0 else 0
+        
+        return {
+            'avg_time_between': round(avg_time_between, 1),
+            'apps_per_week': round(apps_per_week, 1)
+        }
+    
+    velocity_metrics = calculate_velocity_metrics(applications)
     
     return render_template(
         'dashboard.html',
@@ -100,8 +163,9 @@ def dashboard():
         applications=applications,
         upcoming_deadlines=upcoming_deadlines,
         upcoming_interviews=upcoming_interviews,
-        timeline_labels=timeline_labels,
-        timeline_values=timeline_values
+        timeline_data=timeline_data,
+        success_rate=success_rate,
+        velocity_metrics=velocity_metrics
     )
 
 @main.route('/application/new', methods=['GET', 'POST'])
@@ -761,4 +825,21 @@ def edit_interview(application_id, interview_id):
     except ValueError as e:
         return jsonify({'success': False, 'message': str(e)})
     except Exception as e:
-        return jsonify({'success': False, 'message': f'Error updating interview: {str(e)}'}) 
+        return jsonify({'success': False, 'message': f'Error updating interview: {str(e)}'})
+
+@main.route('/applications/delete-all', methods=['POST'])
+@login_required
+def delete_all_applications():
+    try:
+        # Delete all applications for the current user
+        result = mongo.db.applications.delete_many({'user_id': str(current_user.id)})
+        
+        if result.deleted_count > 0:
+            flash('All applications have been deleted successfully.', 'success')
+        else:
+            flash('No applications were found to delete.', 'info')
+            
+        return redirect(url_for('main.dashboard'))
+    except Exception as e:
+        flash('An error occurred while deleting applications.', 'error')
+        return redirect(url_for('main.dashboard')) 

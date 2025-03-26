@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, redirect, url_for, flash, request
 from flask_login import login_user, logout_user, login_required, current_user
 from job_app_tracker.models.user import User
 from job_app_tracker.auth.forms import LoginForm, RegistrationForm
-from werkzeug.security import generate_password_hash
+import bcrypt
 from bson import ObjectId
 from job_app_tracker.config.mongodb import mongo
 
@@ -89,10 +89,13 @@ def change_password():
         flash('New passwords do not match', 'error')
         return redirect(url_for('main.settings'))
     
+    # Hash new password with bcrypt
+    password_hash = bcrypt.hashpw(new_password.encode('utf-8'), bcrypt.gensalt())
+    
     # Update password
     mongo.db.users.update_one(
         {'_id': ObjectId(current_user.id)},
-        {'$set': {'password_hash': generate_password_hash(new_password)}}
+        {'$set': {'password_hash': password_hash.decode('utf-8')}}
     )
     
     flash('Password updated successfully!', 'success')

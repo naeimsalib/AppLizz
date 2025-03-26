@@ -1,30 +1,59 @@
 from flask_login import UserMixin
 import bcrypt
 from job_app_tracker.config.mongodb import mongo
-from bson.objectid import ObjectId
+from bson import ObjectId
 from datetime import datetime
 
 class User(UserMixin):
-    def __init__(self, user_data):
-        self.id = str(user_data.get('_id', ''))
-        self.email = user_data.get('email')
-        self.password_hash = user_data.get('password_hash')
-        self.name = user_data.get('name')
+    def __init__(self, data):
+        self.id = str(data.get('_id', ''))
+        self.email = data.get('email', '')
+        self.name = data.get('name', '')
+        self.password_hash = data.get('password_hash', '')
+        self.email_settings = data.get('email_settings', {})
+        self.email_connected = data.get('email_connected', False)
+        self.connected_email = data.get('connected_email')
+        self.email_provider = data.get('email_provider')
+        self.email_token = data.get('email_token')
+        self.email_refresh_token = data.get('email_refresh_token')
+        self.email_token_expiry = data.get('email_token_expiry')
+        self.created_at = data.get('created_at')
+        self.updated_at = data.get('updated_at')
         
-        # Email integration fields
-        self.email_connected = user_data.get('email_connected', False)
-        self.connected_email = user_data.get('connected_email')
-        self.email_provider = user_data.get('email_provider')
-        self.email_token = user_data.get('email_token')
-        self.email_refresh_token = user_data.get('email_refresh_token')
-        self.email_token_expiry = user_data.get('email_token_expiry')
-        self.email_settings = user_data.get('email_settings', {
-            'auto_scan': True,
-            'require_approval': True,
-            'scan_attachments': False,
-            'last_scan': None
-        })
-        
+    @classmethod
+    def get_by_email(cls, email):
+        data = mongo.db.users.find_one({'email': email})
+        return cls(data) if data else None
+
+    @classmethod
+    def create(cls, data):
+        result = mongo.db.users.insert_one(data)
+        data['_id'] = result.inserted_id
+        return cls(data)
+
+    def update(self, data):
+        result = mongo.db.users.update_one(
+            {'_id': ObjectId(self.id)},
+            {'$set': data}
+        )
+        if result.modified_count > 0:
+            for key, value in data.items():
+                setattr(self, key, value)
+            return True
+        return False
+
+    def disconnect_email(self):
+        update_data = {
+            'email_connected': False,
+            'connected_email': None,
+            'email_provider': None,
+            'email_token': None,
+            'email_refresh_token': None,
+            'email_token_expiry': None,
+            'email_settings': {}
+        }
+        return self.update(update_data)
+
     @staticmethod
     def create_user(email, password, name):
         """Create a new user"""
@@ -50,14 +79,6 @@ class User(UserMixin):
         result = mongo.db.users.insert_one(user_data)
         user_data['_id'] = result.inserted_id
         return User(user_data)
-    
-    @staticmethod
-    def get_by_email(email):
-        """Get user by email (case-insensitive)"""
-        # Convert email to lowercase for comparison
-        email = email.lower() if email else None
-        user_data = mongo.db.users.find_one({'email': email})
-        return User(user_data) if user_data else None
     
     @staticmethod
     def get_by_id(user_id):
@@ -102,32 +123,6 @@ class User(UserMixin):
         self.email_token = token
         self.email_refresh_token = refresh_token
         self.email_token_expiry = expiry
-        
-        return True
-    
-    def disconnect_email(self):
-        """Disconnect email integration"""
-        update_data = {
-            'email_connected': False,
-            'connected_email': None,
-            'email_provider': None,
-            'email_token': None,
-            'email_refresh_token': None,
-            'email_token_expiry': None
-        }
-        
-        mongo.db.users.update_one(
-            {'_id': ObjectId(self.id)},
-            {'$set': update_data}
-        )
-        
-        # Update local attributes
-        self.email_connected = False
-        self.connected_email = None
-        self.email_provider = None
-        self.email_token = None
-        self.email_refresh_token = None
-        self.email_token_expiry = None
         
         return True
     

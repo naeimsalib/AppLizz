@@ -10,16 +10,10 @@ mongo = PyMongo()
 # Initialize MongoDB with the URI from environment variables
 def init_mongodb(app):
     try:
-        # Get MongoDB URI and add SSL certificate path
-        uri = os.getenv("MONGODB_URI")
-        if "?" in uri:
-            uri += "&tlsCAFile=" + certifi.where()
-        else:
-            uri += "?tlsCAFile=" + certifi.where()
-            
-        app.config["MONGO_URI"] = uri
+        # Set MongoDB URI from environment variable or use default
+        app.config['MONGO_URI'] = os.getenv('MONGODB_URI', 'mongodb://naeimsalib:Naeim2002@cluster0.aqbhxvj.mongodb.net/job_tracker?retryWrites=true&w=majority')
         
-        # Initialize PyMongo
+        # Initialize PyMongo with the app
         mongo.init_app(app)
         
         # Test connection
