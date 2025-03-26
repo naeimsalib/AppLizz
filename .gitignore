@@ -32,8 +32,8 @@ ENV/
 *.swo
 
 # Environment Variables
-.env
-.env.*
+# .env
+# .env.*
 
 # Local development
 instance/
