@@ -1,5 +1,5 @@
 from flask_login import UserMixin
-from werkzeug.security import generate_password_hash, check_password_hash
+import bcrypt
 from job_app_tracker.config.mongodb import mongo
 from bson.objectid import ObjectId
 from datetime import datetime
@@ -31,9 +31,12 @@ class User(UserMixin):
         # Convert email to lowercase before storing
         email = email.lower()
         
+        # Hash password with bcrypt and store it as a string
+        password_hash = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+        
         user_data = {
             'email': email,
-            'password_hash': generate_password_hash(password),
+            'password_hash': password_hash.decode('utf-8'),  # Store as string in MongoDB
             'name': name,
             'email_connected': False,
             'email_settings': {
@@ -67,7 +70,14 @@ class User(UserMixin):
     
     def check_password(self, password):
         """Check if password is correct"""
-        return check_password_hash(self.password_hash, password)
+        if not self.password_hash:
+            return False
+        try:
+            # Convert stored hash string back to bytes for comparison
+            stored_hash = self.password_hash.encode('utf-8')
+            return bcrypt.checkpw(password.encode('utf-8'), stored_hash)
+        except Exception:
+            return False
     
     def update_email_connection(self, connected_email, provider, token, refresh_token, expiry):
         """Update email connection details"""
