@@ -245,45 +245,58 @@ block head %} {{ super() }}
             </ul>
           </dd>
         </div>
-        {% endif %} {% if upcoming_interviews %}
-        <div
-          class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
-        >
-          <dt class="text-sm font-medium text-gray-500">
-            <i class="fas fa-user-tie text-blue-500 mr-2"></i> Upcoming
-            Interviews
-          </dt>
-          <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-            <ul class="divide-y divide-gray-200">
-              {% for app in upcoming_interviews %}
-              <li class="py-3">
-                <div class="flex justify-between">
-                  <div>
-                    <span class="font-medium">{{ app.company }}</span> - {{
-                    app.position }}
-                    <div class="text-sm text-gray-500">
-                      Status:
-                      <span
-                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800"
-                      >
-                        Interview
-                      </span>
-                    </div>
-                  </div>
-                  <a
-                    href="{{ url_for('main.application_interviews', application_id=app._id) }}"
-                    class="text-blue-600 hover:text-blue-900"
-                  >
-                    <i class="fas fa-calendar-alt"></i> View Interviews
-                  </a>
-                </div>
-              </li>
-              {% endfor %}
-            </ul>
-          </dd>
-        </div>
         {% endif %}
       </dl>
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- Interview Section -->
+  {% if status_counts.Interview > 0 %}
+  <div class="bg-white shadow overflow-hidden sm:rounded-lg mb-8">
+    <div class="px-4 py-5 sm:px-6 bg-green-50">
+      <h3 class="text-lg leading-6 font-medium text-gray-900">
+        <i class="fas fa-user-tie text-green-500 mr-2"></i> Interview Applications
+      </h3>
+      <p class="mt-1 max-w-2xl text-sm text-gray-500">
+        Your applications in the interview stage
+      </p>
+    </div>
+    <div class="border-t border-gray-200">
+      <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+        <dt class="text-sm font-medium text-gray-500">
+          <i class="fas fa-user-tie text-green-500 mr-2"></i> Interview
+          Applications
+        </dt>
+        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+          <ul class="divide-y divide-gray-200">
+            {% for app in applications if app.status == 'Interview' %}
+            <li class="py-3">
+              <div class="flex justify-between">
+                <div>
+                  <span class="font-medium">{{ app.company }}</span> - {{
+                  app.position }}
+                  <div class="text-sm text-gray-500">
+                    Status:
+                    <span
+                      class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800"
+                    >
+                      Interview
+                    </span>
+                  </div>
+                </div>
+                <a
+                  href="{{ url_for('main.application_interviews', application_id=app._id) }}"
+                  class="text-blue-600 hover:text-blue-900"
+                >
+                  <i class="fas fa-calendar-alt"></i> View Interviews
+                </a>
+              </div>
+            </li>
+            {% endfor %}
+          </ul>
+        </dd>
+      </div>
     </div>
   </div>
   {% endif %}
@@ -355,16 +368,16 @@ block head %} {{ super() }}
             </h4>
             <!-- Time Range Filter -->
             <div class="flex space-x-2 mb-4">
-                <button onclick="updateTimeRange('7')" class="px-3 py-1 text-sm font-medium rounded-md bg-gray-100 text-gray-700 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                <button onclick="updateTimeRange('7')" class="time-range-btn px-3 py-1 text-sm font-medium rounded-md bg-gray-100 text-gray-700 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" data-days="7">
                     Last 7 Days
                 </button>
-                <button onclick="updateTimeRange('28')" class="px-3 py-1 text-sm font-medium rounded-md bg-gray-100 text-gray-700 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                <button onclick="updateTimeRange('28')" class="time-range-btn px-3 py-1 text-sm font-medium rounded-md bg-gray-100 text-gray-700 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" data-days="28">
                     Last 28 Days
                 </button>
-                <button onclick="updateTimeRange('90')" class="px-3 py-1 text-sm font-medium rounded-md bg-gray-100 text-gray-700 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                <button onclick="updateTimeRange('90')" class="time-range-btn px-3 py-1 text-sm font-medium rounded-md bg-gray-100 text-gray-700 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" data-days="90">
                     Last 90 Days
                 </button>
-                <button onclick="updateTimeRange('365')" class="px-3 py-1 text-sm font-medium rounded-md bg-gray-100 text-gray-700 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                <button onclick="updateTimeRange('365')" class="time-range-btn px-3 py-1 text-sm font-medium rounded-md bg-gray-100 text-gray-700 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" data-days="365">
                     Last Year
                 </button>
             </div>
@@ -1338,21 +1351,65 @@ block head %} {{ super() }}
           }
         });
 
-        // Time range selector functionality
-        const timeRangeSelect = document.getElementById('timeRange');
-        if (timeRangeSelect) {
-          timeRangeSelect.addEventListener('change', function() {
-            const days = parseInt(this.value);
-            // Here you would typically make an AJAX call to get new data
-            // For now, we'll just update the chart's visible range
-            const startIndex = Math.max(0, timelineChart.data.labels.length - days);
-            timelineChart.data.labels = timelineChart.data.labels.slice(startIndex);
-            timelineChart.data.datasets.forEach(dataset => {
-              dataset.data = dataset.data.slice(startIndex);
+        // Store the full timeline data
+        const fullTimelineData = {{ timeline_data|tojson }};
+
+        // Initialize time range buttons
+        const timeRangeButtons = document.querySelectorAll('.time-range-btn');
+        const currentTimeRange = new URLSearchParams(window.location.search).get('time_range') || '28';
+        
+        // Highlight the active time range button
+        timeRangeButtons.forEach(button => {
+            if (button.getAttribute('data-days') === currentTimeRange) {
+                button.classList.remove('bg-gray-100');
+                button.classList.add('bg-blue-100', 'text-blue-700');
+            }
+        });
+
+        // Update time range function
+        window.updateTimeRange = function(days) {
+            // Update URL without page reload
+            const url = new URL(window.location.href);
+            url.searchParams.set('time_range', days);
+            window.history.pushState({}, '', url);
+
+            // Update button styles
+            timeRangeButtons.forEach(button => {
+                if (button.getAttribute('data-days') === days) {
+                    button.classList.remove('bg-gray-100');
+                    button.classList.add('bg-blue-100', 'text-blue-700');
+                } else {
+                    button.classList.remove('bg-blue-100', 'text-blue-700');
+                    button.classList.add('bg-gray-100');
+                }
             });
+
+            // Filter the data based on the selected time range
+            const daysToShow = parseInt(days);
+            const now = new Date();
+            const filteredData = fullTimelineData.filter(item => {
+                const itemDate = new Date(item.date);
+                const diffTime = Math.abs(now - itemDate);
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                return diffDays <= daysToShow;
+            });
+
+            // Sort the filtered data by date
+            filteredData.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+            // Update chart data
+            timelineChart.data.labels = filteredData.map(item => item.date);
+            timelineChart.data.datasets.forEach(dataset => {
+                const status = dataset.label;
+                dataset.data = filteredData.map(item => item.counts[status] || 0);
+            });
+
+            // Update the chart
             timelineChart.update();
-          });
-        }
+        };
+
+        // Apply initial time range filter
+        updateTimeRange(currentTimeRange);
 
         console.log("Charts initialized successfully");
       } else {
@@ -1360,14 +1417,6 @@ block head %} {{ super() }}
       }
     } catch (error) {
       console.error("Error initializing charts:", error);
-    }
-
-    // Add this JavaScript function
-    function updateTimeRange(days) {
-        // Update the URL with the new time range
-        const url = new URL(window.location.href);
-        url.searchParams.set('time_range', days);
-        window.location.href = url.toString();
     }
   });
 </script>

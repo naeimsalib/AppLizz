@@ -6,6 +6,10 @@ from flask_wtf.csrf import CSRFProtect
 from .config.mongodb import init_mongodb
 from .models.user import User
 from dotenv import load_dotenv
+import logging
+
+# Configure logging
+logging.basicConfig(level=logging.INFO)
 
 # Load environment variables
 load_dotenv()
@@ -21,10 +25,13 @@ def create_app(test_config=None):
     # Load the default configuration
     app.config.from_mapping(
         SECRET_KEY=os.environ.get('SECRET_KEY', 'dev_key'),
-        MONGODB_URI=os.environ.get('MONGODB_URI', 'mongodb://localhost:27017/job_app_tracker'),
+        MONGODB_URI=os.environ.get('MONGODB_URI'),
         UPLOAD_FOLDER=os.path.join(os.path.dirname(os.path.abspath(__file__)), 'uploads'),
         MAX_CONTENT_LENGTH=16 * 1024 * 1024  # 16 MB max upload
     )
+    
+    # Log configuration
+    logging.info(f"MongoDB URI: {app.config['MONGODB_URI']}")
     
     # Initialize the upload folder
     if not os.path.exists(app.config['UPLOAD_FOLDER']):

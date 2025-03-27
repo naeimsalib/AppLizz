@@ -1,7 +1,11 @@
 import os
+from dotenv import load_dotenv
 from job_app_tracker import create_app
 
-# Create the application instance
+# Load environment variables
+load_dotenv(override=True)
+
+# Create the application
 app = create_app()
 
 if __name__ == '__main__':
@@ -10,6 +14,7 @@ if __name__ == '__main__':
     
     # Run the app
     app.run(
-        host='localhost',
-        port=port
+        host='0.0.0.0',
+        port=port,
+        debug=True
     ) 

@@ -22,11 +22,15 @@ class User(UserMixin):
         
     @classmethod
     def get_by_email(cls, email):
+        # Convert email to lowercase before searching
+        email = email.lower()
         data = mongo.db.users.find_one({'email': email})
         return cls(data) if data else None
 
     @classmethod
     def create(cls, data):
+        # Convert email to lowercase before creating
+        data['email'] = data['email'].lower()
         result = mongo.db.users.insert_one(data)
         data['_id'] = result.inserted_id
         return cls(data)

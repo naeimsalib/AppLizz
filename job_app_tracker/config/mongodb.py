@@ -3,6 +3,11 @@ from flask_pymongo import PyMongo
 from pymongo.errors import ConnectionFailure, OperationFailure
 import logging
 import certifi
+from pymongo import MongoClient
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 # Create a global PyMongo instance
 mongo = PyMongo()
@@ -11,12 +16,35 @@ mongo = PyMongo()
 def init_mongodb(app):
     try:
         # Set MongoDB URI from environment variable or use default
-        app.config['MONGO_URI'] = os.getenv('MONGODB_URI', 'mongodb://naeimsalib:Naeim2002@cluster0.aqbhxvj.mongodb.net/job_tracker?retryWrites=true&w=majority')
+        mongodb_uri = os.getenv('MONGODB_URI')
+        if not mongodb_uri:
+            raise ValueError("MONGODB_URI environment variable is not set")
+            
+        logging.info(f"Using MongoDB URI: {mongodb_uri}")
+        app.config['MONGO_URI'] = mongodb_uri
+        
+        # Set SSL certificate verification
+        app.config['MONGO_OPTIONS'] = {
+            'tlsCAFile': certifi.where(),
+            'connect': True,
+            'serverSelectionTimeoutMS': 5000
+        }
+        
+        # Try direct connection first
+        try:
+            logging.info("Attempting direct MongoDB connection...")
+            client = MongoClient(mongodb_uri, tlsCAFile=certifi.where())
+            client.admin.command('ping')
+            client.close()
+            logging.info("Successfully tested MongoDB connection")
+        except Exception as e:
+            logging.error(f"Direct connection test failed: {str(e)}")
+            raise
         
         # Initialize PyMongo with the app
         mongo.init_app(app)
         
-        # Test connection
+        # Test connection and create indexes
         with app.app_context():
             mongo.db.command('ping')
             
