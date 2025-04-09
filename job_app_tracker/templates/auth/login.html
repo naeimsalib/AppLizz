@@ -30,7 +30,7 @@ block content %}
           {% if category == 'error' %}
           <svg
             class="h-5 w-5 text-red-400"
-            fill="none"
+            fill=""
             viewBox="0 0 24 24"
             stroke="currentColor"
           >
@@ -85,7 +85,13 @@ block content %}
             required
             class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
             placeholder="Email address"
-            value="{{ form.email.data }}"
+            {%
+            if
+            form.email.data
+            %}value="{{ form.email.data }}"
+            {%
+            endif
+            %}
           />
           {% if form.email.errors %}
           <div class="text-red-500 text-xs mt-1">

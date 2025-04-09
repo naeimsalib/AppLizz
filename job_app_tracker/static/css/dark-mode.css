@@ -20,20 +20,20 @@
   color-scheme: light;
 }
 
-/* Dark theme variables - 20% lighter */
+/* Dark theme variables - Improved contrast */
 .dark-mode {
-  --bg-primary: #2c2c2c;    /* Medium-dark background (was #1a1a1a) */
-  --bg-secondary: #3c3c3c;  /* Medium gray for containers (was #2a2a2a) */
-  --bg-tertiary: #4c4c4c;   /* Lighter gray for headers (was #3a3a3a) */
-  --text-primary: #f0f0f0;  /* Very light gray for primary text */
-  --text-secondary: #c0c0c0; /* Light gray for secondary text */
-  --border-color: #5a5a5a;  /* Medium gray for borders (was #444444) */
-  --accent-color: #60a5fa;  /* Lighter blue accent color */
-  --accent-hover: #93c5fd;  /* Even lighter blue for hover states */
-  --success-color: #34d399; /* Brighter green for success states */
-  --error-color: #f87171;   /* Brighter red for error states */
-  --warning-color: #fbbf24; /* Brighter amber for warning states */
-  --info-color: #60a5fa;    /* Brighter blue for info states */
+  --bg-primary: #1a1a1a;    /* Dark background */
+  --bg-secondary: #2d2d2d;  /* Slightly lighter for containers */
+  --bg-tertiary: #3d3d3d;   /* Even lighter for headers */
+  --text-primary: #ffffff;  /* White for primary text */
+  --text-secondary: #e0e0e0; /* Light gray for secondary text */
+  --border-color: #4a4a4a;  /* Medium gray for borders */
+  --accent-color: #60a5fa;  /* Bright blue accent color */
+  --accent-hover: #93c5fd;  /* Lighter blue for hover states */
+  --success-color: #34d399; /* Bright green for success states */
+  --error-color: #f87171;   /* Bright red for error states */
+  --warning-color: #fbbf24; /* Bright amber for warning states */
+  --info-color: #60a5fa;    /* Bright blue for info states */
   
   color-scheme: dark;
 }
@@ -649,5 +649,53 @@ input:checked + .theme-slider:after {
 .dark-mode .text-gray-800,
 .dark-mode .text-gray-900,
 .dark-mode .text-gray-600 {
+  color: var(--text-primary) !important;
+}
+
+/* Dark mode - Feature cards and containers */
+.dark-mode .feature-card {
+  background-color: var(--bg-secondary) !important;
+  border: 1px solid var(--border-color);
+  color: var(--text-primary) !important;
+}
+
+.dark-mode .feature-card h3 {
+  color: var(--accent-color) !important;
+}
+
+.dark-mode .feature-card p {
+  color: var(--text-secondary) !important;
+}
+
+.dark-mode .feature-icon {
+  color: var(--accent-color) !important;
+}
+
+/* Dark mode - Hero section */
+.dark-mode .hero-section {
+  background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+  color: var(--text-primary);
+}
+
+/* Dark mode - CTA section */
+.dark-mode .bg-gray-light {
+  background-color: var(--bg-tertiary) !important;
+  color: var(--text-primary);
+}
+
+.dark-mode .bg-gray-light p {
+  color: var(--text-secondary);
+}
+
+/* Dark mode - Text colors */
+.dark-mode .text-primary {
+  color: var(--accent-color) !important;
+}
+
+.dark-mode .text-secondary {
+  color: var(--text-secondary) !important;
+}
+
+.dark-mode .text-accent {
   color: var(--text-primary) !important;
 } 

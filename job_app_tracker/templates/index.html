@@ -8,10 +8,11 @@ block head %} {{ super() }}
   }
 
   .feature-card {
-    background: white;
+    background: var(--bg-secondary);
     border-radius: 0.5rem;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease;
+    border: 1px solid var(--border-color);
   }
 
   .feature-card:hover {
@@ -19,24 +20,24 @@ block head %} {{ super() }}
   }
 
   .feature-icon {
-    color: #3b82f6;
+    color: var(--accent-color);
     font-size: 2rem;
   }
 
   .text-primary {
-    color: #2563eb;
+    color: var(--accent-color);
   }
   .text-secondary {
-    color: #374151;
+    color: var(--text-secondary);
   }
   .text-accent {
-    color: #f8f9fa;
+    color: var(--text-primary);
   }
   .bg-light {
-    background-color: #f3f4f6;
+    background-color: var(--bg-secondary);
   }
   .bg-gray-light {
-    background-color: #2d3748;
+    background-color: var(--bg-tertiary);
   }
 </style>
 {% endblock %} {% block content %}
