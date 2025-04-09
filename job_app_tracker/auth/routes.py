@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, redirect, url_for, flash, request
 from flask_login import login_user, logout_user, login_required, current_user
 from job_app_tracker.models.user import User
 from job_app_tracker.auth.forms import LoginForm, RegistrationForm
-from werkzeug.security import generate_password_hash
+import bcrypt
 from bson import ObjectId
 from job_app_tracker.config.mongodb import mongo
 
@@ -89,11 +89,36 @@ def change_password():
         flash('New passwords do not match', 'error')
         return redirect(url_for('main.settings'))
     
+    # Hash new password with bcrypt
+    password_hash = bcrypt.hashpw(new_password.encode('utf-8'), bcrypt.gensalt())
+    
     # Update password
     mongo.db.users.update_one(
         {'_id': ObjectId(current_user.id)},
-        {'$set': {'password_hash': generate_password_hash(new_password)}}
+        {'$set': {'password_hash': password_hash.decode('utf-8')}}
     )
     
     flash('Password updated successfully!', 'success')
-    return redirect(url_for('main.settings')) 
+    return redirect(url_for('main.settings'))
+
+@auth.route('/delete-account', methods=['POST'])
+@login_required
+def delete_account():
+    """Delete user account and all associated data"""
+    confirm_delete = request.form.get('confirm_delete')
+    
+    if confirm_delete != 'DELETE':
+        flash('Please type DELETE to confirm account deletion', 'error')
+        return redirect(url_for('main.settings'))
+    
+    # Delete user's job applications
+    mongo.db.applications.delete_many({'user_id': current_user.id})
+    
+    # Delete user account
+    mongo.db.users.delete_one({'_id': ObjectId(current_user.id)})
+    
+    # Log out the user
+    logout_user()
+    
+    flash('Your account has been permanently deleted', 'success')
+    return redirect(url_for('main.index')) 

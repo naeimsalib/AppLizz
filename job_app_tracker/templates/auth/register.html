@@ -111,11 +111,7 @@
         </div>
         <div>
           {{ form.confirm_password.label(class="sr-only") }} {{
-          form.confirm_password(class="appearance-none rounded-none relative
-          block w-full px-3 py-2 border border-gray-300 placeholder-gray-500
-          text-gray-900 rounded-b-md focus:outline-none focus:ring-blue-500
-          focus:border-blue-500 focus:z-10 sm:text-sm", placeholder="Confirm
-          password") }} {% if form.confirm_password.errors %}
+          form.confirm_password(class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm", placeholder="Confirm password") }} {% if form.confirm_password.errors %}
           <div class="text-red-500 text-xs mt-1">
             {{ form.confirm_password.errors[0] }}
           </div>

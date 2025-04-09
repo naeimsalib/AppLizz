@@ -6,9 +6,7 @@ Flask-WTF==1.1.1
 pymongo==4.3.3
 Werkzeug==2.2.3
 python-dotenv==1.0.0
-bson==0.5.10
 certifi==2023.5.7
 Jinja2==3.1.2
 itsdangerous==2.1.2
-gunicorn==20.1.0
-requests==2.31.0 
+gunicorn==20.1.0 
