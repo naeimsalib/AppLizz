@@ -6,6 +6,8 @@ from datetime import datetime
 
 class User(UserMixin):
     def __init__(self, data):
+        if data is None:
+            return None
         self.id = str(data.get('_id', ''))
         self.email = data.get('email', '')
         self.name = data.get('name', '')
@@ -58,31 +60,55 @@ class User(UserMixin):
         }
         return self.update(update_data)
 
-    @staticmethod
-    def create_user(email, password, name):
-        """Create a new user"""
-        # Convert email to lowercase before storing
-        email = email.lower()
-        
-        # Hash password with bcrypt and store it as a string
-        password_hash = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
-        
-        user_data = {
-            'email': email,
-            'password_hash': password_hash.decode('utf-8'),  # Store as string in MongoDB
-            'name': name,
-            'email_connected': False,
-            'email_settings': {
-                'auto_scan': True,
-                'require_approval': True,
-                'scan_attachments': False,
-                'last_scan': None
-            },
-            'created_at': datetime.now()
-        }
-        result = mongo.db.users.insert_one(user_data)
-        user_data['_id'] = result.inserted_id
-        return User(user_data)
+    @classmethod
+    def create_user(cls, email, password, name):
+        """Create a new user with proper password hashing"""
+        try:
+            # Convert email to lowercase
+            email = email.lower()
+            
+            # Generate salt and hash password
+            password_bytes = password.encode('utf-8')
+            salt = bcrypt.gensalt()
+            password_hash = bcrypt.hashpw(password_bytes, salt)
+            
+            # Store hash as bytes in MongoDB
+            user_data = {
+                'email': email,
+                'password_hash': password_hash,
+                'name': name,
+                'created_at': datetime.utcnow(),
+                'updated_at': datetime.utcnow(),
+                'email_connected': False,
+                'email_settings': {}
+            }
+            
+            # Insert the user
+            result = mongo.db.users.insert_one(user_data)
+            user_data['_id'] = result.inserted_id
+            
+            return cls(user_data)
+        except Exception as e:
+            print(f"User creation error: {str(e)}")
+            return None
+
+    def get_id(self):
+        return str(self.id)
+
+    def check_password(self, password):
+        """Check if password is correct"""
+        if not self.password_hash:
+            return False
+        try:
+            # Make sure password_hash is in bytes
+            stored_hash = self.password_hash.encode('utf-8') if isinstance(self.password_hash, str) else self.password_hash
+            # Convert input password to bytes
+            password_bytes = password.encode('utf-8')
+            # Verify password
+            return bcrypt.checkpw(password_bytes, stored_hash)
+        except Exception as e:
+            print(f"Password verification error: {str(e)}")
+            return False
     
     @staticmethod
     def get_by_id(user_id):
@@ -92,17 +118,6 @@ class User(UserMixin):
             return User(user_data) if user_data else None
         except:
             return None
-    
-    def check_password(self, password):
-        """Check if password is correct"""
-        if not self.password_hash:
-            return False
-        try:
-            # Convert stored hash string back to bytes for comparison
-            stored_hash = self.password_hash.encode('utf-8')
-            return bcrypt.checkpw(password.encode('utf-8'), stored_hash)
-        except Exception:
-            return False
     
     def update_email_connection(self, connected_email, provider, token, refresh_token, expiry):
         """Update email connection details"""

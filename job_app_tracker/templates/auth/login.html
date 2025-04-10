@@ -85,7 +85,6 @@ block content %}
             required
             class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
             placeholder="Email address"
-<<<<<<< HEAD
             {%
             if
             form.email.data
@@ -93,9 +92,7 @@ block content %}
             {%
             endif
             %}
-=======
             value="{{ form.email.data if form.email.data else '' }}"
->>>>>>> 99d1cdd50f1d2381023d99cc522bc43f5b53b4d4
           />
           {% if form.email.errors %}
           <div class="text-red-500 text-xs mt-1">
