@@ -125,9 +125,6 @@
                 <input type="checkbox" id="theme-toggle" class="theme-toggle" />
                 <span class="theme-slider"></span>
               </label>
-              <span class="dark-mode-icon ml-2 flex items-center">
-                <i class="fas fa-moon"></i>
-              </span>
             </div>
           </div>
 
@@ -233,16 +230,6 @@
               class="ml-4 px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-100"
               >FAQ</a
             >
-            <!-- Theme Toggle Switch -->
-            <div class="theme-switch-wrapper ml-4">
-              <label class="theme-switch" for="theme-toggle">
-                <input type="checkbox" id="theme-toggle" class="theme-toggle" />
-                <span class="theme-slider"></span>
-              </label>
-              <span class="dark-mode-icon ml-2">
-                <i class="fas fa-moon"></i>
-              </span>
-            </div>
           </div>
 
           <!-- Mobile menu button for guest users -->
@@ -391,12 +378,13 @@
           }
         }
 
-        // Initialize theme
+        // Initialize theme - default to light mode
         const savedTheme = localStorage.getItem('theme');
         if (savedTheme) {
           setTheme(savedTheme === 'dark');
         } else {
-          setTheme(prefersDarkScheme.matches);
+          // Default to light mode instead of system preference
+          setTheme(false);
         }
 
         // Theme toggle event listener
@@ -406,10 +394,11 @@
           });
         }
 
-        // System theme change listener
+        // System theme change listener - only apply if user hasn't set a preference
         prefersDarkScheme.addEventListener('change', (e) => {
           if (!localStorage.getItem('theme')) {
-            setTheme(e.matches);
+            // Keep light mode as default
+            setTheme(false);
           }
         });
 
