@@ -89,6 +89,9 @@
       href="{{ url_for('static', filename='css/dark-mode.css') }}"
     />
 
+    <!-- Mobile Menu JavaScript -->
+    <script src="{{ url_for('static', filename='js/mobile-menu.js') }}"></script>
+
     {% block head %}{% endblock %} {% block extra_css %}{% endblock %}
   </head>
   <body class="bg-gray-50 min-h-screen flex flex-col">
@@ -159,22 +162,11 @@
             >
           </div>
 
-          <!-- Mobile menu button -->
+          <!-- Mobile menu button for authenticated users -->
           <div class="flex items-center sm:hidden">
-            <!-- Theme Toggle Switch (Mobile) -->
-            <div class="theme-switch-wrapper mr-3">
-              <label class="theme-switch" for="theme-toggle-mobile">
-                <input
-                  type="checkbox"
-                  id="theme-toggle-mobile"
-                  class="theme-toggle"
-                />
-                <span class="theme-slider"></span>
-              </label>
-            </div>
-
             <button
               type="button"
+              id="mobile-menu-button"
               class="mobile-menu-button inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500"
               aria-controls="mobile-menu"
               aria-expanded="false"
@@ -184,16 +176,13 @@
             </button>
           </div>
 
-          <!-- Mobile menu -->
+          <!-- Mobile menu for authenticated users -->
           <div
             class="sm:hidden hidden fixed top-16 left-0 right-0 z-50 bg-white shadow-lg"
             id="mobile-menu"
           >
             <div class="px-2 pt-2 pb-3 space-y-1">
-              {% if current_user.is_authenticated %}
-              <div
-                class="px-3 py-2 text-sm text-gray-700 border-b border-gray-200"
-              >
+              <div class="px-3 py-2 text-sm text-gray-700 border-b border-gray-200">
                 Welcome, {{ current_user.name }}!
               </div>
               <a
@@ -225,29 +214,6 @@
                 <i class="fas fa-sign-out-alt w-5 mr-2"></i>
                 Sign out
               </a>
-              {% else %}
-              <a
-                href="{{ url_for('auth.login') }}"
-                class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100"
-              >
-                <i class="fas fa-sign-in-alt w-5 mr-2"></i>
-                Log in
-              </a>
-              <a
-                href="{{ url_for('auth.register') }}"
-                class="block px-3 py-2 rounded-md text-base font-medium text-white bg-blue-600 hover:bg-blue-700 mx-2 my-2"
-              >
-                <i class="fas fa-user-plus w-5 mr-2"></i>
-                Sign up
-              </a>
-              <a
-                href="{{ url_for('main.faq') }}"
-                class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100"
-              >
-                <i class="fas fa-question-circle w-5 mr-2"></i>
-                FAQ
-              </a>
-              {% endif %}
             </div>
           </div>
           {% else %}
@@ -279,24 +245,13 @@
             </div>
           </div>
 
-          <!-- Mobile menu button and menu for non-authenticated users -->
+          <!-- Mobile menu button for guest users -->
           <div class="flex items-center sm:hidden">
-            <!-- Theme Toggle Switch (Mobile) -->
-            <div class="theme-switch-wrapper mr-3">
-              <label class="theme-switch" for="theme-toggle-mobile">
-                <input
-                  type="checkbox"
-                  id="theme-toggle-mobile"
-                  class="theme-toggle"
-                />
-                <span class="theme-slider"></span>
-              </label>
-            </div>
-
             <button
               type="button"
+              id="mobile-menu-button-guest"
               class="mobile-menu-button inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500"
-              aria-controls="mobile-menu"
+              aria-controls="mobile-menu-guest"
               aria-expanded="false"
             >
               <span class="sr-only">Open main menu</span>
@@ -304,30 +259,31 @@
             </button>
           </div>
 
-          <!-- Mobile menu for non-authenticated users -->
-          <div class="sm:hidden hidden" id="mobile-menu">
-            <div
-              class="px-2 pt-2 pb-3 space-y-1 bg-white shadow-lg absolute left-0 right-0 z-50"
-            >
+          <!-- Mobile menu for guest users -->
+          <div
+            class="sm:hidden hidden fixed top-16 left-0 right-0 z-50 bg-white shadow-lg"
+            id="mobile-menu-guest"
+          >
+            <div class="px-2 pt-2 pb-3 space-y-1">
               <a
                 href="{{ url_for('auth.login') }}"
-                class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-100"
+                class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100"
               >
-                <i class="fas fa-sign-in-alt mr-2"></i>
+                <i class="fas fa-sign-in-alt w-5 mr-2"></i>
                 Log in
               </a>
               <a
                 href="{{ url_for('auth.register') }}"
-                class="block px-3 py-2 rounded-md text-base font-medium text-white bg-blue-600 hover:bg-blue-700 mx-2"
+                class="block px-3 py-2 rounded-md text-base font-medium text-white bg-blue-600 hover:bg-blue-700 mx-2 my-2"
               >
-                <i class="fas fa-user-plus mr-2"></i>
+                <i class="fas fa-user-plus w-5 mr-2"></i>
                 Sign up
               </a>
               <a
                 href="{{ url_for('main.faq') }}"
-                class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-100"
+                class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100"
               >
-                <i class="fas fa-question-circle mr-2"></i>
+                <i class="fas fa-question-circle w-5 mr-2"></i>
                 FAQ
               </a>
             </div>
@@ -421,26 +377,52 @@
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
     <script src="{{ url_for('static', filename='js/theme-switcher.js') }}"></script>
     <script>
-      // Close flash messages
-      document.querySelectorAll(".close-flash").forEach((button) => {
-        button.addEventListener("click", function () {
-          this.closest(".rounded-md").remove();
+      document.addEventListener('DOMContentLoaded', function() {
+        // Theme toggle functionality
+        const themeToggle = document.getElementById('theme-toggle');
+        const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+        
+        // Function to set theme
+        function setTheme(isDark) {
+          document.documentElement.classList.toggle('dark', isDark);
+          localStorage.setItem('theme', isDark ? 'dark' : 'light');
+          if (themeToggle) {
+            themeToggle.checked = isDark;
+          }
+        }
+
+        // Initialize theme
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+          setTheme(savedTheme === 'dark');
+        } else {
+          setTheme(prefersDarkScheme.matches);
+        }
+
+        // Theme toggle event listener
+        if (themeToggle) {
+          themeToggle.addEventListener('change', (e) => {
+            setTheme(e.target.checked);
+          });
+        }
+
+        // System theme change listener
+        prefersDarkScheme.addEventListener('change', (e) => {
+          if (!localStorage.getItem('theme')) {
+            setTheme(e.matches);
+          }
+        });
+
+        // Show body after theme is set
+        document.body.style.visibility = 'visible';
+        
+        // Close flash messages
+        document.querySelectorAll(".close-flash").forEach((button) => {
+          button.addEventListener("click", function () {
+            this.closest(".rounded-md").remove();
+          });
         });
       });
-
-      // Sync mobile and desktop theme toggles
-      const desktopToggle = document.getElementById("theme-toggle");
-      const mobileToggle = document.getElementById("theme-toggle-mobile");
-
-      if (desktopToggle && mobileToggle) {
-        desktopToggle.addEventListener("change", function () {
-          mobileToggle.checked = this.checked;
-        });
-
-        mobileToggle.addEventListener("change", function () {
-          desktopToggle.checked = this.checked;
-        });
-      }
     </script>
     {% block extra_js %}{% endblock %}
   </body>

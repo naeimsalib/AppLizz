@@ -1196,227 +1196,26 @@ block head %} {{ super() }}
     });
 
     // Initialize Charts
-    try {
-      if (document.getElementById('statusChart')) {
-        // Status Distribution Chart
-        const statusCtx = document.getElementById('statusChart').getContext('2d');
-        new Chart(statusCtx, {
-          type: 'doughnut',
-          data: {
-            labels: ['Applied', 'In Progress', 'Interview', 'Offer', 'Rejected'],
-            datasets: [{
-              data: [
-                {{ status_counts.Applied if status_counts.Applied else 0 }},
-                {{ status_counts['In Progress'] if status_counts['In Progress'] else 0 }},
-                {{ status_counts.Interview if status_counts.Interview else 0 }},
-                {{ status_counts.Offer if status_counts.Offer else 0 }},
-                {{ status_counts.Rejected if status_counts.Rejected else 0 }}
-              ],
-              backgroundColor: [
-                '#9CA3AF', // gray-400
-                '#FBBF24', // yellow-400
-                '#60A5FA', // blue-400
-                '#34D399', // green-400
-                '#F87171'  // red-400
-              ],
-              borderWidth: 1
-            }]
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-              legend: {
-                position: 'right',
-              }
-            }
-          }
+    initCharts();
+
+    // Mobile menu toggle
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    
+    if (mobileMenuButton && mobileMenu) {
+        mobileMenuButton.addEventListener('click', () => {
+            const isExpanded = mobileMenuButton.getAttribute('aria-expanded') === 'true';
+            mobileMenuButton.setAttribute('aria-expanded', !isExpanded);
+            mobileMenu.classList.toggle('hidden');
         });
 
-        // Timeline Chart
-        const timelineCtx = document.getElementById('timelineChart').getContext('2d');
-        const timelineChart = new Chart(timelineCtx, {
-          type: 'line',
-          data: {
-            labels: {{ timeline_data|map(attribute='date')|list|tojson }},
-            datasets: [
-              {
-                label: 'Applied',
-                data: {{ timeline_data|map(attribute='counts')|map(attribute='Applied')|list|tojson }},
-                borderColor: '#4CAF50',
-                backgroundColor: 'rgba(76, 175, 80, 0.1)',
-                tension: 0.4,
-                fill: true
-              },
-              {
-                label: 'Interview',
-                data: {{ timeline_data|map(attribute='counts')|map(attribute='Interview')|list|tojson }},
-                borderColor: '#2196F3',
-                backgroundColor: 'rgba(33, 150, 243, 0.1)',
-                tension: 0.4,
-                fill: true
-              },
-              {
-                label: 'Offer',
-                data: {{ timeline_data|map(attribute='counts')|map(attribute='Offer')|list|tojson }},
-                borderColor: '#FFC107',
-                backgroundColor: 'rgba(255, 193, 7, 0.1)',
-                tension: 0.4,
-                fill: true
-              },
-              {
-                label: 'Rejected',
-                data: {{ timeline_data|map(attribute='counts')|map(attribute='Rejected')|list|tojson }},
-                borderColor: '#F44336',
-                backgroundColor: 'rgba(244, 67, 54, 0.1)',
-                tension: 0.4,
-                fill: true
-              },
-              {
-                label: 'In Progress',
-                data: {{ timeline_data|map(attribute='counts')|map(attribute='In Progress')|list|tojson }},
-                borderColor: '#9C27B0',
-                backgroundColor: 'rgba(156, 39, 176, 0.1)',
-                tension: 0.4,
-                fill: true
-              },
-              {
-                label: 'Wishlist',
-                data: {{ timeline_data|map(attribute='counts')|map(attribute='Wishlist')|list|tojson }},
-                borderColor: '#795548',
-                backgroundColor: 'rgba(121, 85, 72, 0.1)',
-                tension: 0.4,
-                fill: true
-              },
-              {
-                label: 'Withdrawn',
-                data: {{ timeline_data|map(attribute='counts')|map(attribute='Withdrawn')|list|tojson }},
-                borderColor: '#607D8B',
-                backgroundColor: 'rgba(96, 125, 139, 0.1)',
-                tension: 0.4,
-                fill: true
-              }
-            ]
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            interaction: {
-              mode: 'index',
-              intersect: false,
-            },
-            plugins: {
-              tooltip: {
-                callbacks: {
-                  label: function(context) {
-                    let label = context.dataset.label || '';
-                    if (label) {
-                      label += ': ';
-                    }
-                    if (context.parsed.y !== null) {
-                      label += context.parsed.y + ' applications';
-                    }
-                    return label;
-                  }
-                }
-              },
-              legend: {
-                position: 'top',
-                labels: {
-                  usePointStyle: true,
-                  padding: 20,
-                  font: {
-                    size: 12
-                  }
-                }
-              }
-            },
-            scales: {
-              x: {
-                grid: {
-                  display: false
-                },
-                ticks: {
-                  maxRotation: 45,
-                  minRotation: 45
-                }
-              },
-              y: {
-                beginAtZero: true,
-                ticks: {
-                  stepSize: 1
-                }
-              }
-            }
-          }
-        });
-
-        // Store the full timeline data
-        const fullTimelineData = {{ timeline_data|tojson }};
-
-        // Initialize time range buttons
-        const timeRangeButtons = document.querySelectorAll('.time-range-btn');
-        const currentTimeRange = new URLSearchParams(window.location.search).get('time_range') || '28';
-        
-        // Highlight the active time range button
-        timeRangeButtons.forEach(button => {
-            if (button.getAttribute('data-days') === currentTimeRange) {
-                button.classList.remove('bg-gray-100');
-                button.classList.add('bg-blue-100', 'text-blue-700');
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (event) => {
+            if (!mobileMenu.contains(event.target) && !mobileMenuButton.contains(event.target)) {
+                mobileMenu.classList.add('hidden');
+                mobileMenuButton.setAttribute('aria-expanded', 'false');
             }
         });
-
-        // Update time range function
-        window.updateTimeRange = function(days) {
-            // Update URL without page reload
-            const url = new URL(window.location.href);
-            url.searchParams.set('time_range', days);
-            window.history.pushState({}, '', url);
-
-            // Update button styles
-            timeRangeButtons.forEach(button => {
-                if (button.getAttribute('data-days') === days) {
-                    button.classList.remove('bg-gray-100');
-                    button.classList.add('bg-blue-100', 'text-blue-700');
-                } else {
-                    button.classList.remove('bg-blue-100', 'text-blue-700');
-                    button.classList.add('bg-gray-100');
-                }
-            });
-
-            // Filter the data based on the selected time range
-            const daysToShow = parseInt(days);
-            const now = new Date();
-            const filteredData = fullTimelineData.filter(item => {
-                const itemDate = new Date(item.date);
-                const diffTime = Math.abs(now - itemDate);
-                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-                return diffDays <= daysToShow;
-            });
-
-            // Sort the filtered data by date
-            filteredData.sort((a, b) => new Date(a.date) - new Date(b.date));
-
-            // Update chart data
-            timelineChart.data.labels = filteredData.map(item => item.date);
-            timelineChart.data.datasets.forEach(dataset => {
-                const status = dataset.label;
-                dataset.data = filteredData.map(item => item.counts[status] || 0);
-            });
-
-            // Update the chart
-            timelineChart.update();
-        };
-
-        // Apply initial time range filter
-        updateTimeRange(currentTimeRange);
-
-        console.log("Charts initialized successfully");
-      } else {
-        console.error("Chart elements not found in the DOM");
-      }
-    } catch (error) {
-      console.error("Error initializing charts:", error);
     }
   });
 </script>

@@ -452,8 +452,8 @@ input:focus, select:focus, textarea:focus {
 
 /* Mobile Menu Styles */
 #mobile-menu {
-    position: absolute;
-    top: 100%;
+    position: fixed;
+    top: 64px; /* Height of the navbar */
     left: 0;
     right: 0;
     background-color: white;
@@ -465,7 +465,7 @@ input:focus, select:focus, textarea:focus {
 }
 
 #mobile-menu.hidden {
-    display: none !important;
+    display: none;
     opacity: 0;
     transform: translateY(-10px);
     pointer-events: none;
