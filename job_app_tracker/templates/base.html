@@ -154,7 +154,9 @@
                 Sign out
               </a>
             </div>
-            <span class="ml-4 text-gray-800 font-medium">Welcome, {{ current_user.name }}!</span>
+            <span class="ml-4 text-gray-800 font-medium"
+              >Welcome, {{ current_user.name }}!</span
+            >
           </div>
 
           <!-- Mobile menu button -->
@@ -178,11 +180,78 @@
               aria-expanded="false"
             >
               <span class="sr-only">Open main menu</span>
-              <i class="fas fa-bars"></i>
+              <i class="fas fa-bars text-xl"></i>
             </button>
           </div>
+
+          <!-- Mobile menu -->
+          <div
+            class="sm:hidden hidden fixed top-16 left-0 right-0 z-50 bg-white shadow-lg"
+            id="mobile-menu"
+          >
+            <div class="px-2 pt-2 pb-3 space-y-1">
+              {% if current_user.is_authenticated %}
+              <div
+                class="px-3 py-2 text-sm text-gray-700 border-b border-gray-200"
+              >
+                Welcome, {{ current_user.name }}!
+              </div>
+              <a
+                href="{{ url_for('main.dashboard') }}"
+                class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100"
+              >
+                <i class="fas fa-chart-line w-5 mr-2"></i>
+                Dashboard
+              </a>
+              <a
+                href="{{ url_for('main.settings') }}"
+                class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100"
+              >
+                <i class="fas fa-cog w-5 mr-2"></i>
+                Settings
+              </a>
+              <a
+                href="{{ url_for('main.faq') }}"
+                class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100"
+              >
+                <i class="fas fa-question-circle w-5 mr-2"></i>
+                FAQ
+              </a>
+              <div class="border-t border-gray-200 my-2"></div>
+              <a
+                href="{{ url_for('auth.logout') }}"
+                class="block px-3 py-2 rounded-md text-base font-medium text-red-600 hover:bg-red-50"
+              >
+                <i class="fas fa-sign-out-alt w-5 mr-2"></i>
+                Sign out
+              </a>
+              {% else %}
+              <a
+                href="{{ url_for('auth.login') }}"
+                class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100"
+              >
+                <i class="fas fa-sign-in-alt w-5 mr-2"></i>
+                Log in
+              </a>
+              <a
+                href="{{ url_for('auth.register') }}"
+                class="block px-3 py-2 rounded-md text-base font-medium text-white bg-blue-600 hover:bg-blue-700 mx-2 my-2"
+              >
+                <i class="fas fa-user-plus w-5 mr-2"></i>
+                Sign up
+              </a>
+              <a
+                href="{{ url_for('main.faq') }}"
+                class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100"
+              >
+                <i class="fas fa-question-circle w-5 mr-2"></i>
+                FAQ
+              </a>
+              {% endif %}
+            </div>
+          </div>
           {% else %}
-          <div class="flex items-center">
+          <div class="hidden sm:flex items-center">
             <a
               href="{{ url_for('auth.login') }}"
               class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-100"
@@ -209,39 +278,63 @@
               </span>
             </div>
           </div>
+
+          <!-- Mobile menu button and menu for non-authenticated users -->
+          <div class="flex items-center sm:hidden">
+            <!-- Theme Toggle Switch (Mobile) -->
+            <div class="theme-switch-wrapper mr-3">
+              <label class="theme-switch" for="theme-toggle-mobile">
+                <input
+                  type="checkbox"
+                  id="theme-toggle-mobile"
+                  class="theme-toggle"
+                />
+                <span class="theme-slider"></span>
+              </label>
+            </div>
+
+            <button
+              type="button"
+              class="mobile-menu-button inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500"
+              aria-controls="mobile-menu"
+              aria-expanded="false"
+            >
+              <span class="sr-only">Open main menu</span>
+              <i class="fas fa-bars text-xl"></i>
+            </button>
+          </div>
+
+          <!-- Mobile menu for non-authenticated users -->
+          <div class="sm:hidden hidden" id="mobile-menu">
+            <div
+              class="px-2 pt-2 pb-3 space-y-1 bg-white shadow-lg absolute left-0 right-0 z-50"
+            >
+              <a
+                href="{{ url_for('auth.login') }}"
+                class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-100"
+              >
+                <i class="fas fa-sign-in-alt mr-2"></i>
+                Log in
+              </a>
+              <a
+                href="{{ url_for('auth.register') }}"
+                class="block px-3 py-2 rounded-md text-base font-medium text-white bg-blue-600 hover:bg-blue-700 mx-2"
+              >
+                <i class="fas fa-user-plus mr-2"></i>
+                Sign up
+              </a>
+              <a
+                href="{{ url_for('main.faq') }}"
+                class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-100"
+              >
+                <i class="fas fa-question-circle mr-2"></i>
+                FAQ
+              </a>
+            </div>
+          </div>
           {% endif %}
         </div>
       </div>
-
-      <!-- Mobile menu, show/hide based on menu state -->
-      {% if current_user.is_authenticated %}
-      <div class="sm:hidden hidden" id="mobile-menu">
-        <div class="px-2 pt-2 pb-3 space-y-1">
-          <div class="px-3 py-2 text-base font-medium text-gray-700">Welcome, {{ current_user.name }}!</div>
-          <a
-            href="{{ url_for('main.dashboard') }}"
-            class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-100"
-            >Dashboard</a
-          >
-          <a
-            href="{{ url_for('main.settings') }}"
-            class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-100"
-            >Settings</a
-          >
-          <a
-            href="{{ url_for('main.faq') }}"
-            class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-100"
-            >FAQ</a
-          >
-          <a
-            href="{{ url_for('auth.logout') }}"
-            class="block px-3 py-2 rounded-md text-base font-medium text-red-600 hover:text-red-800 hover:bg-red-50"
-          >
-            <i class="fas fa-sign-out-alt mr-2"></i> Sign out
-          </a>
-        </div>
-      </div>
-      {% endif %}
     </nav>
 
     <!-- Flash Messages -->
@@ -334,20 +427,6 @@
           this.closest(".rounded-md").remove();
         });
       });
-
-      // Mobile menu toggle
-      const mobileMenuButton = document.querySelector(".mobile-menu-button");
-      const mobileMenu = document.getElementById("mobile-menu");
-
-      if (mobileMenuButton && mobileMenu) {
-        mobileMenuButton.addEventListener("click", function () {
-          mobileMenu.classList.toggle("hidden");
-          const expanded = mobileMenu.classList.contains("hidden")
-            ? "false"
-            : "true";
-          mobileMenuButton.setAttribute("aria-expanded", expanded);
-        });
-      }
 
       // Sync mobile and desktop theme toggles
       const desktopToggle = document.getElementById("theme-toggle");

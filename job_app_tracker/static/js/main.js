@@ -402,6 +402,76 @@ document.addEventListener('DOMContentLoaded', function() {
   });
   
   // Initialize any other components
+
+  // Mobile menu functionality
+  const mobileMenuButtons = document.querySelectorAll('.mobile-menu-button');
+  const mobileMenu = document.getElementById('mobile-menu');
+
+  if (mobileMenuButtons.length > 0 && mobileMenu) {
+    let isMenuOpen = false;
+
+    const toggleMenu = (show) => {
+      isMenuOpen = show;
+      if (show) {
+        mobileMenu.classList.remove('hidden');
+        setTimeout(() => {
+          mobileMenu.style.opacity = '1';
+          mobileMenu.style.transform = 'translateY(0)';
+        }, 10);
+      } else {
+        mobileMenu.style.opacity = '0';
+        mobileMenu.style.transform = 'translateY(-10px)';
+        setTimeout(() => {
+          mobileMenu.classList.add('hidden');
+        }, 200);
+      }
+
+      // Update aria-expanded on all buttons
+      mobileMenuButtons.forEach(btn => {
+        btn.setAttribute('aria-expanded', show.toString());
+      });
+    };
+
+    // Add click event to each mobile menu button
+    mobileMenuButtons.forEach(button => {
+      button.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        toggleMenu(!isMenuOpen);
+      });
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', function(e) {
+      if (isMenuOpen && 
+        !mobileMenu.contains(e.target) && 
+        !Array.from(mobileMenuButtons).some(button => button.contains(e.target))) {
+        toggleMenu(false);
+      }
+    });
+
+    // Close menu when clicking a menu item
+    const menuItems = mobileMenu.querySelectorAll('a');
+    menuItems.forEach(item => {
+      item.addEventListener('click', () => {
+        toggleMenu(false);
+      });
+    });
+
+    // Close menu on escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && isMenuOpen) {
+        toggleMenu(false);
+      }
+    });
+
+    // Close menu on resize if switching to desktop view
+    window.addEventListener('resize', function() {
+      if (window.innerWidth >= 640 && isMenuOpen) {
+        toggleMenu(false);
+      }
+    });
+  }
 });
 
 // Export utilities for use in other scripts
