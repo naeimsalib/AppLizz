@@ -256,7 +256,8 @@ block head %} {{ super() }}
   <div class="bg-white shadow overflow-hidden sm:rounded-lg mb-8">
     <div class="px-4 py-5 sm:px-6 bg-green-50">
       <h3 class="text-lg leading-6 font-medium text-gray-900">
-        <i class="fas fa-user-tie text-green-500 mr-2"></i> Interview Applications
+        <i class="fas fa-user-tie text-green-500 mr-2"></i> Interview
+        Applications
       </h3>
       <p class="mt-1 max-w-2xl text-sm text-gray-500">
         Your applications in the interview stage
@@ -305,7 +306,8 @@ block head %} {{ super() }}
   <div class="bg-white shadow overflow-hidden sm:rounded-lg mb-8">
     <div class="px-4 py-5 sm:px-6">
       <h3 class="text-lg leading-6 font-medium text-gray-900">
-        <i class="fas fa-chart-pie text-blue-500 mr-2"></i> Application Analytics
+        <i class="fas fa-chart-pie text-blue-500 mr-2"></i> Application
+        Analytics
       </h3>
       <p class="mt-1 max-w-2xl text-sm text-gray-500">
         Visual breakdown of your job application progress
@@ -318,32 +320,39 @@ block head %} {{ super() }}
         <div class="bg-white p-4 rounded-lg shadow-sm">
           <h4 class="text-sm font-medium text-gray-700 mb-2">Success Rate</h4>
           <div class="flex items-center">
-            <div class="text-2xl font-bold text-green-600">{{ "%.1f"|format(success_rate.percentage) }}%</div>
+            <div class="text-2xl font-bold text-green-600">
+              {{ "%.1f"|format(success_rate.percentage) }}%
+            </div>
             <div class="ml-4 text-sm text-gray-500">
-              {{ success_rate.successful }} successful out of {{ success_rate.total }}
+              {{ success_rate.successful }} successful out of {{
+              success_rate.total }}
             </div>
           </div>
         </div>
 
         <!-- Applications per Week -->
         <div class="bg-white p-4 rounded-lg shadow-sm">
-          <h4 class="text-sm font-medium text-gray-700 mb-2">Application Velocity</h4>
+          <h4 class="text-sm font-medium text-gray-700 mb-2">
+            Application Velocity
+          </h4>
           <div class="flex items-center">
-            <div class="text-2xl font-bold text-blue-600">{{ velocity_metrics.apps_per_week }}</div>
-            <div class="ml-4 text-sm text-gray-500">
-              applications per week
+            <div class="text-2xl font-bold text-blue-600">
+              {{ velocity_metrics.apps_per_week }}
             </div>
+            <div class="ml-4 text-sm text-gray-500">applications per week</div>
           </div>
         </div>
 
         <!-- Average Time Between Applications -->
         <div class="bg-white p-4 rounded-lg shadow-sm">
-          <h4 class="text-sm font-medium text-gray-700 mb-2">Average Time Between Applications</h4>
+          <h4 class="text-sm font-medium text-gray-700 mb-2">
+            Average Time Between Applications
+          </h4>
           <div class="flex items-center">
-            <div class="text-2xl font-bold text-purple-600">{{ velocity_metrics.avg_time_between }}</div>
-            <div class="ml-4 text-sm text-gray-500">
-              days
+            <div class="text-2xl font-bold text-purple-600">
+              {{ velocity_metrics.avg_time_between }}
             </div>
+            <div class="ml-4 text-sm text-gray-500">days</div>
           </div>
         </div>
       </div>
@@ -368,18 +377,34 @@ block head %} {{ super() }}
             </h4>
             <!-- Time Range Filter -->
             <div class="flex space-x-2 mb-4">
-                <button onclick="updateTimeRange('7')" class="time-range-btn px-3 py-1 text-sm font-medium rounded-md bg-gray-100 text-gray-700 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" data-days="7">
-                    Last 7 Days
-                </button>
-                <button onclick="updateTimeRange('28')" class="time-range-btn px-3 py-1 text-sm font-medium rounded-md bg-gray-100 text-gray-700 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" data-days="28">
-                    Last 28 Days
-                </button>
-                <button onclick="updateTimeRange('90')" class="time-range-btn px-3 py-1 text-sm font-medium rounded-md bg-gray-100 text-gray-700 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" data-days="90">
-                    Last 90 Days
-                </button>
-                <button onclick="updateTimeRange('365')" class="time-range-btn px-3 py-1 text-sm font-medium rounded-md bg-gray-100 text-gray-700 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" data-days="365">
-                    Last Year
-                </button>
+              <button
+                onclick="updateTimeRange('7')"
+                class="time-range-btn px-3 py-1 text-sm font-medium rounded-md bg-gray-100 text-gray-700 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                data-days="7"
+              >
+                Last 7 Days
+              </button>
+              <button
+                onclick="updateTimeRange('28')"
+                class="time-range-btn px-3 py-1 text-sm font-medium rounded-md bg-gray-100 text-gray-700 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                data-days="28"
+              >
+                Last 28 Days
+              </button>
+              <button
+                onclick="updateTimeRange('90')"
+                class="time-range-btn px-3 py-1 text-sm font-medium rounded-md bg-gray-100 text-gray-700 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                data-days="90"
+              >
+                Last 90 Days
+              </button>
+              <button
+                onclick="updateTimeRange('365')"
+                class="time-range-btn px-3 py-1 text-sm font-medium rounded-md bg-gray-100 text-gray-700 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                data-days="365"
+              >
+                Last Year
+              </button>
             </div>
           </div>
           <div class="h-64 chart-container">
@@ -532,15 +557,20 @@ block head %} {{ super() }}
               </h3>
               <div class="mt-2">
                 <p class="text-sm text-gray-500">
-                  Are you sure you want to delete all your applications? This action cannot be undone.
+                  Are you sure you want to delete all your applications? This
+                  action cannot be undone.
                 </p>
               </div>
             </div>
           </div>
         </div>
         <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-          <form id="delete-all-form" action="{{ url_for('main.delete_all_applications') }}" method="POST">
-            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+          <form
+            id="delete-all-form"
+            action="{{ url_for('main.delete_all_applications') }}"
+            method="POST"
+          >
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
             <button
               type="submit"
               class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
@@ -1018,6 +1048,20 @@ block head %} {{ super() }}
 
       // Reset visibility for all rows
       let visibleRows = [];
+      let filteredStatusCounts = {
+        'Applied': 0,
+        'In Progress': 0,
+        'Interview': 0,
+        'Offer': 0,
+        'Rejected': 0,
+        'Withdrawn': 0
+      };
+
+      let filteredTimelineData = {
+        labels: timelineData.labels.slice(),
+        data: new Array(timelineData.labels.length).fill(0)
+      };
+
       applicationRows.forEach((row) => {
         const company = row
           .querySelector("td:nth-child(1)")
@@ -1026,6 +1070,7 @@ block head %} {{ super() }}
           .querySelector("td:nth-child(2)")
           .textContent.toLowerCase();
         const status = row.querySelector("td:nth-child(3)").textContent.trim();
+        const dateApplied = row.querySelector("td:nth-child(4)").textContent.trim();
 
         const statusMatch = statusValue === "all" || status === statusValue;
         const searchMatch =
@@ -1034,11 +1079,33 @@ block head %} {{ super() }}
         if (statusMatch && searchMatch) {
           row.classList.remove("filtered-out");
           visibleRows.push(row);
+
+          // Update status counts for chart
+          if (status in filteredStatusCounts) {
+            filteredStatusCounts[status]++;
+          }
+
+          // Update timeline data
+          const dateIndex = filteredTimelineData.labels.indexOf(dateApplied);
+          if (dateIndex !== -1) {
+            filteredTimelineData.data[dateIndex]++;
+          }
         } else {
           row.classList.add("filtered-out");
           row.classList.add("hidden");
         }
       });
+
+      // Update charts with filtered data
+      if (window.statusChart) {
+        window.statusChart.data.datasets[0].data = Object.values(filteredStatusCounts);
+        window.statusChart.update();
+      }
+
+      if (window.timelineChart) {
+        window.timelineChart.data.datasets[0].data = filteredTimelineData.data;
+        window.timelineChart.update();
+      }
 
       // Update pagination variables based on filtered rows
       const filteredTotalItems = visibleRows.length;
@@ -1196,12 +1263,43 @@ block head %} {{ super() }}
     });
 
     // Initialize Charts
-    initCharts();
+    const statusData = {
+        'Applied': {{ status_counts.get('Applied', 0)|tojson }},
+        'In Progress': {{ status_counts.get('In Progress', 0)|tojson }},
+        'Interview': {{ status_counts.get('Interview', 0)|tojson }},
+        'Offer': {{ status_counts.get('Offer', 0)|tojson }},
+        'Rejected': {{ status_counts.get('Rejected', 0)|tojson }},
+        'Withdrawn': {{ status_counts.get('Withdrawn', 0)|tojson }}
+    };
+
+    // Format timeline data
+    const timelineData = {
+        labels: [],
+        Applied: [],
+        'In Progress': [],
+        Interview: [],
+        Offer: [],
+        Rejected: [],
+        Withdrawn: []
+    };
+
+    {% for entry in timeline_data %}
+        timelineData.labels.push('{{ entry.date }}');
+        timelineData.Applied.push({{ entry.counts.get('Applied', 0)|tojson }});
+        timelineData['In Progress'].push({{ entry.counts.get('In Progress', 0)|tojson }});
+        timelineData.Interview.push({{ entry.counts.get('Interview', 0)|tojson }});
+        timelineData.Offer.push({{ entry.counts.get('Offer', 0)|tojson }});
+        timelineData.Rejected.push({{ entry.counts.get('Rejected', 0)|tojson }});
+        timelineData.Withdrawn.push({{ entry.counts.get('Withdrawn', 0)|tojson }});
+    {% endfor %}
+
+    // Initialize charts with the data
+    initCharts(statusData, timelineData);
 
     // Mobile menu toggle
     const mobileMenuButton = document.getElementById('mobile-menu-button');
     const mobileMenu = document.getElementById('mobile-menu');
-    
+
     if (mobileMenuButton && mobileMenu) {
         mobileMenuButton.addEventListener('click', () => {
             const isExpanded = mobileMenuButton.getAttribute('aria-expanded') === 'true';

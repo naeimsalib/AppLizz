@@ -842,4 +842,45 @@ def delete_all_applications():
         return redirect(url_for('main.dashboard'))
     except Exception as e:
         flash('An error occurred while deleting applications.', 'error')
-        return redirect(url_for('main.dashboard')) 
+        return redirect(url_for('main.dashboard'))
+
+@main.route('/api/applications/timeline')
+@login_required
+def get_timeline_data():
+    days = int(request.args.get('days', '28'))  # Default to 28 days
+    end_date = datetime.now()
+    start_date = end_date - timedelta(days=days)
+    
+    # Get applications within the date range
+    applications = list(mongo.db.applications.find({
+        'user_id': str(current_user.id),
+        'date_applied': {'$gte': start_date, '$lte': end_date}
+    }))
+    
+    # Initialize the timeline data with separate status counts
+    timeline_data = {
+        'labels': [],
+        'Applied': [],
+        'In Progress': [],
+        'Interview': [],
+        'Offer': [],
+        'Rejected': [],
+        'Withdrawn': []
+    }
+    
+    # Generate dates for the timeline
+    current_date = start_date
+    while current_date <= end_date:
+        date_str = current_date.strftime('%Y-%m-%d')
+        timeline_data['labels'].append(date_str)
+        
+        # Count applications for each status on this day
+        for status in ['Applied', 'In Progress', 'Interview', 'Offer', 'Rejected', 'Withdrawn']:
+            count = sum(1 for app in applications 
+                       if app.get('date_applied').date() == current_date.date() 
+                       and app.get('status') == status)
+            timeline_data[status].append(count)
+            
+        current_date += timedelta(days=1)
+    
+    return jsonify(timeline_data) 
