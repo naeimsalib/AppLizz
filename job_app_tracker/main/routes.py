@@ -46,6 +46,24 @@ def dashboard():
     three_weeks_ago = today - timedelta(days=21)
     four_weeks_ago = today - timedelta(days=28)
     
+    # Get upcoming reminders (next 7 days)
+    upcoming_reminders = list(mongo.db.reminders.find({
+        'user_id': str(current_user.id),
+        'status': 'pending',
+        'reminder_date': {
+            '$gte': today,
+            '$lte': today + timedelta(days=7)
+        }
+    }).sort('reminder_date', 1))
+
+    # Convert ObjectId to string for reminders
+    for reminder in upcoming_reminders:
+        reminder['_id'] = str(reminder['_id'])
+        # Get application details for each reminder
+        app = next((app for app in applications if str(app['_id']) == str(reminder['application_id'])), None)
+        if app:
+            reminder['application'] = app
+    
     # Status counts for the template
     status_counts = {
         'Applied': sum(1 for app in applications if app.get('status') == 'Applied'),
@@ -88,7 +106,7 @@ def dashboard():
     
     # Generate timeline data for the selected time range
     timeline_data = []
-    for i in range(days_to_show - 1, -1, -1):  # Start from days_to_show-1 days ago and go up to today
+    for i in range(days_to_show - 1, -1, -1):
         date = datetime.utcnow() - timedelta(days=i)
         start_of_day = datetime.combine(date.date(), datetime.min.time())
         end_of_day = datetime.combine(date.date(), datetime.max.time())
@@ -105,7 +123,6 @@ def dashboard():
         }
         
         for app in applications:
-            # Convert date_applied to datetime if it's a string
             date_applied = app.get('date_applied')
             if isinstance(date_applied, str):
                 try:
@@ -164,6 +181,7 @@ def dashboard():
         applications=applications,
         upcoming_deadlines=upcoming_deadlines,
         upcoming_interviews=upcoming_interviews,
+        upcoming_reminders=upcoming_reminders,
         timeline_data=timeline_data,
         success_rate=success_rate,
         velocity_metrics=velocity_metrics
@@ -934,10 +952,13 @@ def application_reminders(application_id):
         return redirect(url_for('main.application_reminders', application_id=application_id))
     
     # Get all reminders for this application
-    reminders = list(mongo.db.reminders.find({
+    reminder_docs = list(mongo.db.reminders.find({
         'application_id': application_id,
         'user_id': str(current_user.id)
     }).sort('reminder_date', 1))
+    
+    # Convert MongoDB documents to Reminder objects
+    reminders = [Reminder(doc) for doc in reminder_docs]
     
     return render_template('application_reminders.html', application=application, reminders=reminders)
 
