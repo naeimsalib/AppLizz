@@ -1008,94 +1008,109 @@ block head %} {{ super() }}
       });
     }
 
-    // Initialize pagination
-    function initPagination() {
-      if (totalItems === 0) return;
+    function setupPagination() {
+        // Set initial total items count
+        totalItemsSpan.textContent = totalItems;
 
-      // Create page number buttons
-      pageNumbers.innerHTML = "";
-      for (let i = 1; i <= totalPages; i++) {
-        const pageBtn = document.createElement("button");
-        pageBtn.textContent = i;
-        pageBtn.classList.add("px-3", "py-1", "border", "border-gray-300", "rounded-md", "text-sm", "font-medium");
-        pageBtn.classList.add(i === currentPage ? "bg-blue-50" : "bg-white");
-        pageBtn.classList.add(i === currentPage ? "text-blue-600" : "text-gray-700");
-        pageBtn.classList.add("hover:bg-gray-50");
-        pageBtn.addEventListener("click", () => goToPage(i));
-        pageNumbers.appendChild(pageBtn);
-      }
+        // Clear existing page numbers
+        pageNumbers.innerHTML = '';
 
-      // Update buttons state
-      updatePaginationControls();
+        // Create page number buttons
+        for (let i = 1; i <= totalPages; i++) {
+            const button = document.createElement('button');
+            button.textContent = i;
+            button.className = 'px-3 py-1 border border-gray-300 rounded-md text-sm font-medium hover:bg-gray-50';
 
-      // Show first page
-      showPage(currentPage);
-    }
+            if (i === currentPage) {
+                button.classList.add('bg-blue-50', 'text-blue-600');
+            } else {
+                button.classList.add('bg-white', 'text-gray-700');
+            }
 
-    // Go to specific page
-    function goToPage(page) {
-      currentPage = page;
-      showPage(currentPage);
-      updatePaginationControls();
-    }
+            button.addEventListener('click', () => {
+                currentPage = i;
+                updateDisplay();
+            });
 
-    // Show specific page
-    function showPage(page) {
-      const start = (page - 1) * itemsPerPage;
-      const end = Math.min(start + itemsPerPage, totalItems);
-
-      // Hide all rows
-      applicationRows.forEach(row => {
-        row.classList.add("hidden");
-      });
-
-      // Show rows for current page
-      for (let i = start; i < end; i++) {
-        if (applicationRows[i]) {
-          applicationRows[i].classList.remove("hidden");
+            pageNumbers.appendChild(button);
         }
-      }
 
-      // Update showing text
-      showingStart.textContent = totalItems === 0 ? 0 : start + 1;
-      showingEnd.textContent = end;
-      totalItemsSpan.textContent = totalItems;
+        // Update display for initial page
+        updateDisplay();
     }
 
-    // Update pagination controls
-    function updatePaginationControls() {
-      prevPageBtn.disabled = currentPage === 1;
-      nextPageBtn.disabled = currentPage === totalPages || totalPages === 0;
+    function updateDisplay() {
+        // Calculate range for current page
+        const start = (currentPage - 1) * itemsPerPage;
+        const end = Math.min(start + itemsPerPage, totalItems);
 
-      // Update active page button
-      const pageButtons = pageNumbers.querySelectorAll("button");
-      pageButtons.forEach((btn, index) => {
-        btn.classList.toggle("bg-blue-50", index + 1 === currentPage);
-        btn.classList.toggle("text-blue-600", index + 1 === currentPage);
-        btn.classList.toggle("bg-white", index + 1 !== currentPage);
-        btn.classList.toggle("text-gray-700", index + 1 !== currentPage);
-      });
+        // Update showing text
+        showingStart.textContent = start + 1;
+        showingEnd.textContent = end;
+
+        // Hide all rows
+        applicationRows.forEach(row => row.style.display = 'none');
+
+        // Show rows for current page
+        for (let i = start; i < end; i++) {
+            if (applicationRows[i]) {
+                applicationRows[i].style.display = '';
+            }
+        }
+
+        // Update page number buttons
+        const pageButtons = pageNumbers.querySelectorAll('button');
+        pageButtons.forEach((button, index) => {
+            if (index + 1 === currentPage) {
+                button.classList.add('bg-blue-50', 'text-blue-600');
+                button.classList.remove('bg-white', 'text-gray-700');
+            } else {
+                button.classList.remove('bg-blue-50', 'text-blue-600');
+                button.classList.add('bg-white', 'text-gray-700');
+            }
+        });
+
+        // Update navigation buttons
+        prevPageBtn.disabled = currentPage === 1;
+        nextPageBtn.disabled = currentPage === totalPages;
+
+        // Update navigation button styles
+        if (currentPage === 1) {
+            prevPageBtn.style.opacity = '0.5';
+            prevPageBtn.style.cursor = 'not-allowed';
+        } else {
+            prevPageBtn.style.opacity = '1';
+            prevPageBtn.style.cursor = 'pointer';
+        }
+
+        if (currentPage === totalPages) {
+            nextPageBtn.style.opacity = '0.5';
+            nextPageBtn.style.cursor = 'not-allowed';
+        } else {
+            nextPageBtn.style.opacity = '1';
+            nextPageBtn.style.cursor = 'pointer';
+        }
     }
 
-    // Add event listeners for pagination buttons
-    if (prevPageBtn) {
-      prevPageBtn.addEventListener("click", function() {
+    // Event listeners for navigation buttons
+    prevPageBtn.addEventListener('click', (e) => {
+        e.preventDefault();
         if (currentPage > 1) {
-          goToPage(currentPage - 1);
+            currentPage--;
+            updateDisplay();
         }
-      });
-    }
+    });
 
-    if (nextPageBtn) {
-      nextPageBtn.addEventListener("click", function() {
+    nextPageBtn.addEventListener('click', (e) => {
+        e.preventDefault();
         if (currentPage < totalPages) {
-          goToPage(currentPage + 1);
+            currentPage++;
+            updateDisplay();
         }
-      });
-    }
+    });
 
     // Initialize pagination
-    initPagination();
+    setupPagination();
 
     // Filter and sort functionality
     const statusFilter = document.getElementById("status-filter");
