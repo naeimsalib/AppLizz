@@ -1340,12 +1340,12 @@ block head %} {{ super() }}
 
     // Initialize Charts
     const statusData = {
-        'Applied': {{ status_counts.get('Applied', 0)|tojson }},
-        'In Progress': {{ status_counts.get('In Progress', 0)|tojson }},
-        'Interview': {{ status_counts.get('Interview', 0)|tojson }},
-        'Offer': {{ status_counts.get('Offer', 0)|tojson }},
-        'Rejected': {{ status_counts.get('Rejected', 0)|tojson }},
-        'Withdrawn': {{ status_counts.get('Withdrawn', 0)|tojson }}
+        'Applied': {{ status_counts['Applied']|default(0)|tojson }},
+        'In Progress': {{ status_counts['In Progress']|default(0)|tojson }},
+        'Interview': {{ status_counts['Interview']|default(0)|tojson }},
+        'Offer': {{ status_counts['Offer']|default(0)|tojson }},
+        'Rejected': {{ status_counts['Rejected']|default(0)|tojson }},
+        'Withdrawn': {{ status_counts['Withdrawn']|default(0)|tojson }}
     };
 
     // Format timeline data
@@ -1370,7 +1370,7 @@ block head %} {{ super() }}
     {% endfor %}
 
     // Initialize charts with the data
-    initCharts(statusData, timelineData);
+    initCharts();
 
     // Mobile menu toggle
     const mobileMenuButton = document.getElementById('mobile-menu-button');

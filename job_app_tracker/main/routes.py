@@ -65,18 +65,19 @@ def dashboard():
             reminder['application'] = app
     
     # Status counts for the template
-    status_counts = {
-        'Applied': sum(1 for app in applications if app.get('status') == 'Applied'),
-        'In Progress': sum(1 for app in applications if app.get('status') == 'In Progress'),
-        'Interview': sum(1 for app in applications if app.get('status') == 'Interview'),
-        'Offer': sum(1 for app in applications if app.get('status') == 'Offer'),
-        'Rejected': sum(1 for app in applications if app.get('status') == 'Rejected'),
-        'Withdrawn': sum(1 for app in applications if app.get('status') == 'Withdrawn')
-    }
+    status_counts = {}
+    for status in ['Applied', 'In Progress', 'Interview', 'Offer', 'Rejected', 'Withdrawn']:
+        status_counts[status] = mongo.db.applications.count_documents({
+            'user_id': str(current_user.id),
+            'status': status
+        })
     
     # Additional stats
-    total_applications = len(applications)
-    active_applications = sum(1 for app in applications if app.get('status') in ['Applied', 'In Progress', 'Interview'])
+    total_applications = mongo.db.applications.count_documents({'user_id': str(current_user.id)})
+    active_applications = mongo.db.applications.count_documents({
+        'user_id': str(current_user.id),
+        'status': {'$in': ['Applied', 'In Progress', 'Interview']}
+    })
     
     # Weekly stats
     weekly_stats = {
@@ -141,36 +142,56 @@ def dashboard():
         })
     
     # Calculate success rate
+    total_applications = mongo.db.applications.count_documents({'user_id': str(current_user.id)})
+    successful_applications = mongo.db.applications.count_documents({
+        'user_id': str(current_user.id),
+        'status': {'$in': ['Offer', 'Interview']}
+    })
+    rejected_applications = mongo.db.applications.count_documents({
+        'user_id': str(current_user.id),
+        'status': 'Rejected'
+    })
+    
     success_rate = {
         'total': total_applications,
-        'successful': sum(1 for app in applications if app.get('status') in ['Offer', 'Interview']),
-        'rejected': sum(1 for app in applications if app.get('status') == 'Rejected')
+        'successful': successful_applications,
+        'rejected': rejected_applications,
+        'percentage': (successful_applications / total_applications * 100) if total_applications > 0 else 0
     }
-    success_rate['percentage'] = (success_rate['successful'] / success_rate['total'] * 100) if success_rate['total'] > 0 else 0
     
     # Calculate velocity metrics
-    def calculate_velocity_metrics(applications):
-        if not applications:
+    def calculate_velocity_metrics():
+        # Get all application dates ordered by date_applied
+        applications_dates = list(mongo.db.applications.find(
+            {'user_id': str(current_user.id)},
+            {'date_applied': 1}
+        ).sort('date_applied', 1))
+        
+        if not applications_dates:
             return None
+            
+        dates = [app.get('date_applied') for app in applications_dates if app.get('date_applied')]
+        if len(dates) < 2:
+            return {
+                'avg_time_between': 0,
+                'apps_per_week': len(dates)  # If only one application, count it as one per week
+            }
             
         # Calculate average time between applications
-        dates = sorted([app.get('date_applied') for app in applications if app.get('date_applied')])
-        if len(dates) < 2:
-            return None
-            
         time_diffs = [(dates[i] - dates[i-1]).days for i in range(1, len(dates))]
         avg_time_between = sum(time_diffs) / len(time_diffs)
         
         # Calculate applications per week
-        weeks = (max(dates) - min(dates)).days / 7
-        apps_per_week = len(applications) / weeks if weeks > 0 else 0
+        total_days = (max(dates) - min(dates)).days
+        weeks = total_days / 7 if total_days > 0 else 1
+        apps_per_week = len(dates) / weeks
         
         return {
             'avg_time_between': round(avg_time_between, 1),
             'apps_per_week': round(apps_per_week, 1)
         }
     
-    velocity_metrics = calculate_velocity_metrics(applications)
+    velocity_metrics = calculate_velocity_metrics()
     
     return render_template(
         'dashboard.html',
@@ -1023,4 +1044,17 @@ def mark_reminder_completed(reminder_id):
     
     if reminder.mark_as_completed():
         return jsonify({'success': True, 'message': 'Reminder marked as completed'})
-    return jsonify({'success': False, 'message': 'Failed to update reminder'}), 500 
+    return jsonify({'success': False, 'message': 'Failed to update reminder'}), 500
+
+@main.route('/api/status-counts')
+@login_required
+def get_status_counts():
+    # Get status counts for the current user
+    status_counts = {}
+    for status in ['Applied', 'In Progress', 'Interview', 'Offer', 'Rejected', 'Withdrawn']:
+        status_counts[status] = mongo.db.applications.count_documents({
+            'user_id': str(current_user.id),
+            'status': status
+        })
+    
+    return jsonify(status_counts) 

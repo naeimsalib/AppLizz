@@ -1,169 +1,183 @@
-// Initialize the charts when the document is ready
-function initCharts(statusData, timelineData) {
-    // Status Distribution Chart
-    const statusCtx = document.getElementById('statusChart');
-    if (statusCtx) {
-        // Ensure all status types are included with their proper counts
-        const statuses = [
-            'Applied',
-            'In Progress',
-            'Interview',
-            'Offer',
-            'Rejected',
-            'Withdrawn'
-        ];
-        
-        // Create data array ensuring all statuses are represented
-        const chartData = statuses.map(status => statusData[status] || 0);
-        
-        const statusChart = new Chart(statusCtx.getContext('2d'), {
-            type: 'doughnut',
-            data: {
-                labels: statuses,
-                datasets: [{
-                    data: chartData,
-                    backgroundColor: [
-                        '#4f46e5', // Applied
-                        '#2563eb', // In Progress
-                        '#059669', // Interview
-                        '#047857', // Offer
-                        '#dc2626', // Rejected
-                        '#6b7280'  // Withdrawn
-                    ],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'bottom',
-                        labels: {
-                            usePointStyle: true,
-                            padding: 20
-                        }
-                    },
-                    tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                const label = context.label || '';
-                                const value = context.raw || 0;
-                                return `${label}: ${value}`;
-                            }
-                        }
-                    }
-                }
-            }
-        });
-        
-        // Store the chart instance in a global variable
-        window.statusChart = statusChart;
-    }
+let statusChart;
+let timelineChart;
 
-    // Timeline Chart
-    const timelineCtx = document.getElementById('timelineChart');
-    if (timelineCtx) {
-        // Define status types and their colors
-        const statusTypes = [
-            { status: 'Applied', color: '#4f46e5' },
-            { status: 'In Progress', color: '#2563eb' },
-            { status: 'Interview', color: '#059669' },
-            { status: 'Offer', color: '#047857' },
-            { status: 'Rejected', color: '#dc2626' },
-            { status: 'Withdrawn', color: '#6b7280' }
-        ];
+// Status chart configuration
+const statusColors = {
+    'Applied': '#4CAF50',
+    'In Progress': '#2196F3',
+    'Interview': '#9C27B0',
+    'Offer': '#FFC107',
+    'Rejected': '#F44336',
+    'Withdrawn': '#607D8B'
+};
 
-        // Create a dataset for each status
-        const datasets = statusTypes.map(({ status, color }) => ({
-            label: status,
-            data: timelineData[status] || Array(timelineData.labels.length).fill(0),
-            borderColor: color,
-            backgroundColor: color + '20', // Add transparency
-            fill: false,
-            tension: 0.4,
-            borderWidth: 2,
-            pointRadius: 4,
-            pointHoverRadius: 6,
-            spanGaps: false,
-            showLine: true // Ensure line is always shown
-        }));
-
-        const timelineChart = new Chart(timelineCtx.getContext('2d'), {
-            type: 'line',
-            data: {
-                labels: timelineData.labels,
-                datasets: datasets
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        ticks: {
-                            stepSize: 1
-                        },
-                        grid: {
-                            display: true,
-                            drawBorder: true
-                        }
-                    },
-                    x: {
-                        grid: {
-                            display: false
-                        }
-                    }
-                },
-                plugins: {
-                    legend: {
-                        display: true,
-                        position: 'bottom',
-                        labels: {
-                            usePointStyle: true,
-                            padding: 20,
-                            boxWidth: 10
-                        }
-                    },
-                    tooltip: {
-                        mode: 'index',
-                        intersect: false,
-                        callbacks: {
-                            label: function(context) {
-                                const label = context.dataset.label || '';
-                                const value = context.parsed.y;
-                                return `${label}: ${value} application${value !== 1 ? 's' : ''}`;
-                            }
-                        }
-                    }
-                },
-                interaction: {
-                    mode: 'nearest',
-                    axis: 'x',
-                    intersect: false
-                },
-                elements: {
-                    point: {
-                        radius: function(context) {
-                            const value = context.raw;
-                            return value > 0 ? 4 : 0; // Only show points for non-zero values
-                        },
-                        hoverRadius: 6
-                    },
-                    line: {
-                        borderWidth: 2
-                    }
-                }
-            }
-        });
-
-        // Store the chart instance in a global variable
-        window.timelineChart = timelineChart;
+// Function to fetch status counts from the API
+async function fetchStatusCounts() {
+    try {
+        const response = await fetch('/api/status-counts');
+        if (!response.ok) {
+            throw new Error('Failed to fetch status counts');
+        }
+        return await response.json();
+    } catch (error) {
+        console.error('Error fetching status counts:', error);
+        return null;
     }
 }
 
+// Function to fetch timeline data from the API
+async function fetchTimelineData(days = 28) {
+    try {
+        const response = await fetch(`/api/applications/timeline?days=${days}`);
+        if (!response.ok) {
+            throw new Error('Failed to fetch timeline data');
+        }
+        return await response.json();
+    } catch (error) {
+        console.error('Error fetching timeline data:', error);
+        return null;
+    }
+}
+
+// Function to create or update the status chart
+async function createStatusChart() {
+    const statusCounts = await fetchStatusCounts();
+    if (!statusCounts) return;
+
+    const labels = Object.keys(statusCounts);
+    const data = Object.values(statusCounts);
+    const colors = labels.map(label => statusColors[label]);
+
+    const statusCtx = document.getElementById('statusChart');
+    if (!statusCtx) return;
+
+    // Destroy existing chart if it exists
+    const existingChart = Chart.getChart(statusCtx);
+    if (existingChart) {
+        existingChart.destroy();
+    }
+
+    // Create new chart
+    new Chart(statusCtx, {
+        type: 'doughnut',
+        data: {
+            labels: labels,
+            datasets: [{
+                data: data,
+                backgroundColor: colors,
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'right'
+                }
+            }
+        }
+    });
+}
+
+// Function to create or update the timeline chart
+async function createTimelineChart() {
+    const timelineData = await fetchTimelineData();
+    const timelineCtx = document.getElementById('timelineChart');
+    
+    if (!timelineCtx || !timelineData) return;
+
+    // Destroy existing chart if it exists
+    const existingChart = Chart.getChart(timelineCtx);
+    if (existingChart) {
+        existingChart.destroy();
+    }
+
+    // Define status types and their colors
+    const statusTypes = [
+        { status: 'Applied', color: '#4CAF50' },
+        { status: 'In Progress', color: '#2196F3' },
+        { status: 'Interview', color: '#9C27B0' },
+        { status: 'Offer', color: '#FFC107' },
+        { status: 'Rejected', color: '#F44336' },
+        { status: 'Withdrawn', color: '#607D8B' }
+    ];
+
+    // Create a dataset for each status
+    const datasets = statusTypes.map(({ status, color }) => ({
+        label: status,
+        data: timelineData[status] || Array(timelineData.labels.length).fill(0),
+        borderColor: color,
+        backgroundColor: color + '20', // Add transparency
+        fill: false,
+        tension: 0.4,
+        borderWidth: 2,
+        pointRadius: 4,
+        pointHoverRadius: 6,
+        spanGaps: false,
+        showLine: true
+    }));
+
+    // Create new chart
+    new Chart(timelineCtx, {
+        type: 'line',
+        data: {
+            labels: timelineData.labels,
+            datasets: datasets
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 1
+                    },
+                    grid: {
+                        display: true,
+                        drawBorder: true
+                    }
+                },
+                x: {
+                    grid: {
+                        display: false
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'bottom',
+                    labels: {
+                        usePointStyle: true,
+                        padding: 20,
+                        boxWidth: 10
+                    }
+                },
+                tooltip: {
+                    mode: 'index',
+                    intersect: false,
+                    callbacks: {
+                        label: function(context) {
+                            const label = context.dataset.label || '';
+                            const value = context.parsed.y;
+                            return `${label}: ${value} application${value !== 1 ? 's' : ''}`;
+                        }
+                    }
+                }
+            },
+            interaction: {
+                mode: 'nearest',
+                axis: 'x',
+                intersect: false
+            }
+        }
+    });
+}
+
 // Function to update the time range for the timeline chart
-function updateTimeRange(days) {
+async function updateTimeRange(days) {
     // Remove active class from all buttons
     document.querySelectorAll('.time-range-btn').forEach(btn => {
         btn.classList.remove('bg-blue-500', 'text-white');
@@ -177,29 +191,33 @@ function updateTimeRange(days) {
         activeBtn.classList.add('bg-blue-500', 'text-white');
     }
 
-    // Make an AJAX call to get new data
-    fetch(`/api/applications/timeline?days=${days}`)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            return response.json();
-        })
-        .then(data => {
-            // Update the timeline chart with new data
-            if (window.timelineChart) {
-                window.timelineChart.data.labels = data.labels;
-                // Update each dataset
-                window.timelineChart.data.datasets.forEach(dataset => {
-                    const status = dataset.label;
-                    dataset.data = data[status] || Array(data.labels.length).fill(0);
-                });
-                window.timelineChart.update('none'); // Use 'none' for smoother updates
-            }
-        })
-        .catch(error => {
-            console.error('Error fetching timeline data:', error);
-            // Optionally show an error message to the user
-            // alert('Failed to update timeline data. Please try again later.');
+    // Update the timeline chart
+    const timelineData = await fetchTimelineData(days);
+    const timelineCtx = document.getElementById('timelineChart');
+    const existingChart = Chart.getChart(timelineCtx);
+
+    if (existingChart && timelineData) {
+        existingChart.data.labels = timelineData.labels;
+        existingChart.data.datasets.forEach(dataset => {
+            const status = dataset.label;
+            dataset.data = timelineData[status] || Array(timelineData.labels.length).fill(0);
         });
-} 
+        existingChart.update('none');
+    } else {
+        await createTimelineChart();
+    }
+}
+
+// Initialize charts
+async function initCharts() {
+    await createStatusChart();
+    await createTimelineChart();
+}
+
+// Event listeners for real-time updates
+document.addEventListener('applicationAdded', initCharts);
+document.addEventListener('applicationUpdated', initCharts);
+document.addEventListener('applicationDeleted', initCharts);
+
+// Initialize charts when the document is ready
+document.addEventListener('DOMContentLoaded', initCharts); 
