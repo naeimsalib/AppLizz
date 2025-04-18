@@ -8,6 +8,7 @@ import os
 from job_app_tracker.models.application import Application
 from werkzeug.utils import secure_filename
 from flask import current_app
+from job_app_tracker.models.reminder import Reminder
 
 main = Blueprint('main', __name__)
 
@@ -883,4 +884,122 @@ def get_timeline_data():
             
         current_date += timedelta(days=1)
     
-    return jsonify(timeline_data) 
+    return jsonify(timeline_data)
+
+@main.route('/application/reminders/<application_id>', methods=['GET', 'POST'])
+@login_required
+def application_reminders(application_id):
+    # Get the application
+    application = Application.get_by_id(application_id, current_user.id)
+    if not application:
+        flash('Application not found.', 'error')
+        return redirect(url_for('main.dashboard'))
+    
+    if request.method == 'POST':
+        try:
+            # Get form data
+            title = request.form.get('title')
+            description = request.form.get('description', '')
+            reminder_date_str = request.form.get('reminder_date')
+            reminder_type = request.form.get('reminder_type')
+            
+            # Validate required fields
+            if not title or not reminder_date_str or not reminder_type:
+                flash('Title, date, and type are required.', 'error')
+                return redirect(url_for('main.application_reminders', application_id=application_id))
+            
+            # Parse date
+            try:
+                reminder_date = datetime.fromisoformat(reminder_date_str)
+            except ValueError:
+                flash('Invalid date format.', 'error')
+                return redirect(url_for('main.application_reminders', application_id=application_id))
+            
+            # Create reminder
+            reminder_data = {
+                'user_id': str(current_user.id),
+                'application_id': application_id,
+                'title': title,
+                'description': description,
+                'reminder_date': reminder_date,
+                'reminder_type': reminder_type,
+                'status': 'pending'
+            }
+            Reminder.create(reminder_data)
+            
+            flash('Reminder added successfully!', 'success')
+        except Exception as e:
+            flash(f'Error adding reminder: {str(e)}', 'error')
+        
+        return redirect(url_for('main.application_reminders', application_id=application_id))
+    
+    # Get all reminders for this application
+    reminders = list(mongo.db.reminders.find({
+        'application_id': application_id,
+        'user_id': str(current_user.id)
+    }).sort('reminder_date', 1))
+    
+    return render_template('application_reminders.html', application=application, reminders=reminders)
+
+@main.route('/reminder/delete/<reminder_id>', methods=['POST'])
+@login_required
+def delete_reminder(reminder_id):
+    reminder = Reminder.get_by_id(reminder_id, current_user.id)
+    if not reminder:
+        return jsonify({'success': False, 'message': 'Reminder not found'}), 404
+    
+    if reminder.delete():
+        return jsonify({'success': True, 'message': 'Reminder deleted successfully'})
+    return jsonify({'success': False, 'message': 'Failed to delete reminder'}), 500
+
+@main.route('/reminder/update/<reminder_id>', methods=['POST'])
+@login_required
+def update_reminder(reminder_id):
+    reminder = Reminder.get_by_id(reminder_id, current_user.id)
+    if not reminder:
+        return jsonify({'success': False, 'message': 'Reminder not found'}), 404
+    
+    try:
+        # Get form data
+        title = request.form.get('title')
+        description = request.form.get('description', '')
+        reminder_date_str = request.form.get('reminder_date')
+        reminder_type = request.form.get('reminder_type')
+        status = request.form.get('status')
+        
+        # Validate required fields
+        if not title or not reminder_date_str or not reminder_type:
+            return jsonify({'success': False, 'message': 'Title, date, and type are required'}), 400
+        
+        # Parse date
+        try:
+            reminder_date = datetime.fromisoformat(reminder_date_str)
+        except ValueError:
+            return jsonify({'success': False, 'message': 'Invalid date format'}), 400
+        
+        # Update reminder
+        update_data = {
+            'title': title,
+            'description': description,
+            'reminder_date': reminder_date,
+            'reminder_type': reminder_type
+        }
+        if status:
+            update_data['status'] = status
+        
+        if reminder.update(update_data):
+            return jsonify({'success': True, 'message': 'Reminder updated successfully'})
+        return jsonify({'success': False, 'message': 'Failed to update reminder'}), 500
+    except Exception as e:
+        return jsonify({'success': False, 'message': str(e)}), 500
+
+@main.route('/reminder/mark-completed/<reminder_id>', methods=['POST'])
+@login_required
+def mark_reminder_completed(reminder_id):
+    reminder = Reminder.get_by_id(reminder_id, current_user.id)
+    if not reminder:
+        return jsonify({'success': False, 'message': 'Reminder not found'}), 404
+    
+    if reminder.mark_as_completed():
+        return jsonify({'success': True, 'message': 'Reminder marked as completed'})
+    return jsonify({'success': False, 'message': 'Failed to update reminder'}), 500 

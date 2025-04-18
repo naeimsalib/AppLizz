@@ -756,24 +756,37 @@ block head %} {{ super() }}
                         <div class="flex space-x-2">
                           <a
                             href="{{ url_for('main.application_notes', application_id=application._id) }}"
-                            class="text-gray-600 hover:text-gray-900 text-xs"
+                            class="text-gray-600 hover:text-gray-900"
                             title="Notes"
                           >
                             <i class="fas fa-sticky-note"></i>
+                            <span class="hidden sm:inline ml-1">Notes</span>
                           </a>
                           <a
                             href="{{ url_for('main.application_documents', application_id=application._id) }}"
-                            class="text-gray-600 hover:text-gray-900 text-xs"
+                            class="text-gray-600 hover:text-gray-900"
                             title="Documents"
                           >
                             <i class="fas fa-file"></i>
+                            <span class="hidden sm:inline ml-1">Docs</span>
                           </a>
                           <a
                             href="{{ url_for('main.application_interviews', application_id=application._id) }}"
-                            class="text-gray-600 hover:text-gray-900 text-xs"
+                            class="text-gray-600 hover:text-gray-900"
                             title="Interviews"
                           >
                             <i class="fas fa-calendar-alt"></i>
+                            <span class="hidden sm:inline ml-1"
+                              >Interviews</span
+                            >
+                          </a>
+                          <a
+                            href="{{ url_for('main.application_reminders', application_id=application._id) }}"
+                            class="text-gray-600 hover:text-gray-900"
+                            title="Reminders"
+                          >
+                            <i class="fas fa-bell text-yellow-500"></i>
+                            <span class="hidden sm:inline ml-1">Reminders</span>
                           </a>
                         </div>
                       </div>
