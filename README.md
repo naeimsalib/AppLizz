@@ -75,14 +75,6 @@ Applications can be tracked in various states:
 - Delete notes
 - Chronological tracking of all notes
 
-### Email Integration
-
-- Connect with email providers (Gmail, Yahoo)
-- Automatic email scanning for job applications
-- Smart suggestions for new applications
-- Status update suggestions based on email content
-- Email notification settings
-
 ## Technical Stack
 
 ### Backend
@@ -133,8 +125,6 @@ pip install -r requirements.txt
 ```bash
 export MONGODB_URI="your_mongodb_uri"
 export SECRET_KEY="your_secret_key"
-export GOOGLE_CLIENT_ID="your_google_client_id"  # Optional for Gmail integration
-export GOOGLE_CLIENT_SECRET="your_google_client_secret"  # Optional for Gmail integration
 ```
 
 5. Initialize the database:
@@ -203,13 +193,6 @@ flask run
 2. Upload relevant files
 3. View uploaded documents
 4. Delete documents when no longer needed
-
-### Email Integration
-
-1. Go to Settings
-2. Connect your email account (Gmail/Yahoo)
-3. Configure email scanning preferences
-4. Review and accept/reject application suggestions
 
 ## Contributing
 
